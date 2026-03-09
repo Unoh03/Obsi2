@@ -198,3 +198,4 @@ en
 cisco
 cop r s
 ```
+![[Pasted image 20260309162037.png]]
