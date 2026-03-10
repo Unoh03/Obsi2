@@ -19,7 +19,7 @@ user asd sec 123
 lin co 0
 logi loc
 logg syn
-
+do con r s
 ```
 # 명령어
 ![[Pasted image 20260306091644.png]]
@@ -156,7 +156,7 @@ sh ip route #경로 보여주는 명령어
 # 라우팅
 ![[Pasted image 20260309112812.png]]
 ```bash
-
+밑의 3개는 다이나믹 라우팅 프로토콜에선 자동 가능.
 ```
 ![[Pasted image 20260309105518.png]]
 ```bash
@@ -164,38 +164,28 @@ sh ip route #경로 보여주는 명령어
 데이터를 보내려면 상대 인터페이스의 정보를 알아야 함
 ```
 >[!warning]
->스테틱 라우팅은 관리자가 잘 알고 있어야 트래픽이 느려지는 증 장애가 발생하지 않음.
+>스테틱 라우팅은 관리자가 잘 알고 있어야 트래픽이 느려지는 등 장애가 발생하지 않음.
 
 ![[Pasted image 20260309113404.png]]
 ![[Pasted image 20260309113752.png]]
 ![[Pasted image 20260309114050.png]]
-```bash
-| (파이프)는 or의 뜻을 가짐
+>[!tip]
+>| (파이프)는 or의 뜻을 가짐
 
-```
 ![[Pasted image 20260309114401.png]]
 ```bash
 3-2번은 현재는 해당되지 않음. 발전이 됨.
 ```
 ![[Pasted image 20260309114728.png]]
-```bash
+```sh
 인터페이스 까지만 입력해도 잘 됨. dist,pmnt는 필수 X
 보통은 ad와 in 중 in을 이미 자기꺼이고, 짧아서 더 자주 넣음 
 Admin Distance: 우선순위.
 ```
 ![[Pasted image 20260309132006.png]]
-```cisco
+```sh
 디폴트 라우팅: 테이블에 일치하는거 없으면 이거 씀
-```
-```bash
-copy run start
-# run=ram start=저장장치. 램의 정보를 스스디로 옮긴다.
-!
-cisco
-cisco
-en
-cisco
-cop r s
+no ip route "ip" #루트 삭제
 ```
 ![[Pasted image 20260309163620.png]]
 ```bash
