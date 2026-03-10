@@ -20,6 +20,18 @@
               "icon": "lucide-file",
               "title": "CISCO"
             }
+          },
+          {
+            "id": "ec6c441f30da9777",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "강의 자료/CH02_TCP-IP v1.2.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "CH02_TCP-IP v1.2"
+            }
           }
         ]
       }
@@ -78,7 +90,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -208,8 +221,9 @@
   },
   "active": "874122fc588d1a3a",
   "lastOpenFiles": [
-    "제미니.md",
+    "강의 자료/CH02_TCP-IP v1.2.pdf",
     "CISCO.md",
+    "제미니.md",
     "무제/Pasted image 20260310143422.png",
     "무제/Pasted image 20260310143317.png",
     "무제/Pasted image 20260310131846.png",
@@ -217,7 +231,6 @@
     "강의 자료/CH04_Routing.pdf",
     "무제/Pasted image 20260309163620.png",
     "무제/Pasted image 20260309162037.png",
-    "강의 자료/CH02_TCP-IP v1.2.pdf",
     "강의 자료/CH03_Device configuration v1.3.pdf",
     "라우팅.md",
     "SSH.md",
