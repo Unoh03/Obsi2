@@ -1,27 +1,27 @@
 Telnet은 구식 잊어라
 대신 SSH 씀
-# 명령어
- ⚙️ 라우터 기본 보안 설정
-
+# ⚙️ 라우터 기본 보안 설정
 > [!info] 명령어 설명 (공부용)
 > - `no ip domain-lookup`: 오타를 쳤을 때 라우터가 도메인 주소인 줄 알고 DNS 서버를 찾으며 렉 걸리는 현상(Translating...) 방지
 > - `ena sec 123` : 관리자 모드 진입 비밀번호를 123으로 암호화하여 설정
 > - `user asd sec 123` : 원격 접속 등에 쓸 로컬 계정(aaa) 생성
 > - `logi loc` : 접속 시 방금 만든 로컬 계정 데이터베이스를 사용하겠다고 선언
 > - `logg syn` : 명령어 치는 도중에 시스템 로그가 떠서 글자가 쪼개지는 현상 방지
+> - `exec-t`: 타임아웃
 
-**👇 아래 코드를 복사해서 라우터에 붙여넣으세요 (복붙용)**
+**복붙용**
 ```sh
 en
 conf t
 no ip domain-lookup
 ena sec 123
 user asd sec 123
-lin con 0
+lin co 0
 logi loc
 logg syn
 
 ```
+# 명령어
 ![[Pasted image 20260306091644.png]]
 
 ```bash
