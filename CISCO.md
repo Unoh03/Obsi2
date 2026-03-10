@@ -181,6 +181,10 @@ sh ip route #경로 보여주는 명령어
 인터페이스 까지만 입력해도 잘 됨. dist,pmnt는 필수 X
 보통은 ad와 in 중 in을 이미 자기꺼이고, 짧아서 더 자주 넣음 
 Admin Distance: 우선순위.
+
+conf t
+lin co 0
+no exec-t
 ```
 ![[Pasted image 20260309132006.png]]
 ```sh
