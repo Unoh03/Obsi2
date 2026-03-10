@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -209,10 +208,10 @@
   },
   "active": "874122fc588d1a3a",
   "lastOpenFiles": [
-    "무제/Pasted image 20260310143422.png",
-    "무제/Pasted image 20260310143317.png",
     "제미니.md",
     "CISCO.md",
+    "무제/Pasted image 20260310143422.png",
+    "무제/Pasted image 20260310143317.png",
     "무제/Pasted image 20260310131846.png",
     "강의 자료/CH05_ACL&NAT.pdf",
     "강의 자료/CH04_Routing.pdf",
@@ -235,7 +234,6 @@
     "무제/Pasted image 20260309114728.png",
     "무제/Pasted image 20260309114401.png",
     "무제/Pasted image 20260309114050.png",
-    "무제/Pasted image 20260309113752.png",
     "명령어.md",
     "무제",
     "강의 자료",
