@@ -14,35 +14,11 @@
               "type": "markdown",
               "state": {
                 "file": "CISCO.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "CISCO"
-            }
-          },
-          {
-            "id": "45d5e5a8db32bc48",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "무제/Pasted image 20260311145420.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260311145420"
-            }
-          },
-          {
-            "id": "3d569781a30440af",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "강의 자료/CH02_TCP-IP v1.2.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "CH02_TCP-IP v1.2"
             }
           }
         ]
@@ -230,23 +206,18 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "8b0065239afe9450",
   "lastOpenFiles": [
+    "스위치.md",
+    "무제/Pasted image 20260311163031.png",
+    "무제/Pasted image 20260311145420.png",
+    "무제/Pasted image 20260311144433.png",
+    "무제/Pasted image 20260311101600.png",
     "강의 자료/qwer2.pkt",
     "qwer2.pkt",
-    "무제/Pasted image 20260311161257.png",
-    "무제/Pasted image 20260311145420.png",
-    "무제/Pasted image 20260311163031.png",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
-    "CISCO.md",
-    "무제/Pasted image 20260311144433.png",
-    "강의 자료/CH02_TCP-IP v1.2.pdf",
-    "강의 자료/CH03_Device configuration v1.3.pdf",
-    "스위치.md",
-    "라우팅.md",
-    "SSH.md",
-    "무제/Pasted image 20260311101600.png",
     "제미니.md",
+    "CISCO.md",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "옵시디언 활용 팁",
     "무제/Pasted image 20260310143422.png",
     "무제/Pasted image 20260310143317.png",
@@ -255,13 +226,18 @@
     "강의 자료/CH04_Routing.pdf",
     "무제/Pasted image 20260309163620.png",
     "무제/Pasted image 20260309162037.png",
+    "강의 자료/CH02_TCP-IP v1.2.pdf",
+    "강의 자료/CH03_Device configuration v1.3.pdf",
+    "라우팅.md",
+    "SSH.md",
+    "네트워크.md",
     "팁.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
     "무제.canvas",
+    "무제/Pasted image 20260306091925.png",
     "무제.base",
     "무제 1.base",
     "무제 2",
-    "무제 1",
     "명령어.md",
     "그그 뭐더라.md",
     "test.md",
