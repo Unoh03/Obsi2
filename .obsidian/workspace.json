@@ -102,8 +102,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -231,8 +230,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "8b0065239afe9450",
+  "active": "01cbdc931a4355bb",
   "lastOpenFiles": [
+    "강의 자료/qwer2.pkt",
+    "qwer2.pkt",
     "무제/Pasted image 20260311161257.png",
     "무제/Pasted image 20260311145420.png",
     "무제/Pasted image 20260311163031.png",
@@ -262,7 +263,6 @@
     "무제 2",
     "무제 1",
     "명령어.md",
-    "무제",
     "그그 뭐더라.md",
     "test.md",
     "환영합니다!.md"
