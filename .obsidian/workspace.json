@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CISCO.md",
+                "file": "제미니.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CISCO"
+              "title": "제미니"
             }
           }
         ]
@@ -208,8 +208,8 @@
   },
   "active": "8b0065239afe9450",
   "lastOpenFiles": [
-    "제미니.md",
     "CISCO.md",
+    "제미니.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "옵시디언 활용 팁",
     "무제/Pasted image 20260310143422.png",
