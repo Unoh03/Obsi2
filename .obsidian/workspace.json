@@ -14,11 +14,23 @@
               "type": "markdown",
               "state": {
                 "file": "CISCO.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "CISCO"
+            }
+          },
+          {
+            "id": "45d5e5a8db32bc48",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "강의 자료/CH03_Device configuration v1.3.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "CH03_Device configuration v1.3"
             }
           }
         ]
@@ -209,9 +221,11 @@
   },
   "active": "8b0065239afe9450",
   "lastOpenFiles": [
+    "강의 자료/CH03_Device configuration v1.3.pdf",
+    "CISCO.md",
+    "강의 자료/CH02_TCP-IP v1.2.pdf",
     "무제/Pasted image 20260311101600.png",
     "제미니.md",
-    "CISCO.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "옵시디언 활용 팁",
     "무제/Pasted image 20260310143422.png",
@@ -221,8 +235,6 @@
     "강의 자료/CH04_Routing.pdf",
     "무제/Pasted image 20260309163620.png",
     "무제/Pasted image 20260309162037.png",
-    "강의 자료/CH02_TCP-IP v1.2.pdf",
-    "강의 자료/CH03_Device configuration v1.3.pdf",
     "라우팅.md",
     "SSH.md",
     "네트워크.md",
@@ -237,7 +249,6 @@
     "무제 1",
     "무제/Pasted image 20260309114728.png",
     "무제/Pasted image 20260309114401.png",
-    "무제/Pasted image 20260309114050.png",
     "명령어.md",
     "무제",
     "그그 뭐더라.md",

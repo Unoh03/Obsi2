@@ -8,10 +8,12 @@ Telnet은 구식 잊어라
 > - `logi loc` : 접속 시 방금 만든 로컬 계정 데이터베이스를 사용하겠다고 선언
 > - `logg syn` : 명령어 치는 도중에 시스템 로그가 떠서 글자가 쪼개지는 현상 방지
 > - `exec-t`: 타임아웃
+> - `ter h s` : 기록 저장량 수정
 
 **복붙용**
 ```sh
 en
+terminal history size 256
 conf t
 no ip domain-lookup
 ena sec 123
@@ -23,6 +25,7 @@ do con r s
 ```
 ```sh
 en
+terminal history size 256
 conf t
 no ip domain-lookup
 lin co 0
