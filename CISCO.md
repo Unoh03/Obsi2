@@ -28,6 +28,9 @@ no ip domain-lookup
 lin co 0
 logg syn
 do cop r s
+
+exi
+
 ```
 # 명령어
 ![[Pasted image 20260306091644.png]]
@@ -478,4 +481,5 @@ ip route 0.0.0.0 0.0.0.0 34.34.34.3
 ```
 >[!warning] 🚨**라우터에서 핑 칠 땐 확장 핑 사용 잊지 말기!**
 >라우터에서 그냥 핑을 쏘면 출발지 IP가 나가는 포트의 IP로 찍힌다. 반드시 ping 엔터 후 Source IP를 루프백으로 지정해서 쏠 것!
- 
+## 문제 3-1
+![[Pasted image 20260311101600.png|697]]
