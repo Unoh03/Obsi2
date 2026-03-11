@@ -560,3 +560,13 @@ no sh
 
 ```
 ### 문제 1-1
+![[Pasted image 20260311161257.png]]
+```sh
+conf t
+ip dhcp pool "이름"
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.254
+dns-server 1.1.1.1
+exi
+ip dhcp excluded 
+```
