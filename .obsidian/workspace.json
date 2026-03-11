@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "네트워크.md",
+                "file": "CISCO.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "네트워크"
+              "title": "CISCO"
             }
           },
           {
@@ -220,6 +220,7 @@
   },
   "active": "8b0065239afe9450",
   "lastOpenFiles": [
+    "스위치.md",
     "CISCO.md",
     "강의 자료/CH03_Device configuration v1.3.pdf",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
@@ -236,7 +237,6 @@
     "무제/Pasted image 20260309162037.png",
     "라우팅.md",
     "SSH.md",
-    "네트워크.md",
     "팁.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
     "무제.canvas",
