@@ -569,7 +569,7 @@ no sh
 ```sh
 conf t
 ip dhcp pool "이름"
-network 192.168.10.0 255.255.255.0
+network 192.168.1.0 255.255.255.0
 default-router 192.168.10.254
 dns-server 1.1.1.1
 exi
