@@ -38,6 +38,11 @@ do cop r s
 exi
 
 ```
+```sh
+conf t
+ip route 0.0.0.0 0.0.0.0
+```
+
 # 명령어
 ![[Pasted image 20260306091644.png]]
 
