@@ -275,10 +275,10 @@ ip route 172.11.0.0 255.255.255.0 192.168.1.1
 - DHCP 대역 이름
 - 설정 할 넷의 ip, 섭넷
 - 디폴트 게이트웨이로 쓰는 라우터 IP
-- 통신 되는거면 암거나 해도 됨
+- DNS 서버의 IP (통신 되는거면 암거나 해도 됨)
 - 나가
 - 고정 IP 대역
->[!failure] PC의 IP가 1
+>[!failure] PC의 IP가 169.254.XX.XX로 되면 DHPC가 이상한거임. 검사 필요.
 ## 라우팅 문제
 >[!warning] Cisco의 서버에서 제공하는 DHCP는 너무 허접해서 라우터에 DHCP 할거임.
 ### 문제 1
@@ -566,13 +566,14 @@ no sh
 
 ```
 ### 문제 1-1
-![[Pasted image 20260311163031.png]]
+![[Pasted image 20260312101308.png]]
 ```sh
+[R0,3]
 conf t
 ip dhcp pool "이름"
 network "여기 네트웤" "네트웤 서브넷"
 default-router "자기 자신(라우터) IP"
-dns-server "서버의 IP"
+dns-server "DNS 서버의 IP"
 exi
 ip dhcp excluded "라우터 IP"
 ```

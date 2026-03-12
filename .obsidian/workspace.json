@@ -11,14 +11,12 @@
             "id": "8b0065239afe9450",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "CISCO.md",
-                "mode": "source",
-                "source": false
+                "file": "무제/Pasted image 20260311145420.png"
               },
-              "icon": "lucide-file",
-              "title": "CISCO"
+              "icon": "lucide-image",
+              "title": "Pasted image 20260311145420"
             }
           },
           {
@@ -92,8 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -221,13 +218,14 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "8b0065239afe9450",
+  "active": "01cbdc931a4355bb",
   "lastOpenFiles": [
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
-    "CISCO.md",
-    "스위치.md",
-    "무제/Pasted image 20260311163031.png",
     "무제/Pasted image 20260311145420.png",
+    "무제/Pasted image 20260311163031.png",
+    "무제/Pasted image 20260312101308.png",
+    "CISCO.md",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "스위치.md",
     "무제/Pasted image 20260311144433.png",
     "무제/Pasted image 20260311101600.png",
     "강의 자료/qwer2.pkt",
@@ -249,7 +247,6 @@
     "팁.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
     "무제.canvas",
-    "무제/Pasted image 20260306091925.png",
     "무제.base",
     "무제 1.base",
     "무제 2",
