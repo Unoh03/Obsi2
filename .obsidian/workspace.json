@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "837b2b65516924f0",
+            "id": "33b36ed339156028",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -206,10 +206,11 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "837b2b65516924f0",
+  "active": "33b36ed339156028",
   "lastOpenFiles": [
-    "스위치.md",
+    "강의 자료/CH05_ACL&NAT.pdf",
     "CISCO.md",
+    "스위치.md",
     "제미니.md",
     "CISCO(broken).md",
     "미확인 266941.crdownload",
@@ -230,7 +231,6 @@
     "강의 자료/qwer2.pkt",
     "qwer2.pkt",
     "옵시디언 활용 팁",
-    "강의 자료/CH05_ACL&NAT.pdf",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "강의 자료/CH03_Device configuration v1.3.pdf",
     "라우팅.md",
