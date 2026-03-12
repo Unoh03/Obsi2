@@ -13,7 +13,19 @@ https://naver.me/xJcUWCvo
 > - `exec-t`: 타임아웃
 > - `ter h s` : 기록 저장량 수정
 
-**복붙용**
+**기본**
+```sh
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+lin co 0
+logg syn
+do cop r s
+exi
+
+```
+**보안 추가**
 ```sh
 en
 terminal history size 256
@@ -25,24 +37,9 @@ lin co 0
 logi loc
 logg syn
 do cop r s
-```
-```sh
-en
-terminal history size 256
-conf t
-no ip domain-lookup
-lin co 0
-logg syn
-do cop r s
-
-exi
+ex
 
 ```
-```sh
-conf t
-ip route 0.0.0.0 0.0.0.0
-```
-
 # 명령어
 ![[Pasted image 20260306091644.png]]
 
