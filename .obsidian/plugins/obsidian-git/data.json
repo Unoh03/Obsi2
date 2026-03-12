@@ -1,6 +1,6 @@
 {
-  "commitMessage": "Manual Backup: {{date}} {{files}}",
-  "autoCommitMessage": "Auto Backup: {{date}} {{files}}",
+  "commitMessage": "Manual: {{date}} {{files}}",
+  "autoCommitMessage": "Auto: {{date}} {{files}}",
   "commitMessageScript": "",
   "commitDateFormat": "YYYY. MM. DD. HH:mm:ss",
   "autoSaveInterval": 5,
