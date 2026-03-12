@@ -278,6 +278,7 @@ ip route 172.11.0.0 255.255.255.0 192.168.1.1
 - 통신 되는거면 암거나 해도 됨
 - 나가
 - 고정 IP 대역
+>[!failure] PC의 IP가 1
 ## 라우팅 문제
 >[!warning] Cisco의 서버에서 제공하는 DHCP는 너무 허접해서 라우터에 DHCP 할거임.
 ### 문제 1
@@ -569,9 +570,9 @@ no sh
 ```sh
 conf t
 ip dhcp pool "이름"
-network 192.168.1.0 255.255.255.0
-default-router 192.168.10.254
-dns-server 1.1.1.1
+network "여기 네트웤" "네트웤 서브넷"
+default-router "자기 자신(라우터) IP"
+dns-server "서버의 IP"
 exi
-ip dhcp excluded 
+ip dhcp excluded "라우터 IP"
 ```
