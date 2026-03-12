@@ -24,7 +24,7 @@ user asd sec 123
 lin co 0
 logi loc
 logg syn
-do con r s
+do cop r s
 ```
 ```sh
 en
@@ -82,7 +82,7 @@ crypto key generate rsa # private key 생성
 # [512]: size==복잡도. 가능 범위는 <중략>에 적혀있음
 # SSH 1.99 : 버젼 1이나 2 사용. 1은 보안 취약점 있음
 # line vty의 가짓수는 보통 0~4로 5개
-'(config-line)#'transport intput ssh # SSH만 허용
+'(config-line)#'transport input ssh # SSH만 허용
 '(config)#' ip ssh version 2 # 버젼 2 만 사용
 ```
 ![[Pasted image 20260306104451.png]]
@@ -170,7 +170,7 @@ hostname
 en
 conf t
 int 포트
-ip ad ㅑㅔ
+ip ad "ip"
 no sh
 
 sh ip route #경로 보여주는 명령어
@@ -262,7 +262,36 @@ ip route 172.11.0.0 255.255.255.0 192.168.1.1
 ## 다이나믹
 ![[Pasted image 20260312105206.png]]
 - AS 번호는 회사에서 지정
-  
+
+### RIPv2
+![[Pasted image 20260312131745.png]]
+![[Pasted image 20260312131803.png]]
+- 네트워크 선택은 직렬된 네트워크만 해주면 됨.
+![[Pasted image 20260312131832.png]]
+![[Pasted image 20260312132418.png]]
+#### 🗺️ 동적 라우팅 트러블슈팅 2대장 명령어 비교
+
+> [!abstract] 핵심 비유 (택배 회사)
+> - `show ip route` = **"최종 완성된 배달 지도 (결과물)"**
+> - `show ip protocols` = **"택배 회사의 내부 운영 규칙 (과정/설정)"**
+
+##### 1. `show ip route` (결과 확인용)
+라우터의 뇌 속에 최종적으로 저장된 **'내비게이션 지도'**를 보여준다.
+- **언제 쓰나?** "그래서 지금 192.168.4.0으로 가는 길이 뚫렸어, 안 뚫렸어?"를 확인할 때.
+- **무엇을 보나?** 
+  - 맨 앞에 `R` (RIP으로 알아온 길), `C` (직접 연결된 길), `S` (수동으로 뚫은 길) 마크 확인.
+  - 목적지 IP와 Next-Hop IP가 정확한지 확인.
+
+##### 2. `show ip protocols` (원인 분석용) 🌟 실무자들의 무기
+라우터가 현재 **'어떤 규칙'**으로 다른 라우터와 대화(라우팅 프로토콜)하고 있는지 보여준다.
+- **언제 쓰나?** "아니, RIP을 켰는데 왜 `show ip route`에 길이 안 올라오지? 내가 설정 뭘 빼먹었지?" 하고 **에러 원인을 찾을 때.**
+- **무엇을 보나? (RIP 트러블슈팅 3대장)**
+  1. **Routing Protocol is "rip":** RIP이 정상적으로 켜져 있는가?
+  2. **Default version control:** 내가 `version 2`로 제대로 바꿨는가? (버전 1과 2는 서로 대화가 안 됨!)
+  3. **Routing for Networks:** 내가 `network` 명령어로 **'우리 동네 주소'를 정확히 광고(선언)**하고 있는가?
+![[Pasted image 20260312132441.png]]
+
+
 ### DHCP
 ![[Pasted image 20260311144433.png]]
 - DHCP+라우터=공유기
@@ -372,10 +401,10 @@ ip route 0.0.0.0 0.0.0.0 192.168.1.13
 [중앙]
 en
 conf t
-ip route 172.11.0.0 0.0.0.0 192.168.1.2
-ip route 172.11.0.0 0.0.0.0 192.168.1.2
-ip route 172.11.0.0 0.0.0.0 192.168.1.2
-ip route 172.11.0.0 0.0.0.0 192.168.1.2
+ip route 172.11.0.0 255.255.255.0 192.168.1.2
+ip route 172.12.0.0 255.255.255.0 192.168.1.6
+ip route 172.13.0.0 255.255.255.0 192.168.1.10
+ip route 172.14.0.0 255.255.255.0 192.168.1.14
 
 [R11]
 en
@@ -507,7 +536,7 @@ ip route 0.0.0.0 0.0.0.0 12.12.12.2
 ip route 192.168.1.0 255.255.255.0 12.12.12.1
 ip route 192.168.4.0 255.255.255.0 23.23.23.3
 ip route 192.168.3.0 255.255.255.0 23.23.23.3
-ip route 34.34.34.4 255.255.255.0 23.23.23.3
+ip route 34.34.34.0 255.255.255.0 23.23.23.3
 
 [R3] - 목적,출발지에 따라 전송,반송 해주기 위해 스테틱. 직렬된 네트웤 빼고 전부.
 ip route 192.168.1.0 255.255.255.0 23.23.23.2
@@ -579,5 +608,45 @@ network "여기 네트웤" "네트웤 서브넷"
 default-router "자기 자신(라우터) IP"
 dns-server "DNS 서버의 IP"
 exi
-ip dhcp excluded "라우터 IP"
+ip dhcp excluded-address "제외할 IP 시작" "제외할 IP 끝" (라우터 IP만 지우면 돼서 끝은 안 적고 라우터 IP만 지우면 됨.)
 ```
+### 1-2
+#### 1. 기존 라우터 루트 다 지우기
+```sh
+
+```
+#### 2. RIPv2 설정
+```sh
+[R0]
+conf t
+ro r
+v 2
+no a
+ne 192.168.1.0
+ne 12.12.12.0
+
+[R1]
+conf t
+ro r
+v 2
+no a
+ne 12.12.12.0
+ne 23.23.23.0
+
+[R2]
+conf t
+ro r
+v 2
+no a
+ne 23.23.23.0
+ne 34.34.34.0
+
+[R3]
+conf t
+ro r
+v 2
+no a
+ne 34.34.34.0
+ne 192.168.2.0
+```
+
