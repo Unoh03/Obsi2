@@ -11,12 +11,14 @@
             "id": "8b0065239afe9450",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "무제/Pasted image 20260311145420.png"
+                "file": "CISCO.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260311145420"
+              "icon": "lucide-file",
+              "title": "CISCO"
             }
           },
           {
@@ -90,7 +92,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -218,10 +221,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "8b0065239afe9450",
   "lastOpenFiles": [
-    "무제/Pasted image 20260311145420.png",
     "무제/Pasted image 20260311163031.png",
+    "무제/Pasted image 20260311145420.png",
     "무제/Pasted image 20260312101308.png",
     "CISCO.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
