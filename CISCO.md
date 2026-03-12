@@ -4,6 +4,15 @@ https://naver.me/xJcUWCvo
 >2. IP 혼동을 막기 위해, 호스트 ID는 장비의 번호와 일치 | 연관지어 짓는다.
 >   예) 3번 라우터: 23.23.23.<mark style="background: #FFF3A3A6;">3</mark>, 192.168.3.3 | R3과 연결된 PC3: 192.168.3.<mark style="background: #FFF3A3A6;">4</mark> (겹치니 +1)**
 # ⚙️ 라우터 기본 셋업
+```
+### 💻 시스코 셋업 마법사 (Configuration Dialog)
+```bash
+--- System Configuration Dialog ---
+Continue with configuration dialog? [yes/no]: no
+```
+> [!info+] 무조건 `no`를 치는 이유
+> NVRAM이 비어있을 때 뜨는 초보자용 설정 마법사. 중간에 오타를 수정할 수 없고 과정이 답답하므로, 실무자는 무조건 `no`를 치고 CLI(`conf t`)로 수동 설정한다.
+
 > [!info]- 명령어 설명 (공부용)
 > - `no ip domain-lookup`: 오타를 쳤을 때 라우터가 도메인 주소인 줄 알고 DNS 서버를 찾으며 렉 걸리는 현상(Translating...) 방지
 > - `ena sec 123` : 관리자 모드 진입 비밀번호를 123으로 암호화하여 설정
@@ -656,3 +665,6 @@ no a
 ne 34.34.34.0
 ne 192.168.2.0
 ```
+# ACL
+
+# NAT
