@@ -1,6 +1,6 @@
 {
-  "commitMessage": "vault backup: {{date}}",
-  "autoCommitMessage": "vault backup: {{date}}",
+  "commitMessage": "Manual Backup: {{date}} {{files}}",
+  "autoCommitMessage": "Auto Backup: {{date}} {{files}}",
   "commitMessageScript": "",
   "commitDateFormat": "YYYY. MM. DD. HH:mm:ss",
   "autoSaveInterval": 5,
@@ -19,7 +19,7 @@
   "syncMethod": "merge",
   "mergeStrategy": "none",
   "customMessageOnAutoBackup": false,
-  "autoBackupAfterFileChange": false,
+  "autoBackupAfterFileChange": true,
   "treeStructure": false,
   "refreshSourceControl": true,
   "basePath": "",
