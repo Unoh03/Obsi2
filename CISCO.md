@@ -723,6 +723,10 @@ access-list 10 permit 192.168.1.0 0.0.0.255
 ![[Pasted image 20260313102715.png]]
 ac "1~99 중 하나 고르기" "p|d" '받거나 쳐낼 IP' [[CISCO#🎭 ACL의 변검술 와일드카드 마스크 (Wildcard Mask)|와일드 카드]] 
 ![[Pasted image 20260313102743.png]]
+>[!failure] deny any 안하면 show access-lists 로 기록을 볼 때 막은 기록이 안남음.
+
+>[!tip]  permit any는 반대로 필수!
+
 ![[Pasted image 20260313102807.png]]![[Pasted image 20260313102924.png]]
 ![[Pasted image 20260313102943.png]]
 ![[Pasted image 20260313103003.png]]

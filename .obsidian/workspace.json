@@ -25,12 +25,14 @@
             "id": "dfd8998876363a62",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "무제/Pasted image 20260313092745.png"
+                "file": "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260313092745"
+              "icon": "lucide-file",
+              "title": "콜아웃(Callout) 총정리"
             }
           }
         ]
@@ -221,6 +223,11 @@
   },
   "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "CISCO.md",
+    "SSH.md",
+    "스위치.md",
+    "무제/Pasted image 20260313092745.png",
     "무제/Pasted image 20260313103003.png",
     "무제/Pasted image 20260313102943.png",
     "무제/Pasted image 20260313102924.png",
@@ -230,14 +237,9 @@
     "무제/Pasted image 20260313102715.png",
     "무제/Pasted image 20260313102650.png",
     "무제/Pasted image 20260313100501.png",
-    "무제/Pasted image 20260313100432.png",
-    "무제/Pasted image 20260313100415.png",
-    "CISCO.md",
     "Pasted image 20260313094007.md",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "강의 자료/CH05_ACL&NAT.pdf",
-    "스위치.md",
     "제미니.md",
     "CISCO(broken).md",
     "미확인 266941.crdownload",
@@ -249,7 +251,6 @@
     "옵시디언 활용 팁",
     "강의 자료/CH03_Device configuration v1.3.pdf",
     "라우팅.md",
-    "SSH.md",
     "네트워크.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
     "무제.canvas",
