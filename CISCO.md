@@ -721,10 +721,18 @@ access-list 10 permit 192.168.1.0 0.0.0.255
 ## 명령어
 ![[Pasted image 20260313102650.png]]
 ![[Pasted image 20260313102715.png]]
+ac "1~99 중 하나 고르기" "p|d" '받거나 쳐낼 IP' [[CISCO#🎭 ACL의 변검술 와일드카드 마스크 (Wildcard Mask)|와일드 카드]] 
 ![[Pasted image 20260313102743.png]]
 ![[Pasted image 20260313102807.png]]![[Pasted image 20260313102924.png]]
 ![[Pasted image 20260313102943.png]]
 ![[Pasted image 20260313103003.png]]
+en
+conf t
+ac 21 de host 192.168.20.1
+ac 21 pe any
+
+in g0/1
+ip ac 21 in
 
 # NAT
 
