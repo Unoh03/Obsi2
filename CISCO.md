@@ -956,6 +956,7 @@ network 172.16.3.0 255.255.255.0
 default-router 172.16.3.4
 dns-server 10.10.4.100
 exi
+ip dhcp excluded-address 172.16.3.4
 ip dhcp pool 4
 network 10.10.4.0 255.255.255.0
 default-router 10.10.4.4
@@ -967,6 +968,39 @@ ip dhcp excluded-address 10.10.4.100
 ```
 ### RIPv2 추가 (라우팅 설정)
 ```sh
+[R1]
+conf t
+ro r
+v 2
+no a
+ne 172.16.1.0
+ne 12.12.12.0
+
+[R2]
+conf t
+ro r
+v 2
+no a
+ne 12.12.12.0
+ne 23.23.23.0
+ne 172.16.2.0
+
+[R3]
+conf t
+ro r
+v 2
+no a
+ne 23.23.23.0
+ne 34.34.34.0
+
+[R4]
+conf t
+ro r
+v 2
+no a
+ne 34.34.34.0
+ne 172.16.3.0
+ne 10.10.4.0
 
 ```
 ### ALC 추가
