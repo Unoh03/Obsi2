@@ -35,7 +35,8 @@
               "title": "콜아웃(Callout) 총정리"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -221,10 +222,11 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "dfd8998876363a62",
   "lastOpenFiles": [
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "제미니.md",
     "CISCO.md",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "SSH.md",
     "스위치.md",
     "무제/Pasted image 20260313092745.png",
@@ -240,7 +242,6 @@
     "Pasted image 20260313094007.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "강의 자료/CH05_ACL&NAT.pdf",
-    "제미니.md",
     "CISCO(broken).md",
     "미확인 266941.crdownload",
     "미확인 447839.crdownload",
