@@ -114,6 +114,7 @@ conf t
 no ip domain-lookup
 lin co 0
 logg syn
+exec-t 30
 do cop r s
 
 exi
@@ -871,18 +872,107 @@ access-list 100 deny ip host 1.1.1.1 host 2.2.2.2 log
 ![[Pasted image 20260313102924.png]]
 ![[Pasted image 20260313102943.png]]
 ![[Pasted image 20260313103003.png]]
-en
+## 문제
+![[Pasted image 20260313153838.png]]
+### 인터 추가
+```sh
+[R1]
 conf t
-ac 21 de host 192.168.20.1
-ac 21 pe any
-
+in g0/0
+ip ad 172.16.1.1 255.255.255.0
+no sh
+ex
 in g0/1
-ip ac 21 in
+ip ad 12.12.12.1 255.255.255.0
+no sh
+end
 
-ac 1 p h 192.168.20.2
-ac 1 p h 192.168.20.254
-ac 1 d a
+[R2]
+conf t
+in g0/0
+ip ad 12.12.12.2 255.255.255.0
+no sh
+ex
+in g0/1
+ip ad 23.23.23.2 255.255.255.0
+no sh
+ex
+in g0/2
+ip ad 172.16.2.2 255.255.255.0
+no sh
+end
 
+[R3]
+conf t
+in g0/0
+ip ad 23.23.23.3 255.255.255.0
+no sh
+ex
+in g0/1
+ip ad 34.34.34.3 255.255.255.0
+no sh
+end
+
+[R4]
+conf t
+in g0/0
+ip ad 34.34.34.4 255.255.255.0
+no sh
+ex
+in g0/1
+ip ad 171.16.3.4 255.255.255.0
+no sh
+ex
+in g0/2
+ip ad 10.10.4.4 255.255.255.0
+no sh
+end
+
+```
+### DHCP 추가 (PC ipconfig 설정)
+```sh
+[R1]
+conf t
+ip dh p 1
+ne 172.16.1.0 255.255.255.0
+de 172.16.1.1
+dn 10.10.4.100
+ex
+ip dh ex 172.16.1.1
+
+[R2]
+conf t
+ip dh p 2
+ne 172.16.2.0 255.255.255.0
+de 172.16.2.2
+dn 10.10.4.100
+ex
+ip dh ex 172.16.2.2
+
+[R4]
+conf t
+ip dhcp pool 3
+network 172.16.3.0 255.255.255.0
+default-router 172.16.3.4
+dns-server 10.10.4.100
+exi
+ip dhcp pool 4
+network 10.10.4.0 255.255.255.0
+default-router 10.10.4.4
+dns-server 10.10.4.100
+exi
+ip dhcp excluded-address 10.10.4.4
+ip dhcp excluded-address 10.10.4.100
+
+```
+### RIPv2 추가 (라우팅 설정)
+```sh
+
+```
+### ALC 추가
+```sh
+
+```
 # NAT
 
 
