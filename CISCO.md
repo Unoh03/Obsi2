@@ -3,6 +3,90 @@ https://naver.me/xJcUWCvo
 >**1. 코드는 관리 모드(최초 상태에서 enable)'#'에서 입력하는 것을 전제로 둔다.
 >2. IP 혼동을 막기 위해, 호스트 ID는 장비의 번호와 일치 | 연관지어 짓는다.
 >   예) 3번 라우터: 23.23.23.<mark style="background: #FFF3A3A6;">3</mark>, 192.168.3.3 | R3과 연결된 PC3: 192.168.3.<mark style="background: #FFF3A3A6;">4</mark> (겹치니 +1)**
+# 🧬 라우터의 유전자 지도: `show running-config` 완벽 해부
+> [!info] sh r | sec '원하는거' 하면 검색해서 그 부분이 포함 된 거만 출력한다
+
+> [!info] `show run`의 읽기 규칙 (Top-Down)
+> 라우터의 설정 파일은 아무렇게나 섞여 있는 것이 아니다. 
+> **[기본/보안 설정] ➡️ [인터페이스(포트) 설정] ➡️[라우팅(길 찾기) 설정] ➡️ [ACL/기타 설정] ➡️[접속 포트(Line) 설정]** 이라는 아주 엄격하고 논리적인 순서로 출력된다.
+
+## 💻 `show run` 실전 예시 및 해설
+
+```sh
+Router# show run
+Building configuration...
+
+# 1.[시스템 기본 정보] 라우터의 OS 버전과 이름
+Current configuration : 1234 bytes
+version 15.1
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+# 평문 비밀번호들을 암호화해 주는 기능 (보안)
+service password-encryption
+# 라우터의 이름
+hostname R1
+
+# 2. [보안 및 전역 설정] 계정과 114 전화번호부
+# 오타 쳤을 때 DNS 서버 찾는 렉 방지 (강도님이 뼈저리게 겪은 그것!)
+no ip domain-lookup
+# 관리자 모드(enable) 진입용 암호화된 비밀번호
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+# 원격 접속(SSH 등)에 사용할 로컬 계정과 비밀번호
+username admin secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+
+# 3. [인터페이스 설정] 라우터의 팔다리 (포트)
+# 첫 번째 기가비트 포트 설정 시작
+interface GigabitEthernet0/0
+ # 포트에 부여된 IP 주소와 서브넷 마스크
+ ip address 192.168.1.1 255.255.255.0
+ # (내일 배울 NAT 예습) 이 포트는 사내망(Inside)이다!
+ ip nat inside
+ # 포트가 켜져 있음 (shutdown 글자가 없으면 켜진 것)
+ duplex auto
+ speed auto
+# 두 번째 기가비트 포트 설정 시작
+interface GigabitEthernet0/1
+ ip address 12.12.12.1 255.255.255.0
+ ! (내일 배울 NAT 예습) 이 포트는 외부 인터넷(Outside)이다!
+ ip nat outside
+
+! 4.[동적 라우팅 설정] 라우터의 자동 내비게이션
+! RIP 라우팅 프로토콜이 돌아가고 있음
+router rip
+ ! 버전 2 사용
+ version 2
+ ! 내 몸에 붙은 네트워크를 이웃에게 소문냄
+ network 12.0.0.0
+ network 192.168.1.0
+ ! 내 맘대로 서브넷 뭉뚱그리는 멍청한 짓 금지
+ no auto-summary
+
+! 5. [정적 라우팅 설정] 관리자가 수동으로 뚫어준 길
+! 모르는 주소는 전부 12.12.12.2로 던져라 (디폴트 라우팅)
+ip route 0.0.0.0 0.0.0.0 12.12.12.2
+
+! 6. [ACL 방화벽 설정] 클럽 문지기 명단
+! 192.168.1.100 PC만 허용하고 나머지는 암묵적 거부(Implicit Deny)로 다 죽임
+access-list 1 permit 192.168.1.100
+
+! 7. [Line 접속 설정] 라우터에 접속하는 통로 제어
+! 콘솔 케이블(하늘색 선) 직접 연결 설정
+line con 0
+ ! 명령어 치다 로그 떠서 글자 쪼개지는 것 방지
+ logging synchronous
+ ! 로컬 계정(username) 데이터베이스로 로그인 검사
+ login local
+! 원격 접속(Telnet, SSH) 가상 포트 5개(0~4) 설정
+line vty 0 4
+ ! 로컬 계정으로 로그인 검사
+ login local
+ ! 오직 SSH 접속만 허용 (Telnet 차단)
+ transport input ssh
+
+! 설정 파일의 끝을 알리는 마커
+end
+```
 # ⚙️ 라우터 기본 셋업
 ```
 ### 💻 시스코 셋업 마법사 (Configuration Dialog)
@@ -763,6 +847,10 @@ ac 21 pe any
 
 in g0/1
 ip ac 21 in
+
+ac 1 p h 192.168.20.2
+ac 1 p h 192.168.20.254
+ac 1 d a
 
 # NAT
 
