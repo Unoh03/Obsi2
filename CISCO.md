@@ -696,7 +696,7 @@ List**
 ![[Pasted image 20260313102743.png]]
 ![[Pasted image 20260313102807.png]]![[Pasted image 20260313102924.png]]
 ![[Pasted image 20260313102943.png]]
-![[Pasted image 20260313103003.png]]
+	![[Pasted image 20260313103003.png]]
 # NAT
 
 
