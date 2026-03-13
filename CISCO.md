@@ -666,6 +666,12 @@ ne 34.34.34.0
 ne 192.168.2.0
 ```
 # ACL
+**Access
+Control
+List**
+
+![[Pasted image 20260313092006.png]]
+
 
 ## 🛡️ 네트워크 보안의 계층적 방어 (Defense in Depth)
 

@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -208,6 +209,7 @@
   },
   "active": "33b36ed339156028",
   "lastOpenFiles": [
+    "무제/Pasted image 20260313092006.png",
     "강의 자료/CH05_ACL&NAT.pdf",
     "CISCO.md",
     "스위치.md",
