@@ -719,6 +719,8 @@ access-list 10 permit 192.168.1.0 0.0.0.255
 | **Port Security** | L2 (스위치)    | **MAC 주소 (지문)**     | MAC 주소까지 위조해야 함     | **물리적 침입 방어** (낯선 기기 연결 시 포트 차단) |
 | **ACL**           | L3/L4 (라우터) | **IP / Port (신분증)** | IP 주소 위조 (Spoofing) | **논리적 침입 방어** (허용되지 않은 트래픽 필터링)  |
 ## 명령어
+>[!danger] 보안 명령어는 순서가 극히 중요함! 늘 deny 먼저 할 것!
+
 ![[Pasted image 20260313102650.png]]
 ![[Pasted image 20260313102715.png]]
 ac "1~99 중 하나 고르기" "p|d" '받거나 쳐낼 IP' [[CISCO#🎭 ACL의 변검술 와일드카드 마스크 (Wildcard Mask)|와일드 카드]] 
