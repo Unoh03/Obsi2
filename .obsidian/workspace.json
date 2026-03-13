@@ -35,8 +35,7 @@
               "title": "콜아웃(Callout) 총정리"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -222,11 +221,11 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "dfd8998876363a62",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "제미니.md",
     "CISCO.md",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "SSH.md",
     "스위치.md",
     "무제/Pasted image 20260313092745.png",
