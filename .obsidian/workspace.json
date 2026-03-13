@@ -92,7 +92,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -220,7 +221,7 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
     "5.스탠다드 ACL(실습) 1.pkt",
     "5.스탠다드 ACL(실습).pkt",
