@@ -92,8 +92,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -221,8 +220,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "01cbdc931a4355bb",
   "lastOpenFiles": [
+    "5.스탠다드 ACL(실습) 1.pkt",
+    "5.스탠다드 ACL(실습).pkt",
     "무제/Pasted image 20260313153838.png",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "무제/Pasted image 20260313153654.png",
@@ -238,7 +239,6 @@
     "무제/Pasted image 20260313102802.png",
     "무제/Pasted image 20260313102743.png",
     "무제/Pasted image 20260313102715.png",
-    "무제/Pasted image 20260313102650.png",
     "Pasted image 20260313094007.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "강의 자료/CH05_ACL&NAT.pdf",
@@ -255,7 +255,6 @@
     "네트워크.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
     "무제.canvas",
-    "무제.base",
     "명령어.md",
     "그그 뭐더라.md",
     "test.md",
