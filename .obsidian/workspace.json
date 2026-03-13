@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "33b36ed339156028",
+            "id": "e4bf46ef21cc9d11",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,6 +19,18 @@
               },
               "icon": "lucide-file",
               "title": "CISCO"
+            }
+          },
+          {
+            "id": "dfd8998876363a62",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "무제/Pasted image 20260313092745.png"
+              },
+              "icon": "lucide-image",
+              "title": "Pasted image 20260313092745"
             }
           }
         ]
@@ -78,8 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -207,33 +218,34 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "33b36ed339156028",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "무제/Pasted image 20260313094007.png",
+    "무제/Pasted image 20260313100501.png",
+    "무제/Pasted image 20260313100432.png",
+    "무제/Pasted image 20260313100415.png",
+    "무제/Pasted image 20260313100402.png",
+    "무제/Pasted image 20260313100336.png",
+    "무제/Pasted image 20260313095618.png",
     "무제/Pasted image 20260313092745.png",
+    "무제/Pasted image 20260313094007.png",
+    "CISCO.md",
+    "Pasted image 20260313094007.md",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "강의 자료/CH02_TCP-IP v1.2.pdf",
     "무제/Pasted image 20260313092723.png",
     "무제/Pasted image 20260313092720.png",
     "무제/Pasted image 20260313092006.png",
     "강의 자료/CH05_ACL&NAT.pdf",
-    "CISCO.md",
     "스위치.md",
     "제미니.md",
     "CISCO(broken).md",
     "미확인 266941.crdownload",
     "미확인 447839.crdownload",
     "팁.md",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "강의 자료/CH04_Routing.pdf",
-    "무제/Pasted image 20260312132441.png",
-    "무제/Pasted image 20260312132418.png",
-    "무제/Pasted image 20260312131832.png",
-    "무제/Pasted image 20260312131803.png",
-    "무제/Pasted image 20260312131745.png",
-    "무제/Pasted image 20260312131523.png",
     "강의 자료/qwer2.pkt",
     "qwer2.pkt",
     "옵시디언 활용 팁",
-    "강의 자료/CH02_TCP-IP v1.2.pdf",
     "강의 자료/CH03_Device configuration v1.3.pdf",
     "라우팅.md",
     "SSH.md",
