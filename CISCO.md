@@ -674,7 +674,11 @@ List**
 
 ![[Pasted image 20260313092723.png]]
 
-## 🛡️ 네트워크 보안의 계층적 방어 (Defense in Depth)
+![[Pasted image 20260313094007.png]]
+
+
+## 🛡️ 네트워크 보안의 계층적 방어 (
+Defense in Depth)
 
 > [!question] 해커가 서버실에 몰래 들어와서 랜선을 꽂으면 ACL이 막아줄까?
 > **정답: 못 막는다!** ACL은 IP 주소(신분증)를 검사하므로, 해커가 기존 장비의 IP를 똑같이 베껴 쓰는 'IP Spoofing(위조)'을 시전하면 속수무책으로 뚫린다.
