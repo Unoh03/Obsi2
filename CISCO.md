@@ -1136,7 +1136,15 @@ ip ac 102 i
 ```
 ## 문제 3
 ![[Pasted image 20260316145840.png]]
+>[!warning] **WEB** 서버다! 프로토콜 똑바로 해라!
 ```sh
+[Router]
+conf t
+ac 101 p tcp host 192.168.240.3 host 172.22.242.23 eq 80
+ac 101 d tcp a host 172.22.242.23 eq 80
+ac 101 p ip a a
+in f0/0
+ip ac 101 i
 
 ```
 # NAT
