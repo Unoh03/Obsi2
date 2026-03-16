@@ -874,6 +874,13 @@ access-list 10 permit 192.168.1.0 0.0.0.255
 ## 명령어
 >[!danger] 보안 명령어는 순서가 극히 중요함! 늘 좁은 대역 먼저 할 것!
 
+>[!danger] 🎯 ACL의 절대 위치 공식 
+>**"Standard ACL은 무조건 도착지(dest.)와 가장 가까운 라우터의 포트에, 나가는 방향(Out)으로 걸어라!"**
+이유) 재수 없으면 중간에 애꿎은 놈이 차단 됨.
+>
+**"Extended ACL은 무조건 출발지(Source)와 가장 가까운 라우터의 포트에, 들어오는 방향(in)으로 걸어라!"**
+이유) 어차피 차단 될 게 출발지와 목적지 사이 모든 장비의 자원을 낭비하게 됨.
+
 ![[Pasted image 20260313102650.png]]
 ![[Pasted image 20260313102715.png]]
 ac "1~99 중 하나 고르기" "p|d" '받거나 쳐낼 IP' [[CISCO#🎭 ACL의 변검술 와일드카드 마스크 (Wildcard Mask)|와일드 카드]] 
@@ -1089,8 +1096,43 @@ in g0/2
 ip ac 4 o
 ```
 ## 문제 2
-
+![[Pasted image 20260316131812.png]]
 ```sh
+access-list '100~199''permit|deny' '프로토콜' '출발지IP''출발지Wild' '도착지IP' '도착지Wild' ['eq 포트'] ['established'] ['log']
+```
+
+- **하나로 퉁 칠 때**
+```sh
+[Busan]
+conf t
+ac 101 d tcp host 192.168.4.2 host 192.168.3.2 eq 80 log
+ac 101 p tcp host 192.168.1.2 host 192.168.3.2 eq 80 log
+ac 101 d ip host 192.168.1.2 host 192.168.3.2
+ac 101 p ip a a
+in g0/1
+ip ac 101 o
+```
+
+>[!danger] 🎯 Extended ACL의 절대 위치 공식  
+**"Extended ACL은 무조건 출발지(Source)와 가장 가까운 라우터의 포트에, 들어오는 방향(in)으로 걸어라!"**
+이유) 어차피 차단 될 게 출발지와 목적지 사이 모든 장비의 자원을 낭비하게 됨.
+
+- **통신 장비 아낄 때**
+```sh
+[Busan]
+conf t
+ac 101 d tcp host 192.168.4.2 host 192.168.3.2 eq 80
+ac 101 p ip a a
+in g0/2
+ip ac 101 i
+
+[Seoul]
+conf t
+ac 102 p tcp host 192.168.1.2 host 192.168.3.2 eq 80
+ac 102 d ip host 192.168.1.2 host 192.168.3.2
+ac 102 p ip a a
+in g0/1
+ip ac 102 i
 ```
 # NAT
 
