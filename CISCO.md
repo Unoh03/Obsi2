@@ -1134,6 +1134,11 @@ ac 102 p ip a a
 in g0/1
 ip ac 102 i
 ```
+## 문제 3
+![[Pasted image 20260316145840.png]]
+```sh
+
+```
 # NAT
 
 
