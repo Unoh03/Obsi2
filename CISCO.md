@@ -916,7 +916,7 @@ access-list 100 deny ip host 1.1.1.1 host 2.2.2.2 log
 ![[Pasted image 20260313102924.png]]
 ![[Pasted image 20260313102943.png]]
 ![[Pasted image 20260313103003.png]]
-## 문제
+## 문제 1
 ![[Pasted image 20260313153838.png]]
 ### 인터 추가
 ```sh
@@ -1047,7 +1047,7 @@ ne 172.16.3.0
 ne 10.10.4.0
 
 ```
-### ALC 추가
+### ALC 추가 (보안 설정)
 ```sh
 [R1]
 conf t
@@ -1076,6 +1076,10 @@ ip ac 3 o
 ex
 in g0/2
 ip ac 4 o
+```
+## 문제 2
+
+```sh
 ```
 # NAT
 
