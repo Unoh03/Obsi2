@@ -1187,4 +1187,28 @@ ip nat inside
 in g0/1
 ip nat outside
 ```
+- **TMI**
+```sh
+[R0]
+ac 1 p 192.168.10.0 0.0.0.255
+ip nat inside source list 1 in g0/1 overload
+!ip nat inside랑 outside는 스테틱 NAT 하면서 했으니깐 안해도 됨. (아마.)
 
+[R1]
+ip nat inside source static 192.168.20.100 12.12.12.6
+!R0과 마찬가지로 NAT-PAT 할 때 포트에 적용은 이미 끝남.
+
+[R2]
+ac 1 p 192.168.30.0 0.0.0.255
+ip nat inside source list 1 in g0/1 overload 
+ip nat inside source list 1 in g0/0 overload
+in g0/2
+ip nat inside 
+in g0/0
+ip nat outside 
+in g0/1
+ip nat outside 
+ex
+ip nat in source static 192.168.30.100 12.12.12.2
+ip nat in source static 192.168.30.100 12.12.12.5
+```
