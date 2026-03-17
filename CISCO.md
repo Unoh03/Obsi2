@@ -1278,7 +1278,7 @@ ne 80.0.0.0
 - **4.**
 ```sh
 [R0]
-ip nat pool tlqkf 112.221.198.145 112.221.198.158 255.255.255.240
+ip nat pool tlqkf 112.221.198.145 112.221.198.158 netmask 255.255.255.240
 ac 1 p 192.168.100.0 0.0.0.255
 ip nat inside source list 1 pool tlqkf overload
 in g0/0
