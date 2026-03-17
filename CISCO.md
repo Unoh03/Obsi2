@@ -1166,13 +1166,24 @@ ip ac 101 i
 ## 문제
 ![[Pasted image 20260317133447.png]]
 - **1.**
+  >[!failure] 스테틱 NAT은 중첩 없다!
 ```sh
+[Router1]
 conf t
 ac 1 p 192.168.20.0 0.0.0.255
+ip nat inside source list 1 in g0/1 overload
 in g0/0
 ip nat inside
 in g0/1
 ip nat outside
-ex
-ip nat inside source list 1 in g0/1 overload
+```
+- **2.**
+```sh
+[Router0]
+conf t
+ip nat inside source static 192.168.10.100 12.12.12.0
+in g0/0
+ip nat inside
+in g0/1
+ip nat outside
 ```
