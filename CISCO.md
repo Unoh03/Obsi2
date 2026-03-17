@@ -1163,3 +1163,16 @@ ip ac 101 i
 ![[Pasted image 20260317111255.png]]
 ![[Pasted image 20260317111339.png]]
 
+## 문제
+![[Pasted image 20260317133447.png]]
+- **1.**
+```sh
+conf t
+ac 1 p 192.168.20.0 0.0.0.255
+in g0/0
+ip nat inside
+in g0/1
+ip nat outside
+ex
+ip nat inside source list 1 in g0/1 overload
+```
