@@ -1163,21 +1163,22 @@ ip ac 101 i
 ![[Pasted image 20260317111255.png]]
 ![[Pasted image 20260317111339.png]]
 
-## 문제
+## 문제 
+### 문제1
 ![[Pasted image 20260317133447.png]]
 - **1.**
-  >[!failure] 스테틱 NAT은 중첩 없다!
 ```sh
 [Router1]
 conf t
 ac 1 p 192.168.20.0 0.0.0.255
-ip nat inside source list 1 in g0/1 overload
+ip nat inside source list 1 int g0/1 overload
 in g0/0
 ip nat inside
 in g0/1
 ip nat outside
 ```
 - **2.**
+-   >[!failure] 스테틱 NAT은 중첩 없다!
 ```sh
 [Router0]
 conf t
@@ -1210,5 +1211,88 @@ in g0/1
 ip nat outside 
 ex
 ip nat in source static 192.168.30.100 12.12.12.2
-ip nat in source static 192.168.30.100 12.12.12.5
+```
+### 2
+![[Pasted image 20260317163610.png]]
+- **1.**
+```sh
+[R0]
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+lin co 0
+logg syn
+exec-t 30
+do cop r s
+
+
+
+[R1]
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+lin co 0
+logg syn
+exec-t 30
+do cop r s
+
+```
+- **2.**
+```sh
+[R0]
+in g0/0
+ip ad 192.168.100.254 255.255.255.0
+no sh
+in g0/1
+ip ad 80.0.0.1 255.255.255.252
+no sh
+
+[R1]
+in g0/0
+ip ad 10.0.0.254 255.255.255.0
+no sh
+in g0/1
+ip ad 80.0.0.2 255.255.255.252
+no sh
+
+```
+- **3.**
+```sh
+[R0]
+ro r
+v 2
+no a
+ne 192.168.100.0
+ne 80.0.0.0
+
+[R1]
+ro r
+v 2
+no a
+ne 10.0.0.0
+ne 80.0.0.0
+
+```
+- **4.**
+```sh
+[R0]
+ip nat pool tlqkf 112.221.198.145 112.221.198.158 255.255.255.240
+ac 1 p 192.168.100.0 0.0.0.255
+ip nat inside source list 1 pool tlqkf overload
+in g0/0
+ip nat inside
+in g0/1
+ip nat outside
+```
+- **5.**
+```sh
+[R1]
+ip nat inside source static 10.0.0.1 112.221.198.161
+ip nat inside source static 10.0.0.2 112.221.198.162
+in g0/0
+ip nat inside
+in g0/1
+ip nat outside
 ```
