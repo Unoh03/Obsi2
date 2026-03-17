@@ -1181,7 +1181,7 @@ ip nat outside
 ```sh
 [Router0]
 conf t
-ip nat inside source static 192.168.10.100 12.12.12.0
+ip nat inside source static 192.168.10.100 12.12.12.1
 in g0/0
 ip nat inside
 in g0/1
