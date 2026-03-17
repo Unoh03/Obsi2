@@ -1149,12 +1149,17 @@ ip ac 101 i
 >[!tip] 엑세스 리스트 적용은 F0/1이 낫다!
 >여기선 괜찮지만, 실제라면 외부망(빨간 선의 라우터)에서 오는 공격을 막으려면, **F0/1**에 있어야 외부망도 거른다.
 # NAT
-![[Pasted image 20260317094109.png]]
-![[Pasted image 20260317101208.png]]
-
 ## 사설 IP 범위
 - 10.x.x.x
 - 172.16.x.x ~ 172.31.x.x
 - 192.168.x.x
-
+## 설명 및 명령어
+![[Pasted image 20260317094109.png]]
+![[Pasted image 20260317111125.png]]
+![[Pasted image 20260317111402.png]]
+![[Pasted image 20260317101208.png]]
+![[Pasted image 20260317111213.png]]
+![[Pasted image 20260317111239.png]]
+![[Pasted image 20260317111255.png]]
+![[Pasted image 20260317111339.png]]
 
