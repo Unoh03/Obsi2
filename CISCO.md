@@ -1305,3 +1305,4 @@ ip nat inside
 in g0/1
 ip nat outside
 ```
+
