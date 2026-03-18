@@ -104,8 +104,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -236,9 +235,9 @@
   "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
     "CISCO.md",
+    "GNS3.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "무제/Pasted image 20260317133447.png",
-    "GNS3.md",
     "무제/Pasted image 20260318093929.png",
     "무제/Pasted image 20260317163610.png",
     "무제/Pasted image 20260317161907.png",
