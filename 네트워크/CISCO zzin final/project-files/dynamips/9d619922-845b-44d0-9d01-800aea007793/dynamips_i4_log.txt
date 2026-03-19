@@ -1,0 +1,34 @@
+Mar 19 09:00:16.496 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+Mar 19 09:00:16.497 HYPERVISOR: Started on IP = localhost, TCP port = 57727.
+Mar 19 09:00:16.498 HYPERVISOR: exec_cmd: hypervisor version 
+Mar 19 09:00:16.498 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\306\GNS3\projects\CISCO zzin final\project-files\dynamips 
+Mar 19 09:00:16.498 GENERAL: working_dir=C:\Users\306\GNS3\projects\CISCO zzin final\project-files\dynamips
+Mar 19 09:00:16.500 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\306\GNS3\projects\CISCO zzin final\project-files\dynamips\8f52882b-0b85-4891-bf94-90870bd3c1b8 
+Mar 19 09:00:16.500 GENERAL: working_dir=C:\Users\306\GNS3\projects\CISCO zzin final\project-files\dynamips\8f52882b-0b85-4891-bf94-90870bd3c1b8
+Mar 19 09:00:16.500 HYPERVISOR: exec_cmd: vm create R3 3 c3745 
+Mar 19 09:00:16.501 VM: VM R3 created.
+Mar 19 09:00:16.501 HYPERVISOR: exec_cmd: vm set_con_tcp_port R3 5007 
+Mar 19 09:00:16.501 HYPERVISOR: exec_cmd: c3745 get_mac_addr R3 
+Mar 19 09:00:16.501 HYPERVISOR: exec_cmd: vm set_ios R3 C:/Users/306/GNS3/images/IOS/Cisco 3745/c3745-adventerprisek9-mz.124-25d.image 
+Mar 19 09:00:16.501 HYPERVISOR: exec_cmd: vm get_status R3 
+Mar 19 09:00:16.502 HYPERVISOR: exec_cmd: vm set_idle_pc R3 0x6026dd40 
+Mar 19 09:00:16.502 HYPERVISOR: exec_cmd: vm set_exec_area R3 64 
+Mar 19 09:00:16.502 HYPERVISOR: exec_cmd: vm set_ram R3 256 
+Mar 19 09:00:16.502 HYPERVISOR: exec_cmd: vm set_nvram R3 256 
+Mar 19 09:00:16.503 HYPERVISOR: exec_cmd: vm set_disk0 R3 0 
+Mar 19 09:01:45.579 HYPERVISOR: exec_cmd: vm get_status R3 
+Mar 19 09:01:45.579 HYPERVISOR: exec_cmd: vm slot_add_binding R3 1 0 NM-1FE-TX 
+Mar 19 09:14:07.572 HYPERVISOR: exec_cmd: nio create_udp udp-368fc4bc-11f2-4d7c-9b7a-e22fab57c5e8 10014 127.0.0.1 10015 
+Mar 19 09:14:07.856 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R3 1 0 udp-368fc4bc-11f2-4d7c-9b7a-e22fab57c5e8 
+Mar 19 09:14:07.857 HYPERVISOR: exec_cmd: vm get_status R3 
+Mar 19 09:14:12.021 HYPERVISOR: exec_cmd: nio create_udp udp-5a9788cb-c745-41cd-a2ae-433fd7eb24e5 10018 127.0.0.1 10019 
+Mar 19 09:14:12.038 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R3 0 1 udp-5a9788cb-c745-41cd-a2ae-433fd7eb24e5 
+Mar 19 09:14:12.038 HYPERVISOR: exec_cmd: vm get_status R3 
+Mar 19 09:14:28.172 HYPERVISOR: exec_cmd: nio create_udp udp-fabc10d7-10d1-4972-ba48-fec4fa596165 10034 127.0.0.1 10035 
+Mar 19 09:14:28.174 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R3 0 0 udp-fabc10d7-10d1-4972-ba48-fec4fa596165 
+Mar 19 09:14:28.174 HYPERVISOR: exec_cmd: vm get_status R3 
+Mar 19 09:15:12.666 HYPERVISOR: exec_cmd: vm set_ghost_status R3 2 
+Mar 19 09:15:12.666 HYPERVISOR: exec_cmd: vm set_ghost_file R3 C:\Users\306\GNS3\projects\CISCO zzin final\project-files\dynamips\c3745-adventerprisek9-mz.124-25d.image-256.ghost 
+Mar 19 09:15:12.666 HYPERVISOR: exec_cmd: vm get_status R3 
+Mar 19 09:15:12.667 HYPERVISOR: exec_cmd: vm set_config R3 configs\i3_startup-config.cfg 
+Mar 19 09:15:12.667 HYPERVISOR: exec_cmd: vm start R3 

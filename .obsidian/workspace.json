@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "옵시디언 활용 팁/논리 연산자.md",
+                "file": "리눅스(우분투)/우분투.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "논리 연산자"
+              "title": "우분투"
             }
           },
           {
@@ -104,8 +104,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -235,11 +234,22 @@
   },
   "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "강의 자료/리눅스(우분투).pdf",
+    "네트워크/CISCO zzin final/project-files/images",
+    "리눅스(우분투)/우분투.md",
     "옵시디언 활용 팁/논리 연산자.md",
+    "네트워크/CISCO zzin final/CISCO zzin final-1.gns3.tmp",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i25_log.txt",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i25_stdout.txt",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i24_log.txt",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i24_stdout.txt",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i23_log.txt",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i23_stdout.txt",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i22_log.txt",
+    "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i22_stdout.txt",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "네트워크/GNS3.md",
     "Pasted image 20260313094007.md",
-    "네트워크",
     "네트워크/CISCO.md",
     "캡쳐 창고/Pasted image 20260317133447.png",
     "캡쳐 창고/Pasted image 20260318093929.png",
@@ -251,21 +261,12 @@
     "캡쳐 창고/Pasted image 20260317111309.png",
     "캡쳐 창고/Pasted image 20260317111255.png",
     "캡쳐 창고/Pasted image 20260317111239.png",
-    "강의 자료/5.스탠다드 ACL(실습).pkt",
     "MSA.md",
-    "5.스탠다드 ACL(실습) 1.pkt",
-    "5.스탠다드 ACL(실습).pkt",
     "제미니.md",
     "SSH.md",
     "스위치.md",
-    "강의 자료/CH02_TCP-IP v1.2.pdf",
-    "강의 자료/CH05_ACL&NAT.pdf",
     "CISCO(broken).md",
-    "미확인 266941.crdownload",
-    "미확인 447839.crdownload",
     "팁.md",
-    "강의 자료/CH04_Routing.pdf",
-    "강의 자료/qwer2.pkt",
     "라우팅.md",
     "네트워크.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
