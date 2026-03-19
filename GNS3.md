@@ -43,22 +43,22 @@ conf t
 int f0/1
 ip add 12.12.12.2 255.255.255.252
 no sh
-int f0/0
+int f1/0
 ip add 23.23.23.1 255.255.255.252
 no sh
-int f1/0
+int f0/0
 ip add 2.2.2.14 255.255.255.240
 no sh
 
 [R3]
 conf t
-int f0/0
+int f1/0
 ip add 23.23.23.2 255.255.255.252
 no sh
 int f0/1
 ip add 34.34.34.1 255.255.255.0
 no sh
-int f1/0
+int f0/0
 ip add 3.3.3.6 255.255.255.248
 no sh
 
