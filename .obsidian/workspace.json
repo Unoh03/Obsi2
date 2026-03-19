@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "MSA.md",
+                "file": "리눅스(우분투)/우분투.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MSA"
+              "title": "우분투"
             }
           },
           {
@@ -221,6 +221,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
       "remotely-save:Remotely Save": false,
       "switcher:빠른 전환기 열기": false,
       "graph:그래프 뷰 열기": false,
@@ -234,8 +235,8 @@
   },
   "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "CMD.md",
     "MSA.md",
+    "CMD.md",
     "SSH.md",
     "제미니.md",
     "라우팅.md",
