@@ -1451,7 +1451,7 @@ ne 11.11.11.0
 !문제의 4번째 줄 덕분에 R1, 4만 하면 됨
 
 [R1]
-!g0/1 포트의 IP 를 외부 ip로 쓰라 함 + PC 2개 = NAT-PAT 사용. 근데 pool 대신 포트를 넣은.
+!g0/1 포트의 IP 를 외부 ip로 쓰라 함 + PC 2개 == NAT-PAT 사용. 근데 pool 대신 포트를 넣은.
 conf t
 ac 1 p 192.168.0.0 0.0.0.255
 ip nat inside source list 1 int g0/1 overload

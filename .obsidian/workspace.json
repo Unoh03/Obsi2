@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GNS3.md",
+                "file": "옵시디언 활용 팁/논리 연산자.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GNS3"
+              "title": "논리 연산자"
             }
           },
           {
@@ -235,19 +235,22 @@
   },
   "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "CISCO.md",
-    "GNS3.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
-    "무제/Pasted image 20260317133447.png",
-    "무제/Pasted image 20260318093929.png",
-    "무제/Pasted image 20260317163610.png",
+    "옵시디언 활용 팁/논리 연산자.md",
+    "네트워크/GNS3.md",
+    "Pasted image 20260313094007.md",
+    "네트워크",
+    "네트워크/CISCO.md",
+    "캡쳐 창고/Pasted image 20260317133447.png",
+    "캡쳐 창고/Pasted image 20260318093929.png",
+    "캡쳐 창고/Pasted image 20260317163610.png",
     "무제/Pasted image 20260317161907.png",
-    "무제/Pasted image 20260317111402.png",
+    "캡쳐 창고/Pasted image 20260317111402.png",
     "무제/Pasted image 20260317133415.png",
-    "무제/Pasted image 20260317111339.png",
-    "무제/Pasted image 20260317111309.png",
-    "무제/Pasted image 20260317111255.png",
-    "무제/Pasted image 20260317111239.png",
+    "캡쳐 창고/Pasted image 20260317111339.png",
+    "캡쳐 창고/Pasted image 20260317111309.png",
+    "캡쳐 창고/Pasted image 20260317111255.png",
+    "캡쳐 창고/Pasted image 20260317111239.png",
     "강의 자료/5.스탠다드 ACL(실습).pkt",
     "MSA.md",
     "5.스탠다드 ACL(실습) 1.pkt",
@@ -255,7 +258,6 @@
     "제미니.md",
     "SSH.md",
     "스위치.md",
-    "Pasted image 20260313094007.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "강의 자료/CH05_ACL&NAT.pdf",
     "CISCO(broken).md",
@@ -264,7 +266,6 @@
     "팁.md",
     "강의 자료/CH04_Routing.pdf",
     "강의 자료/qwer2.pkt",
-    "qwer2.pkt",
     "라우팅.md",
     "네트워크.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
