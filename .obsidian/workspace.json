@@ -94,7 +94,11 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "강의 자료/리눅스(우분투).pdf"
+                "file": "강의 자료/리눅스(우분투).pdf",
+                "page": 43,
+                "left": -18,
+                "top": 544,
+                "zoom": 0.81796875
               },
               "icon": "lucide-file-text",
               "title": "리눅스(우분투)"
@@ -201,8 +205,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 1098.5,
-    "collapsed": true
+    "width": 1098.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -222,8 +225,11 @@
       "pdf2img:Convert PDF to images": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
+    "강의 자료/리눅스(우분투).pdf",
+    "캡쳐 창고/리눅스(우분투).webp",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "d.md",
     "캡쳐 창고/리눅스(우분투)/page_209.webp",
@@ -235,10 +241,7 @@
     "캡쳐 창고/리눅스(우분투)/page_231.webp",
     "캡쳐 창고/리눅스(우분투)/page_230.webp",
     "캡쳐 창고/리눅스(우분투)/page_229.webp",
-    "캡쳐 창고/리눅스(우분투)/page_227.webp",
     "캡쳐 창고/리눅스(우분투)",
-    "리눅스(우분투)/우분투.md",
-    "강의 자료/리눅스(우분투).pdf",
     "CMD.md",
     "제미니.md",
     "MSA.md",
