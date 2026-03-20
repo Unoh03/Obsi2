@@ -11,16 +11,14 @@
             "id": "eb63b429a966137f",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 47,
-                "left": -32,
-                "top": 543,
-                "zoom": 0.465625
+                "file": "리눅스(우분투)/우분투.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "리눅스(우분투)"
+              "icon": "lucide-file",
+              "title": "우분투"
             }
           },
           {
@@ -44,10 +42,10 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 47,
-                "left": -24,
-                "top": 83,
-                "zoom": 0.6125
+                "page": 50,
+                "left": -33,
+                "top": 394,
+                "zoom": 0.45625000000000004
               },
               "icon": "lucide-file-text",
               "title": "리눅스(우분투)"
@@ -242,11 +240,12 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "eb63b429a966137f",
   "lastOpenFiles": [
-    "CMD.md",
+    "캡쳐 창고/리눅스(우분투).webp",
     "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
+    "CMD.md",
     "제미니.md",
     "MSA.md",
     "SSH.md",
