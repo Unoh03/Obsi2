@@ -8,15 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "e4bf46ef21cc9d11",
+            "id": "eb63b429a966137f",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "강의 자료/리눅스(우분투).pdf"
+                "file": "리눅스(우분투)/우분투.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "리눅스(우분투)"
+              "icon": "lucide-file",
+              "title": "우분투"
             }
           },
           {
@@ -34,15 +36,15 @@
             }
           },
           {
-            "id": "eb63b429a966137f",
+            "id": "e4bf46ef21cc9d11",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "pdf",
               "state": {
-                "file": "무제/Pasted image 20260317133447.png"
+                "file": "강의 자료/리눅스(우분투).pdf"
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260317133447"
+              "icon": "lucide-file-text",
+              "title": "리눅스(우분투)"
             }
           }
         ]
@@ -102,8 +104,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -232,8 +233,9 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "eb63b429a966137f",
   "lastOpenFiles": [
+    "강의 자료/리눅스(우분투).pdf",
     "제미니.md",
     "리눅스(우분투)/우분투.md",
     "MSA.md",
@@ -245,7 +247,6 @@
     "새 텍스트 문서.txt",
     "무제/Pasted image 20260319161208.png",
     "무제",
-    "강의 자료/리눅스(우분투).pdf",
     "네트워크/CISCO zzin final/project-files/images",
     "옵시디언 활용 팁/논리 연산자.md",
     "네트워크/CISCO zzin final/CISCO zzin final-1.gns3.tmp",
