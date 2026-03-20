@@ -34,22 +34,6 @@
               "icon": "lucide-file",
               "title": "콜아웃(Callout) 총정리"
             }
-          },
-          {
-            "id": "e4bf46ef21cc9d11",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 50,
-                "left": -33,
-                "top": 394,
-                "zoom": 0.45625000000000004
-              },
-              "icon": "lucide-file-text",
-              "title": "리눅스(우분투)"
-            }
           }
         ]
       }
@@ -108,7 +92,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -118,6 +103,18 @@
         "id": "9224ace80aca165a",
         "type": "tabs",
         "children": [
+          {
+            "id": "e4bf46ef21cc9d11",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "강의 자료/리눅스(우분투).pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "리눅스(우분투)"
+            }
+          },
           {
             "id": "f1389678c18568d0",
             "type": "leaf",
@@ -215,13 +212,11 @@
               "title": "Advanced Tables"
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 1098.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -237,14 +232,16 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false,
       "pdf-plus:PDF++: Toggle auto-copy": false,
       "pdf-plus:PDF++: Toggle auto-focus": false,
-      "pdf-plus:PDF++: Toggle auto-paste": false
+      "pdf-plus:PDF++: Toggle auto-paste": false,
+      "pdf2img:Convert PDF to images": false
     }
   },
-  "active": "eb63b429a966137f",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "캡쳐 창고/리눅스(우분투).webp",
-    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
+    "강의 자료/리눅스(우분투).pdf",
+    "캡쳐 창고/Pasted image 20260320132028.png",
+    "캡쳐 창고/리눅스(우분투).webp",
     "CMD.md",
     "제미니.md",
     "MSA.md",
@@ -274,8 +271,6 @@
     "캡쳐 창고/Pasted image 20260317111402.png",
     "무제/Pasted image 20260317133415.png",
     "캡쳐 창고/Pasted image 20260317111339.png",
-    "캡쳐 창고/Pasted image 20260317111309.png",
-    "캡쳐 창고/Pasted image 20260317111255.png",
     "CISCO(broken).md",
     "네트워크.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
