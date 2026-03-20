@@ -1,0 +1,11 @@
+{
+  "enableHeaders": true,
+  "headerSize": "#",
+  "headerExtractionSensitive": 1.2,
+  "removeHeaderDuplicates": true,
+  "imageResolution": 1,
+  "imageSeparator": 3,
+  "insertionMethod": "Procedural",
+  "maxConcurrentPages": 50,
+  "imageType": "webp"
+}
