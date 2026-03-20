@@ -11,14 +11,16 @@
             "id": "eb63b429a966137f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
-                "mode": "source",
-                "source": false
+                "file": "강의 자료/리눅스(우분투).pdf",
+                "page": 47,
+                "left": -32,
+                "top": 543,
+                "zoom": 0.465625
               },
-              "icon": "lucide-file",
-              "title": "우분투"
+              "icon": "lucide-file-text",
+              "title": "리눅스(우분투)"
             }
           },
           {
@@ -41,7 +43,11 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "강의 자료/리눅스(우분투).pdf"
+                "file": "강의 자료/리눅스(우분투).pdf",
+                "page": 47,
+                "left": -24,
+                "top": 83,
+                "zoom": 0.6125
               },
               "icon": "lucide-file-text",
               "title": "리눅스(우분투)"
@@ -230,22 +236,25 @@
       "templates:템플릿 삽입": false,
       "command-palette:명령어 팔레트 열기": false,
       "bases:새 베이스 생성하기": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "pdf-plus:PDF++: Toggle auto-copy": false,
+      "pdf-plus:PDF++: Toggle auto-focus": false,
+      "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "eb63b429a966137f",
+  "active": "01cbdc931a4355bb",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
-    "제미니.md",
-    "리눅스(우분투)/우분투.md",
-    "MSA.md",
     "CMD.md",
+    "강의 자료/리눅스(우분투).pdf",
+    "리눅스(우분투)/우분투.md",
+    "제미니.md",
+    "MSA.md",
     "SSH.md",
     "라우팅.md",
     "스위치.md",
     "팁.md",
     "새 텍스트 문서.txt",
-    "무제/Pasted image 20260319161208.png",
+    "캡쳐 창고/Pasted image 20260319161208.png",
     "무제",
     "네트워크/CISCO zzin final/project-files/images",
     "옵시디언 활용 팁/논리 연산자.md",
