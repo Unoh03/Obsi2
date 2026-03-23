@@ -34,6 +34,16 @@
               "icon": "lucide-file",
               "title": "콜아웃(Callout) 총정리"
             }
+          },
+          {
+            "id": "24fb095dac0bad24",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "새 탭"
+            }
           }
         ]
       }
@@ -110,9 +120,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 83,
+                "page": 91,
                 "left": -18,
-                "top": 261,
+                "top": 463,
                 "zoom": 0.81796875
               },
               "icon": "lucide-file-text",
@@ -125,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "강의 자료/리눅스(우분투).pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +145,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "우분투 의 백링크"
+              "title": "리눅스(우분투) 의 백링크"
             }
           },
           {
@@ -240,11 +250,14 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "eb63b429a966137f",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "캡쳐 창고/리눅스(우분투) 23.webp",
-    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
+    "캡쳐 창고/리눅스(우분투) 25.webp",
+    "강의 자료/리눅스(우분투).pdf",
+    "캡쳐 창고/Pasted image 20260323132611.png",
+    "캡쳐 창고/리눅스(우분투) 24.webp",
+    "캡쳐 창고/리눅스(우분투) 23.webp",
     "캡쳐 창고/리눅스(우분투) 22.webp",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/Pasted image 20260323112414.png",
@@ -253,13 +266,9 @@
     "캡쳐 창고/리눅스(우분투) 20.webp",
     "캡쳐 창고/리눅스(우분투) 19.webp",
     "캡쳐 창고/리눅스(우분투) 18.webp",
-    "캡쳐 창고/리눅스(우분투) 17.webp",
-    "캡쳐 창고/리눅스(우분투) 16.webp",
     "스위치.md",
     "네트워크/CISCO.md",
     "네트워크/GNS3.md",
-    "캡쳐 창고/리눅스(우분투) 15.webp",
-    "캡쳐 창고/리눅스(우분투) 14.webp",
     "d.md",
     "캡쳐 창고/리눅스(우분투)",
     "CMD.md",
