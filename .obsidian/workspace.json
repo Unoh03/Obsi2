@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -96,9 +95,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 49,
+                "page": 186,
                 "left": -18,
-                "top": 544,
+                "top": 5,
                 "zoom": 0.81796875
               },
               "icon": "lucide-file-text",
@@ -198,8 +197,8 @@
             "state": {
               "type": "advanced-tables-toolbar",
               "state": {},
-              "icon": "spreadsheet",
-              "title": "Advanced Tables"
+              "icon": "lucide-ghost",
+              "title": "advanced-tables-toolbar"
             }
           }
         ]
@@ -210,8 +209,6 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "obsidian-git:Open Git source control": false,
-      "remotely-save:Remotely Save": false,
       "switcher:빠른 전환기 열기": false,
       "graph:그래프 뷰 열기": false,
       "canvas:새 캔버스 만들기": false,
@@ -220,10 +217,12 @@
       "command-palette:명령어 팔레트 열기": false,
       "bases:새 베이스 생성하기": false,
       "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "remotely-save:Remotely Save": false,
+      "obsidian-git:Open Git source control": false,
+      "pdf2img:Convert PDF to images": false,
       "pdf-plus:PDF++: Toggle auto-copy": false,
       "pdf-plus:PDF++: Toggle auto-focus": false,
-      "pdf-plus:PDF++: Toggle auto-paste": false,
-      "pdf2img:Convert PDF to images": false
+      "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
   "active": "e4bf46ef21cc9d11",
