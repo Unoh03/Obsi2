@@ -102,8 +102,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -122,7 +121,7 @@
                 "file": "강의 자료/리눅스(우분투).pdf",
                 "page": 102,
                 "left": -18,
-                "top": 456,
+                "top": 547,
                 "zoom": 0.81796875
               },
               "icon": "lucide-file-text",
@@ -230,7 +229,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 1098.5
+    "width": 1098.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -252,8 +252,9 @@
   },
   "active": "eb63b429a966137f",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
+    "옵시디언 활용 팁/논리 연산자.md",
     "리눅스(우분투)/우분투.md",
+    "강의 자료/리눅스(우분투).pdf",
     "캡쳐 창고/리눅스(우분투) 25.webp",
     "캡쳐 창고/Pasted image 20260323132611.png",
     "캡쳐 창고/리눅스(우분투) 24.webp",
@@ -279,7 +280,6 @@
     "새 텍스트 문서.txt",
     "무제",
     "네트워크/CISCO zzin final/project-files/images",
-    "옵시디언 활용 팁/논리 연산자.md",
     "네트워크/CISCO zzin final/CISCO zzin final-1.gns3.tmp",
     "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i25_log.txt",
     "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i25_stdout.txt",
