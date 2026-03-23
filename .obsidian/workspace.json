@@ -92,7 +92,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -111,7 +112,7 @@
                 "file": "강의 자료/리눅스(우분투).pdf",
                 "page": 108,
                 "left": -18,
-                "top": 210,
+                "top": 118,
                 "zoom": 0.81796875
               },
               "icon": "lucide-file-text",
@@ -124,7 +125,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "환영합니다!.md",
+                "file": "리눅스(우분투)/우분투.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -134,7 +135,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "환영합니다! 의 백링크"
+              "title": "우분투 의 백링크"
             }
           },
           {
@@ -215,8 +216,7 @@
               "title": "Advanced Tables"
             }
           }
-        ],
-        "currentTab": 7
+        ]
       }
     ],
     "direction": "horizontal",
@@ -242,15 +242,15 @@
   },
   "active": "eb63b429a966137f",
   "lastOpenFiles": [
-    "제미니.md",
-    "리눅스(우분투)/우분투.md",
-    "캡쳐 창고/리눅스(우분투) 20.webp",
     "강의 자료/리눅스(우분투).pdf",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "리눅스(우분투)/우분투.md",
+    "제미니.md",
+    "캡쳐 창고/리눅스(우분투) 20.webp",
     "캡쳐 창고/리눅스(우분투) 19.webp",
     "캡쳐 창고/리눅스(우분투) 18.webp",
     "캡쳐 창고/리눅스(우분투) 17.webp",
     "캡쳐 창고/리눅스(우분투) 16.webp",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "스위치.md",
     "네트워크/CISCO.md",
     "네트워크/GNS3.md",
