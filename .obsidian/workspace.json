@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "네트워크/CISCO.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "우분투"
+              "title": "CISCO"
             }
           }
         ]
@@ -225,11 +225,12 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "eb63b429a966137f",
   "lastOpenFiles": [
+    "네트워크/GNS3.md",
     "리눅스(우분투)/우분투.md",
-    "캡쳐 창고/리눅스(우분투) 15.webp",
     "강의 자료/리눅스(우분투).pdf",
+    "캡쳐 창고/리눅스(우분투) 15.webp",
     "캡쳐 창고/리눅스(우분투) 14.webp",
     "캡쳐 창고/리눅스(우분투) 13.webp",
     "캡쳐 창고/리눅스(우분투) 12.webp",
@@ -258,7 +259,6 @@
     "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i25_stdout.txt",
     "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i24_log.txt",
     "네트워크/CISCO zzin final/project-files/dynamips/dynamips_i24_stdout.txt",
-    "네트워크/GNS3.md",
     "Pasted image 20260313094007.md",
     "네트워크/CISCO.md",
     "CISCO(broken).md",
