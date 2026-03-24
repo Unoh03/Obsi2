@@ -1,4 +1,5 @@
 https://naver.me/xJcUWCvo
+https://www.cbtbank.kr/category/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EA%B4%80%EB%A6%AC%EC%82%AC-2%EA%B8%89#google_vignette
 >[!info] 개인 규칙
 >**1. 코드는 관리 모드(최초 상태에서 enable)'#'에서 입력하는 것을 전제로 둔다.
 >2. IP 혼동을 막기 위해, 호스트 ID는 장비의 번호와 일치 | 연관지어 짓는다.

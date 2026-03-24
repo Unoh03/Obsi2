@@ -36,21 +36,16 @@
             }
           },
           {
-            "id": "eb63b429a966137f",
+            "id": "fe63df177a6c0384",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "리눅스(우분투)/우분투.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "우분투"
+              "title": "새 탭"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -125,10 +120,10 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 112,
+                "page": 115,
                 "left": -18,
-                "top": 296,
-                "zoom": 0.81796875
+                "top": 166,
+                "zoom": 0.8156250000000002
               },
               "icon": "lucide-file-text",
               "title": "리눅스(우분투)"
@@ -235,7 +230,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 1098.5
+    "width": 1095.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -254,10 +249,11 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "eb63b429a966137f",
+  "active": "24fb095dac0bad24",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
+    "네트워크/CISCO.md",
+    "강의 자료/리눅스(우분투).pdf",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/리눅스(우분투) 26.webp",
     "옵시디언 활용 팁/정규 표현식.md",
@@ -273,7 +269,6 @@
     "캡쳐 창고/리눅스(우분투) 20.webp",
     "캡쳐 창고/리눅스(우분투) 19.webp",
     "스위치.md",
-    "네트워크/CISCO.md",
     "네트워크/GNS3.md",
     "d.md",
     "캡쳐 창고/리눅스(우분투)",
