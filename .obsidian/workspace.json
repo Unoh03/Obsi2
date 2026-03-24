@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "옵시디언 활용 팁/정규 표현식.md",
+                "file": "리눅스(우분투)/우분투.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "정규 표현식"
+              "title": "우분투"
             }
           }
         ],
@@ -107,8 +107,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -235,7 +234,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 1098.5
+    "width": 1098.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -254,10 +254,11 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "eb63b429a966137f",
   "lastOpenFiles": [
-    "옵시디언 활용 팁/정규 표현식.md",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "리눅스(우분투)/우분투.md",
+    "옵시디언 활용 팁/정규 표현식.md",
     "강의 자료/리눅스(우분투).pdf",
     "옵시디언 활용 팁/논리 연산자.md",
     "캡쳐 창고/리눅스(우분투) 25.webp",
@@ -265,7 +266,6 @@
     "캡쳐 창고/리눅스(우분투) 24.webp",
     "캡쳐 창고/리눅스(우분투) 23.webp",
     "캡쳐 창고/리눅스(우분투) 22.webp",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/Pasted image 20260323112414.png",
     "캡쳐 창고/리눅스(우분투) 21.webp",
     "제미니.md",
