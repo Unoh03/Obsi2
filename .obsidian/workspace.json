@@ -124,9 +124,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 119,
+                "page": 122,
                 "left": -18,
-                "top": 428,
+                "top": 544,
                 "zoom": 0.8156250000000002
               },
               "icon": "lucide-file-text",
@@ -253,10 +253,10 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "24fb095dac0bad24",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
+    "강의 자료/리눅스(우분투).pdf",
     "복사용.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/리눅스(우분투) 17.webp",
