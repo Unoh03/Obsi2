@@ -11,16 +11,14 @@
             "id": "b9c1760e4aa4a007",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "강의 자료/CH02_TCP-IP v1.2.pdf",
-                "page": 40,
-                "left": -27,
-                "top": 137,
-                "zoom": 0.5510416666666667
+                "file": "템플릿/오답노트 템플릿.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "CH02_TCP-IP v1.2"
+              "icon": "lucide-file",
+              "title": "오답노트 템플릿"
             }
           }
         ]
@@ -228,6 +226,7 @@
   },
   "active": "b9c1760e4aa4a007",
   "lastOpenFiles": [
+    "강의 자료/CH02_TCP-IP v1.2.pdf",
     "네트워크/CISCO.md",
     "네트워크관리사.md",
     "템플릿/오답노트 템플릿.md",
