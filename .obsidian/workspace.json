@@ -42,7 +42,7 @@
               "type": "markdown",
               "state": {
                 "file": "리눅스(우분투)/우분투.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -125,7 +125,7 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 105,
+                "page": 107,
                 "left": -18,
                 "top": 544,
                 "zoom": 0.81796875
