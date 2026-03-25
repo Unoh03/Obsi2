@@ -49,8 +49,7 @@
               "title": "논리 연산자"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -125,9 +124,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 167,
+                "page": 171,
                 "left": -18,
-                "top": 109,
+                "top": 90,
                 "zoom": 0.815625
               },
               "icon": "lucide-file-text",
@@ -254,10 +253,10 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "10312dd041a42e93",
+  "active": "661fbe682aa44770",
   "lastOpenFiles": [
-    "리눅스(우분투)/논리 연산자.md",
     "리눅스(우분투)/정규 표현식.md",
+    "리눅스(우분투)/논리 연산자.md",
     "리눅스(우분투)/우분투.md",
     "제미니.md",
     "강의 자료/리눅스(우분투).pdf",
