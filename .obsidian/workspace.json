@@ -96,9 +96,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 136,
+                "page": 134,
                 "left": -18,
-                "top": 525,
+                "top": 264,
                 "zoom": 0.815625
               },
               "icon": "lucide-file-text",
@@ -225,10 +225,10 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "b9c1760e4aa4a007",
   "lastOpenFiles": [
-    "리눅스(우분투)/우분투.md",
     "강의 자료/리눅스(우분투).pdf",
+    "리눅스(우분투)/우분투.md",
     "템플릿/오답노트 템플릿.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "네트워크/CISCO.md",
