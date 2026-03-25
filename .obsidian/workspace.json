@@ -34,8 +34,23 @@
               "icon": "lucide-file",
               "title": "정규 표현식"
             }
+          },
+          {
+            "id": "eabb5805cd3a545d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "리눅스(우분투)/논리 연산자.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "논리 연산자"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -92,8 +107,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -110,9 +124,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 133,
+                "page": 232,
                 "left": -18,
-                "top": 438,
+                "top": 75,
                 "zoom": 0.815625
               },
               "icon": "lucide-file-text",
@@ -239,15 +253,15 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "b9c1760e4aa4a007",
+  "active": "01cbdc931a4355bb",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
-    "리눅스(우분투)/우분투.md",
+    "네트워크/CISCO.md",
     "리눅스(우분투)/정규 표현식.md",
     "리눅스(우분투)/논리 연산자.md",
+    "강의 자료/리눅스(우분투).pdf",
+    "리눅스(우분투)/우분투.md",
     "템플릿/오답노트 템플릿.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
-    "네트워크/CISCO.md",
     "네트워크관리사.md",
     "템플릿",
     "무제.canvas",
@@ -266,7 +280,7 @@
     "캡쳐 창고/리눅스(우분투) 23.webp",
     "캡쳐 창고/리눅스(우분투) 24.webp",
     "제미니.md",
-    "스위치.md",
+    "네트워크/스위치.md",
     "네트워크/GNS3.md",
     "d.md",
     "캡쳐 창고/리눅스(우분투)",
