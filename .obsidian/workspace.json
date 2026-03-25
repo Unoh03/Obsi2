@@ -49,7 +49,8 @@
               "title": "논리 연산자"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -253,14 +254,14 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "b9c1760e4aa4a007",
+  "active": "10312dd041a42e93",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
     "네트워크/스위치.md",
     "네트워크/CISCO.md",
     "리눅스(우분투)/정규 표현식.md",
     "리눅스(우분투)/논리 연산자.md",
     "강의 자료/리눅스(우분투).pdf",
-    "리눅스(우분투)/우분투.md",
     "템플릿/오답노트 템플릿.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "네트워크관리사.md",
