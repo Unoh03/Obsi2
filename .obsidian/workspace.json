@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "템플릿/오답노트 템플릿.md",
+                "file": "리눅스(우분투)/우분투.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "오답노트 템플릿"
+              "title": "우분투"
             }
           }
         ]
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -95,9 +96,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 113,
+                "page": 134,
                 "left": -18,
-                "top": 182,
+                "top": 544,
                 "zoom": 0.815625
               },
               "icon": "lucide-file-text",
@@ -226,6 +227,8 @@
   },
   "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
+    "강의 자료/리눅스(우분투).pdf",
     "템플릿/오답노트 템플릿.md",
     "강의 자료/CH02_TCP-IP v1.2.pdf",
     "네트워크/CISCO.md",
@@ -234,10 +237,8 @@
     "무제.canvas",
     "무제 1.base",
     "무제.base",
-    "리눅스(우분투)/우분투.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/리눅스(우분투) 26.webp",
-    "강의 자료/리눅스(우분투).pdf",
     "캡쳐 창고/리눅스(우분투) 19.webp",
     "복사용.md",
     "캡쳐 창고/리눅스(우분투) 17.webp",
