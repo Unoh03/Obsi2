@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "제미니.md",
+                "file": "리눅스(우분투)/우분투.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "제미니"
+              "title": "우분투"
             }
           },
           {
@@ -254,11 +254,11 @@
   },
   "active": "661fbe682aa44770",
   "lastOpenFiles": [
+    "제미니.md",
     "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/정규 표현식.md",
     "리눅스(우분투)/논리 연산자.md",
-    "제미니.md",
     "네트워크/스위치.md",
     "네트워크/CISCO.md",
     "템플릿/오답노트 템플릿.md",
