@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "리눅스(우분투)/우분투.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -63,7 +63,8 @@
               "title": "콜아웃(Callout) 총정리"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -138,9 +139,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 192,
+                "page": 194,
                 "left": -18,
-                "top": 514,
+                "top": 135,
                 "zoom": 0.8148437500000001
               },
               "icon": "lucide-file-text",
@@ -153,7 +154,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "리눅스(우분투)/정규 표현식.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -163,7 +164,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "우분투 의 백링크"
+              "title": "정규 표현식 의 백링크"
             }
           },
           {
@@ -267,12 +268,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "0b86a9e4a530cdea",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
-    "리눅스(우분투)/우분투.md",
-    "리눅스(우분투)/정규 표현식.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "리눅스(우분투)/우분투.md",
+    "강의 자료/리눅스(우분투).pdf",
+    "리눅스(우분투)/정규 표현식.md",
     "리눅스(우분투)/논리 연산자.md",
     "제미니.md",
     "템플릿/오답노트 템플릿.md",
