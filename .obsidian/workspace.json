@@ -48,25 +48,8 @@
               "icon": "lucide-file",
               "title": "논리 연산자"
             }
-          },
-          {
-            "id": "2ca0060f009a9595",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 173,
-                "left": -26,
-                "top": 548,
-                "zoom": 0.5703125
-              },
-              "icon": "lucide-file-text",
-              "title": "리눅스(우분투)"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -135,12 +118,28 @@
         "type": "tabs",
         "children": [
           {
+            "id": "2ca0060f009a9595",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "강의 자료/리눅스(우분투).pdf",
+                "page": 178,
+                "left": -18,
+                "top": 255,
+                "zoom": 0.8148437500000001
+              },
+              "icon": "lucide-file-text",
+              "title": "리눅스(우분투)"
+            }
+          },
+          {
             "id": "f1389678c18568d0",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "리눅스(우분투)/정규 표현식.md",
+                "file": "강의 자료/리눅스(우분투).pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -150,7 +149,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "정규 표현식 의 백링크"
+              "title": "리눅스(우분투) 의 백링크"
             }
           },
           {
@@ -254,7 +253,7 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "0b86a9e4a530cdea",
+  "active": "2ca0060f009a9595",
   "lastOpenFiles": [
     "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/정규 표현식.md",
