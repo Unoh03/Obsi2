@@ -48,8 +48,25 @@
               "icon": "lucide-file",
               "title": "논리 연산자"
             }
+          },
+          {
+            "id": "2ca0060f009a9595",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "강의 자료/리눅스(우분투).pdf",
+                "page": 173,
+                "left": -26,
+                "top": 548,
+                "zoom": 0.5703125
+              },
+              "icon": "lucide-file-text",
+              "title": "리눅스(우분투)"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -118,28 +135,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "2ca0060f009a9595",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 172,
-                "left": -18,
-                "top": 162,
-                "zoom": 0.81484375
-              },
-              "icon": "lucide-file-text",
-              "title": "리눅스(우분투)"
-            }
-          },
-          {
             "id": "f1389678c18568d0",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "환영합니다!.md",
+                "file": "리눅스(우분투)/정규 표현식.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -149,7 +150,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "환영합니다! 의 백링크"
+              "title": "정규 표현식 의 백링크"
             }
           },
           {
@@ -253,12 +254,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "0b86a9e4a530cdea",
   "lastOpenFiles": [
     "강의 자료/리눅스(우분투).pdf",
-    "리눅스(우분투)/우분투.md",
-    "리눅스(우분투)/논리 연산자.md",
     "리눅스(우분투)/정규 표현식.md",
+    "리눅스(우분투)/논리 연산자.md",
+    "리눅스(우분투)/우분투.md",
     "제미니.md",
     "템플릿/오답노트 템플릿.md",
     "템플릿",
