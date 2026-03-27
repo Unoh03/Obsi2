@@ -63,8 +63,7 @@
               "title": "콜아웃(Callout) 총정리"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -268,10 +267,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "0b86a9e4a530cdea",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/정규 표현식.md",
+    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "리눅스(우분투)/논리 연산자.md",
