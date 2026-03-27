@@ -138,9 +138,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 206,
+                "page": 195,
                 "left": -18,
-                "top": 500,
+                "top": 104,
                 "zoom": 0.81484375
               },
               "icon": "lucide-file-text",
@@ -267,10 +267,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "2ca0060f009a9595",
+  "active": "e4bf46ef21cc9d11",
   "lastOpenFiles": [
-    "리눅스(우분투)/우분투.md",
     "강의 자료/리눅스(우분투).pdf",
+    "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/정규 표현식.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "리눅스(우분투)/논리 연산자.md",
