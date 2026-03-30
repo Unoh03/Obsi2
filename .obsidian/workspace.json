@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "템플릿/오답노트 템플릿.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "우분투"
+              "title": "오답노트 템플릿"
             }
           },
           {
@@ -138,9 +138,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 195,
+                "page": 194,
                 "left": -18,
-                "top": 111,
+                "top": 338,
                 "zoom": 0.81484375
               },
               "icon": "lucide-file-text",
