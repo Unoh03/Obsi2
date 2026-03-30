@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "네트워크관리사.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "우분투"
+              "title": "네트워크관리사"
             }
           },
           {
@@ -55,15 +55,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+                "file": "템플릿/오답노트 템플릿.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "콜아웃(Callout) 총정리"
+              "title": "오답노트 템플릿"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -267,13 +268,13 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "e4bf46ef21cc9d11",
+  "active": "5bab573d9cf20a1d",
   "lastOpenFiles": [
-    "강의 자료/리눅스(우분투).pdf",
-    "리눅스(우분투)/우분투.md",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
-    "템플릿/오답노트 템플릿.md",
     "네트워크관리사.md",
+    "템플릿/오답노트 템플릿.md",
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "리눅스(우분투)/우분투.md",
+    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/정규 표현식.md",
     "리눅스(우분투)/논리 연산자.md",
     "제미니.md",
