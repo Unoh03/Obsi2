@@ -1,0 +1,73 @@
+sudo apt update
+sudo apt install -y mariadb-server mariadb-client 
+sudo systemctl start mariadb
+sudo systemctl status mariadb
+sudo systemctl enable mariadb
+
+sudo mariadb -uroot -p
+Enter password: 
+
+CREATE DATABASE care;
+USE care;
+
+CREATE TABLE member(
+id varchar(20),
+pw varchar(200),
+username varchar(99),
+postcode varchar(5),
+address varchar(1000),
+detailaddress varchar(100),
+mobile varchar(15),
+PRIMARY KEY(id)
+)DEFAULT CHARSET=UTF8;
+
+CREATE TABLE board(
+no int,
+title varchar(200),
+content varchar(9999),
+id varchar(20),
+writedate varchar(100),
+hit int,
+filename varchar(1000),
+PRIMARY KEY(no)
+)DEFAULT CHARSET=UTF8;
+
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '123123';
+CREATE USER 'web'@'192.168.10.%' IDENTIFIED BY '123123';
+GRANT ALL PRIVILEGES ON care.* TO 'web'@'192.168.10.%';
+FLUSH PRIVILEGES;
+
+
+
+ss -tnl
+State        Recv-Q       Send-Q             Local Address:Port              Peer Address:Port      Process      
+LISTEN       0            80                     127.0.0.1:3306                   0.0.0.0:*                      
+                  
+sudo lsof -i :3306
+COMMAND   PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+mariadbd 2884 mysql   22u  IPv4  25902      0t0  TCP localhost:mysql (LISTEN)
+
+
+
+sudo find / -name "50-server*" 2>/dev/null
+/etc/mysql/mariadb.conf.d/50-server.cnf
+
+sudo vi /etc/mysql/mariadb.conf.d/50-server.cnf
+27 bind-address            = 0.0.0.0
+
+sudo systemctl restart mariadb
+
+sudo lsof -i :3306
+COMMAND   PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+mariadbd 4802 mysql   25u  IPv4  93986      0t0  TCP *:mysql (LISTEN)
+
+ss -tnl
+State        Recv-Q       Send-Q             Local Address:Port              Peer Address:Port      Process         
+LISTEN       0            80                       0.0.0.0:3306                   0.0.0.0:*                      
+
+
+
+
+
+
