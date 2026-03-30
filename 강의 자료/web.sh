@@ -34,22 +34,33 @@ sudo systemctl enable --now tomcat
 # 2. war 파일 이동 (boot.war 파일이 스크립트와 같은 폴더에 있다고 가정)
 if [ -f "boot.war" ]; then
     sudo mv boot.war /opt/tomcat/tomcat-10/webapps/
-    echo "[INFO] boot.war 배포 완료. 압축 해제를 위해 5초 대기..."
-    sleep 5
+    echo "[INFO] boot.war 배포 완료. Tomcat이 압축을 해제할 때까지 대기합니다..."
 else
     echo "[ERROR] boot.war 파일이 없습니다! 스크립트를 중단합니다."
     exit 1
 fi
 
-# 3. application.properties 자동 수정 (sed 구분자를 | 로 변경하여 URL 슬래시 충돌 방지)
+# 3. Smart Polling: 파일이 생성될 때까지 대기 (최대 30초)
 PROP_FILE="/opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/application.properties"
+WAIT_TIME=0
 
-if [ -f "$PROP_FILE" ]; then
-    sudo sed -i 's|spring.datasource.username.*|spring.datasource.username=web|' $PROP_FILE
-    sudo sed -i 's|spring.datasource.password.*|spring.datasource.password=123|' $PROP_FILE
-    sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://192.168.42.131:3306/care|' $PROP_FILE
-    sudo systemctl restart tomcat
-    echo "[SUCCESS] WEB 서버 세팅 및 DB 연동이 완료되었습니다."
-else
-    echo "[ERROR] application.properties 파일을 찾을 수 없습니다."
-fi
+# sudo test -f 로 권한 문제 우회! 파일이 없을(! ) 동안 계속 루프를 돈다.
+while ! sudo test -f "$PROP_FILE"; do
+    sleep 1
+    WAIT_TIME=$((WAIT_TIME + 1))
+    echo "압축 해제 대기 중... (${WAIT_TIME}초 경과)"
+    
+    if [ $WAIT_TIME -ge 30 ]; then
+        echo "[ERROR] 30초가 지났지만 파일이 생성되지 않았습니다. 수동 확인 요망!"
+        exit 1
+    fi
+done
+
+# 4. application.properties 자동 수정 및 재시작
+echo "[SUCCESS] application.properties 파일 발견! 설정을 변경합니다."
+sudo sed -i 's|spring.datasource.username.*|spring.datasource.username=web|' $PROP_FILE
+sudo sed -i 's|spring.datasource.password.*|spring.datasource.password=123|' $PROP_FILE
+sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://192.168.42.131:3306/care|' $PROP_FILE
+
+sudo systemctl restart tomcat
+echo "[SUCCESS] WEB 서버 세팅 및 DB 연동이 완벽하게 끝났습니다!"
