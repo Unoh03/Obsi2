@@ -8,11 +8,11 @@ sudo systemctl restart mariadb
 sudo systemctl status mariadb
 sudo systemctl enable mariadb
 
-sudo mariadb -uroot -p
+sudo mariadb -uroot -p <<EOF
 #Enter password: 비번 안쳐도 됨 
 
 
-CREATE DATABASE care; <<EOF
+CREATE DATABASE care; 
 USE care;
 
 CREATE TABLE member(
