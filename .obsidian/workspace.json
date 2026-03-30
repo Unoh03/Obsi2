@@ -120,8 +120,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -269,9 +268,10 @@
   },
   "active": "5bab573d9cf20a1d",
   "lastOpenFiles": [
+    "web.sh.md",
+    "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "강의 자료/리눅스(우분투).pdf",
     "강의 자료/boot.war",
-    "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "강의 자료/db.sh",
     "강의 자료/web.sh",
     "리눅스(우분투)/우분투.md",
@@ -305,7 +305,6 @@
     "스위치.md",
     "팁.md",
     "새 텍스트 문서.txt",
-    "무제",
     "옵시디언 활용 팁/논리 연산자.md",
     "네트워크/GNS3.md",
     "Pasted image 20260313094007.md",
