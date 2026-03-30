@@ -266,14 +266,14 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5bab573d9cf20a1d",
+  "active": "01cbdc931a4355bb",
   "lastOpenFiles": [
+    "강의 자료/web.sh",
     "web.sh.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "강의 자료/리눅스(우분투).pdf",
     "강의 자료/boot.war",
     "강의 자료/db.sh",
-    "강의 자료/web.sh",
     "리눅스(우분투)/우분투.md",
     "강의 자료/웹서버 구성.txt",
     "강의 자료/디비서버 구성.txt",
@@ -313,7 +313,6 @@
     "네트워크.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
     "무제.canvas",
-    "명령어.md",
-    "그그 뭐더라.md"
+    "명령어.md"
   ]
 }
