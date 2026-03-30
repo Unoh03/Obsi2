@@ -1,6 +1,6 @@
 # DB 서버 스크립트 파일
 ```bash
-!/bin/bash
+#!/bin/bash
 
 sudo apt update
 sudo apt install -y mariadb-server mariadb-client 
@@ -12,7 +12,7 @@ sudo mariadb -uroot -p
 #Enter password: 비번 안쳐도 됨 
 
 
-CREATE DATABASE care;
+CREATE DATABASE care; <<EOF
 USE care;
 
 CREATE TABLE member(
@@ -43,6 +43,7 @@ CREATE USER 'web'@'192.168.42.%' IDENTIFIED BY '123';
 GRANT ALL PRIVILEGES ON care.* TO 'web'@'192.168.42.%';
 FLUSH PRIVILEGES;
 exit
+EOF
 
 
 ss -tnl
@@ -58,8 +59,8 @@ sudo lsof -i :3306
 sudo find / -name "50-server*" 2>/dev/null
 # /etc/mysql/mariadb.conf.d/50-server.cnf
 
-sudo vi /etc/mysql/mariadb.conf.d/50-server.cnf
-#27 bind-address            = 0.0.0.0    이렇게 수정
+# 자동화 코드 (sed 사용):
+sudo sed -i 's/bind-address.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 sudo systemctl restart mariadb
 
@@ -97,11 +98,13 @@ sudo mv boot.war /opt/tomcat/tomcat-10/webapps/
 # 브라우저에서 접속하여 확인: http://192.168.10.129:8080/boot/
 
 # [DB 서버 설정 후 이어서 설정]
-!/bin/bash
+#!/bin/bash
 
  sudo find / -name "applica*.pro*" 2> /dev/null/opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/application.properties
 
-sudo vi /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/application.properties
+sudo sed -i 'spring.datasource.username.*/spring.datasource.username = web/' /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/application.properties
+sudo sed -i 'spring.datasource.password.*/spring.datasource.password = 123/' /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/application.properties
+sudo sed -i 'spring.datasource.url.*/spring.datasource.url = jdbc:mariadb://192.168.42.131:3306/care/' /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/application.properties
 # spring.datasource.username=web # 디비에서 만든 계정 아이디로 수정
 # spring.datasource.password=123 # 디비에서 만든 계정의 비번로 수정
 # spring.datasource.url=jdbc:mariadb://192.168.42.131:3306/care # 디비서버 아이피주소로 수정
