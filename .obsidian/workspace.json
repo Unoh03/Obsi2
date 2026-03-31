@@ -138,9 +138,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 207,
+                "page": 208,
                 "left": -18,
-                "top": 369,
+                "top": 544,
                 "zoom": 0.81484375
               },
               "icon": "lucide-file-text",
@@ -267,12 +267,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "2ca0060f009a9595",
+  "active": "5bab573d9cf20a1d",
   "lastOpenFiles": [
+    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "강의 자료/db.sh",
-    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/쉘 스크립트/웹서버 구성.txt",
     "리눅스(우분투)/쉘 스크립트/디비서버 구성.txt",
     "리눅스(우분투)/쉘 스크립트/boot.war",
