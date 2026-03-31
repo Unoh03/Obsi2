@@ -120,7 +120,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -139,7 +140,7 @@
                 "file": "강의 자료/리눅스(우분투).pdf",
                 "page": 203,
                 "left": -18,
-                "top": 476,
+                "top": 483,
                 "zoom": 0.81484375
               },
               "icon": "lucide-file-text",
