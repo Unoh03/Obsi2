@@ -137,7 +137,11 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "강의 자료/리눅스(우분투).pdf"
+                "file": "강의 자료/리눅스(우분투).pdf",
+                "page": 215,
+                "left": -18,
+                "top": 216,
+                "zoom": 0.81484375
               },
               "icon": "lucide-file-text",
               "title": "리눅스(우분투)"
