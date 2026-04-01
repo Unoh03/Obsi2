@@ -99,14 +99,14 @@ ip dhcp excluded-address 2.2.2.14
 !ne 192.168.0.0 은 보안 상 광고되면 안됨. 하지 않음
 conf t
 router r
-ve 2
+version 2
 no au
 net 12.12.12.0
 
 [R2]
 conf t
 router r
-ve 2
+version 2
 no au
 net 12.12.12.0
 net 23.23.23.0
@@ -115,7 +115,7 @@ net 2.2.2.0
 [R3]
 conf t
 router r
-ve 2
+version 2
 no au
 net 23.23.23.0
 net 34.34.34.0
@@ -130,7 +130,7 @@ ip add 11.11.11.11 255.255.255.0
 no sh
 exit
 router r
-ve 2
+version 2
 no au
 net 34.34.34.0
 net 11.11.11.0
