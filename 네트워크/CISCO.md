@@ -1182,7 +1182,7 @@ in g0/1
 ip nat outside
 ```
 - **2.**
--   >[!failure] 스테틱 NAT은 중첩 없다!
+>[!failure] 스테틱 NAT은 중첩 없다!
 ```sh
 [Router0]
 conf t
