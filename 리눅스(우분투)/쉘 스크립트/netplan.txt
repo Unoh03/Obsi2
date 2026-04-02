@@ -15,3 +15,5 @@ network:
         addresses:
           - 2.2.2.2
 EOF
+
+sudo netplan apply
