@@ -34,6 +34,7 @@ sudo systemctl enable --now tomcat
 # 2. war 파일 이동 (boot.war 파일이 스크립트와 같은 폴더에 있다고 가정)
 if [ -f "boot.war" ]; then
     sudo mv boot.war /opt/tomcat/tomcat-10/webapps/
+    sudo chown tomcat:tomcat /opt/tomcat/tomcat-10/webapps/boot.war
     echo "[INFO] boot.war 배포 완료. Tomcat이 압축을 해제할 때까지 대기합니다..."
 else
     echo "[ERROR] boot.war 파일이 없습니다! 스크립트를 중단합니다."
