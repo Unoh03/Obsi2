@@ -18,7 +18,7 @@ net 12.12.12.0
 !192.168.1.0은 보안 상의 이유로 광고 안함
 exit
 
-! NAT
+! NAT (PAT - Overload: 내부 PC들이 12.12.12.1 공인 IP 하나를 공유하여 나감)
 ac 1 p 192.168.0.0 0.0.255.255
 ip nat inside source list 1 int f0/1 overload
 int f0/0
@@ -46,7 +46,7 @@ ip add 2.2.2.2 255.255.255.0
 no sh
 exit
 
-! NAT
+! NAT (Static NAT: DNS 서버의 사설 IP를 공인 IP 2.2.2.2로 1:1 고정 매핑)
 ip nat inside source static 192.168.2.1 2.2.2.2
 int f0/0
 ip nat inside
@@ -85,7 +85,7 @@ ip add 3.3.3.3 255.255.255.0
 no sh
 exit
 
-! NAT 추가
+! NAT 추가 (Static NAT: WEB 서버 매핑)
 ip nat inside source static 192.168.3.1 3.3.3.3
 int f0/0
 ip nat inside
@@ -121,7 +121,7 @@ ip add 4.4.4.4 255.255.255.0
 no sh
 exit
 
-! NAT 추가
+! NAT 추가 (Static NAT: DB 서버 매핑)
 ip nat inside source static 192.168.4.1 4.4.4.4
 int f0/0
 ip nat inside
@@ -137,11 +137,11 @@ net 34.34.34.0
 net 4.4.4.0
 exit
 
-! 웹서버만 허용
+! 🛡️[보안] WEB 서버(3.3.3.3)와 R3 라우터(34.34.34.3)만 허용하는 화이트리스트 ACL
 access-list 1 permit host 3.3.3.3
 access-list 1 permit host 34.34.34.3
 access-list 1 deny any
 int f0/1
-ip access 1 in
+ip access-group 1 in
 end
 cop r s
