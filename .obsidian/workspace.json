@@ -34,6 +34,16 @@
               "icon": "lucide-file",
               "title": "콜아웃(Callout) 총정리"
             }
+          },
+          {
+            "id": "1fddab9ae991804d",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "새 탭"
+            }
           }
         ]
       }
@@ -67,7 +77,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#IP는",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -88,8 +98,7 @@
               "title": "북마크"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -244,10 +253,10 @@
   },
   "active": "5ae04a7a3187bac3",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
     "캡쳐 창고/Pasted image 20260402164637.png",
     "캡쳐 창고/Pasted image 20260402164635.png",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
-    "리눅스(우분투)/우분투.md",
     "무제.md",
     "캡쳐 창고/Pasted image 20260402162820.png",
     "캡쳐 창고/Pasted image 20260402162816.png",
@@ -276,7 +285,6 @@
     "캡쳐 창고/리눅스(우분투) 8.webp",
     "캡쳐 창고/리눅스(우분투) 7.webp",
     "캡쳐 창고/리눅스(우분투) 6.webp",
-    "캡쳐 창고/리눅스(우분투) 5.webp",
     "복사용.md",
     "네트워크/스위치.md",
     "MSA.md",
