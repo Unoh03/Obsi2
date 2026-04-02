@@ -113,7 +113,7 @@
                 "file": "강의 자료/리눅스(우분투).pdf",
                 "page": 226,
                 "left": -18,
-                "top": 9,
+                "top": 16,
                 "zoom": 0.81484375
               },
               "icon": "lucide-file-text",
@@ -217,7 +217,8 @@
               "title": "Advanced Tables"
             }
           }
-        ]
+        ],
+        "currentTab": 7
       }
     ],
     "direction": "horizontal",
@@ -243,6 +244,8 @@
   },
   "active": "5ae04a7a3187bac3",
   "lastOpenFiles": [
+    "캡쳐 창고/Pasted image 20260402164637.png",
+    "캡쳐 창고/Pasted image 20260402164635.png",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "리눅스(우분투)/우분투.md",
     "무제.md",
@@ -274,7 +277,6 @@
     "캡쳐 창고/리눅스(우분투) 7.webp",
     "캡쳐 창고/리눅스(우분투) 6.webp",
     "캡쳐 창고/리눅스(우분투) 5.webp",
-    "캡쳐 창고/리눅스(우분투) 4.webp",
     "복사용.md",
     "네트워크/스위치.md",
     "MSA.md",
@@ -288,7 +290,6 @@
     "CISCO(broken).md",
     "네트워크.md",
     "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
-    "무제.canvas",
-    "명령어.md"
+    "무제.canvas"
   ]
 }
