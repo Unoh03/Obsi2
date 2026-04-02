@@ -35,7 +35,8 @@
               "title": "우분투"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -240,10 +241,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5ae04a7a3187bac3",
+  "active": "5bab573d9cf20a1d",
   "lastOpenFiles": [
-    "네트워크/GNS3.md",
     "네트워크/CISCO.md",
+    "네트워크/GNS3.md",
     "리눅스(우분투)/우분투.md",
     "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/정규 표현식.md",
