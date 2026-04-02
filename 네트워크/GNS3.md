@@ -37,7 +37,7 @@ no sh
 int f0/1
 ip add 12.12.12.1 255.255.255.0
 no sh
-
+exit
 [R2]
 conf t
 int f0/1
@@ -47,9 +47,9 @@ int f1/0
 ip add 23.23.23.1 255.255.255.0
 no sh
 int f0/0
-ip add 192.168.2.1 255.255.255.0
+ip add 192.168.2.254 255.255.255.0
 no sh
-
+exit
 [R3]
 conf t
 int f1/0
@@ -59,18 +59,18 @@ int f0/1
 ip add 34.34.34.3 255.255.255.0
 no sh
 int f0/0
-ip add 192.168.3.1 255.255.255.0
+ip add 192.168.3.254 255.255.255.0
 no sh
-
+exit
 [R4]
 conf t
 int f0/1
 ip add 34.34.34.4 255.255.255.0
 no sh
 int f0/0
-ip add 192.168.4.1 255.255.255.0
+ip add 192.168.4.254 255.255.255.0
 no sh
-
+exit
 ```
 ## **2. DHCP 설정하기**
 ```sh
@@ -96,12 +96,12 @@ ip dhcp excluded-address 2.2.2.14
 ## **3. 루트 뚫기**
 ```sh
 [R1]
-!ne 192.168.0.0 은 보안 상 광고되면 안됨. 하지 않음
 conf t
 router r
 version 2
 no au
 net 12.12.12.0
+net 192.168.1.0
 
 [R2]
 conf t
@@ -110,7 +110,7 @@ version 2
 no au
 net 12.12.12.0
 net 23.23.23.0
-net 2.2.2.0
+net 192.168.2.0
 
 [R3]
 conf t
@@ -119,21 +119,16 @@ version 2
 no au
 net 23.23.23.0
 net 34.34.34.0
-net 3.3.3.0
+net 192.168.3.0
 
 [R4]
-!ne 172.16.0.0 은 보안 상 광고되면 안됨. 하지 않음
-!NAT 땜시 뤂백 뚫
 conf t
-int loopback 0
-ip add 11.11.11.11 255.255.255.0
-no sh
 exit
 router r
 version 2
 no au
 net 34.34.34.0
-net 11.11.11.0
+net 192.168.4.0
 
 ```
 ## **4. NAT 설정**
