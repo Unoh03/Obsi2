@@ -25,6 +25,7 @@ int f0/0
 ip nat inside
 int f0/1
 ip nat outside
+end
 cop r s
 
 
