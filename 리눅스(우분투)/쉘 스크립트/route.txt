@@ -1,0 +1,147 @@
+[R1]
+conf t
+
+! 인터페 추가
+int f0/0
+ip add 192.168.1.254 255.255.255.0
+no sh
+int f0/1
+ip add 12.12.12.1 255.255.255.0
+no sh
+exit
+
+! 라우팅
+router r
+version 2
+no au
+net 12.12.12.0
+!192.168.1.0은 보안 상의 이유로 광고 안함
+exit
+
+! NAT
+ac 1 p 192.168.0.0 0.0.255.255
+ip nat inside source list 1 int f0/1 overload
+int f0/0
+ip nat inside
+int f0/1
+ip nat outside
+cop r s
+
+
+[R2]
+conf t
+
+! 인터페 추가
+int f0/1
+ip add 12.12.12.2 255.255.255.0
+no sh
+int f1/0
+ip add 23.23.23.2 255.255.255.0
+no sh
+int f0/0
+ip add 192.168.2.254 255.255.255.0
+no sh
+int loopback 0
+ip add 2.2.2.2 255.255.255.0
+no sh
+exit
+
+! NAT
+ip nat inside source static 192.168.2.1 2.2.2.2
+int f0/0
+ip nat inside
+int f0/1
+ip nat outside
+int f1/0
+ip nat outside
+exit
+
+! 라우팅
+router r
+version 2
+no au
+net 12.12.12.0
+net 23.23.23.0
+net 2.2.2.0
+end
+cop r s
+
+
+[R3]
+conf t
+
+! 인터페 추가
+int f0/1
+ip add 23.23.23.3 255.255.255.0
+no sh
+int f1/0
+ip add 34.34.34.3 255.255.255.0
+no sh
+int f0/0
+ip add 192.168.3.254 255.255.255.0
+no sh
+int loopback 0
+ip add 3.3.3.3 255.255.255.0
+no sh
+exit
+
+! NAT 추가
+ip nat inside source static 192.168.3.1 3.3.3.3
+int f0/0
+ip nat inside
+int f0/1
+ip nat outside
+int f1/0
+ip nat outside
+exit
+
+! 라우팅
+router r
+version 2
+no au
+net 23.23.23.0
+net 34.34.34.0
+net 3.3.3.0
+end
+cop r s 
+
+
+[R4]
+conf t
+
+! 인터페 추가
+int f0/1
+ip add 34.34.34.4 255.255.255.0
+no sh
+int f0/0
+ip add 192.168.4.254 255.255.255.0
+no sh
+int loopback 0
+ip add 4.4.4.4 255.255.255.0
+no sh
+exit
+
+! NAT 추가
+ip nat inside source static 192.168.4.1 4.4.4.4
+int f0/0
+ip nat inside
+int f0/1
+ip nat outside
+exit
+
+! 라우팅
+router r
+version 2
+no au
+net 34.34.34.0
+net 4.4.4.0
+exit
+
+! 웹서버만 허용
+access-list 1 permit host 3.3.3.3
+access-list 1 permit host 34.34.34.3
+access-list 1 deny any
+int f0/1
+ip access 1 in
+end
+cop r s
