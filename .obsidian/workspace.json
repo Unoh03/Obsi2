@@ -28,7 +28,7 @@
               "type": "markdown",
               "state": {
                 "file": "리눅스(우분투)/마지막 총정리 문제.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -50,7 +50,7 @@
             }
           },
           {
-            "id": "4bf5af20cd76b1a7",
+            "id": "07223c7208853ff3",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -64,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -269,12 +269,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "d17661c96b89e6b1",
+  "active": "07223c7208853ff3",
   "lastOpenFiles": [
-    "제미니.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
-    "리눅스(우분투)/우분투.md",
+    "제미니.md",
     "리눅스(우분투)/정규 표현식.md",
+    "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/논리 연산자.md",
     "강의 자료/리눅스(우분투).pdf",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
@@ -286,7 +286,6 @@
     "캡쳐 창고/Pasted image 20260402191816.png",
     "캡쳐 창고/Pasted image 20260402191205.png",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
-    "무제.md",
     "캡쳐 창고/Pasted image 20260402174041.png",
     "캡쳐 창고/Pasted image 20260402173713.png",
     "캡쳐 창고/Pasted image 20260402173350.png",
