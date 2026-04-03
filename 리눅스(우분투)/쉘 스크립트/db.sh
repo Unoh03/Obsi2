@@ -32,5 +32,6 @@ EOF
 sudo sed -i 's/bind-address.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # 3. 재시작 및 완료
+sudo ufw allow 3306/tcp
 sudo systemctl restart mariadb
 echo "[SUCCESS] DB 서버 세팅이 완료되었습니다."
