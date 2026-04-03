@@ -127,7 +127,7 @@
                 "file": "강의 자료/리눅스(우분투).pdf",
                 "page": 227,
                 "left": -18,
-                "top": 25,
+                "top": 32,
                 "zoom": 0.81484375
               },
               "icon": "lucide-file-text",
@@ -231,13 +231,11 @@
               "title": "Advanced Tables"
             }
           }
-        ],
-        "currentTab": 7
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 1094.5,
-    "collapsed": true
+    "width": 1094.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -256,11 +254,11 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "d17661c96b89e6b1",
+  "active": "2ca0060f009a9595",
   "lastOpenFiles": [
-    "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "리눅스(우분투)/우분투.md",
     "캡쳐 창고/Pasted image 20260402193242.png",
     "캡쳐 창고/Pasted image 20260402193201.png",
     "캡쳐 창고/Pasted image 20260402192334.png",
