@@ -19,7 +19,7 @@ net 12.12.12.0
 exit
 
 ! NAT (PAT - Overload: 내부 PC들이 12.12.12.1 공인 IP 하나를 공유하여 나감)
-ac 1 p 192.168.0.0 0.0.255.255
+ac 1 p 192.168.1.0 0.0.0.255
 ip nat inside source list 1 int f0/1 overload
 int f0/0
 ip nat inside
