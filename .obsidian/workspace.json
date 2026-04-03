@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "리눅스(우분투)/마지막 총정리 문제.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -230,12 +230,12 @@
               "title": "Advanced Tables"
             }
           }
-        ]
+        ],
+        "currentTab": 7
       }
     ],
     "direction": "horizontal",
-    "width": 1094.5,
-    "collapsed": true
+    "width": 1094.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -254,7 +254,7 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5ae04a7a3187bac3",
+  "active": "2c0740de5c70eb15",
   "lastOpenFiles": [
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "제미니.md",
