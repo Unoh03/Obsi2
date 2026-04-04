@@ -32,45 +32,45 @@
 [R1]
 conf t
 int f0/0
-ip add 192.168.0.254 255.255.255.0
+ip add 192.168.1.254 255.255.255.0
 no sh
 int f0/1
-ip add 12.12.12.1 255.255.255.252
+ip add 12.12.12.1 255.255.255.0
 no sh
-
+exit
 [R2]
 conf t
 int f0/1
-ip add 12.12.12.2 255.255.255.252
+ip add 12.12.12.2 255.255.255.0
 no sh
 int f1/0
-ip add 23.23.23.1 255.255.255.252
+ip add 23.23.23.1 255.255.255.0
 no sh
 int f0/0
-ip add 2.2.2.14 255.255.255.240
+ip add 192.168.2.254 255.255.255.0
 no sh
-
+exit
 [R3]
 conf t
 int f1/0
-ip add 23.23.23.2 255.255.255.252
+ip add 23.23.23.3 255.255.255.0
 no sh
 int f0/1
-ip add 34.34.34.1 255.255.255.0
+ip add 34.34.34.3 255.255.255.0
 no sh
 int f0/0
-ip add 3.3.3.6 255.255.255.248
+ip add 192.168.3.254 255.255.255.0
 no sh
-
+exit
 [R4]
 conf t
 int f0/1
-ip add 34.34.34.2 255.255.255.0
+ip add 34.34.34.4 255.255.255.0
 no sh
 int f0/0
-ip add 172.16.0.254 255.255.255.0
+ip add 192.168.4.254 255.255.255.0
 no sh
-
+exit
 ```
 ## **2. DHCP 설정하기**
 ```sh
@@ -96,44 +96,39 @@ ip dhcp excluded-address 2.2.2.14
 ## **3. 루트 뚫기**
 ```sh
 [R1]
-!ne 192.168.0.0 은 보안 상 광고되면 안됨. 하지 않음
 conf t
 router r
-ve 2
+version 2
 no au
 net 12.12.12.0
+net 192.168.1.0
 
 [R2]
 conf t
 router r
-ve 2
+version 2
 no au
 net 12.12.12.0
 net 23.23.23.0
-net 2.2.2.0
+net 192.168.2.0
 
 [R3]
 conf t
 router r
-ve 2
+version 2
 no au
 net 23.23.23.0
 net 34.34.34.0
-net 3.3.3.0
+net 192.168.3.0
 
 [R4]
-!ne 172.16.0.0 은 보안 상 광고되면 안됨. 하지 않음
-!NAT 땜시 뤂백 뚫
 conf t
-int loopback 0
-ip add 11.11.11.11 255.255.255.0
-no sh
 exit
 router r
-ve 2
+version 2
 no au
 net 34.34.34.0
-net 11.11.11.0
+net 192.168.4.0
 
 ```
 ## **4. NAT 설정**
@@ -158,4 +153,37 @@ int f0/0
 ip nat inside
 int f0/1
 ip nat outside
+```
+
+
+```bash
+sudo tee /etc/netplan/50-* > /dev/null << EOF
+
+network:
+
+  version: 2
+
+  ethernets:
+
+    ens33:
+
+      dhcp4: false
+
+      addresses:
+
+        - 192.168.1.1/24
+
+      routes:
+
+        - to: default
+
+          via: 192.168.1.254
+
+      nameservers:
+
+        addresses:
+
+          - 192.168.2.1
+
+EOF
 ```

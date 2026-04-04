@@ -39,15 +39,14 @@
             "id": "eb63b429a966137f",
             "type": "leaf",
             "state": {
-              "type": "image",
-              "state": {
-                "file": "무제/Pasted image 20260317133447.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted image 20260317133447"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "새 탭"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -236,28 +235,36 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "eb63b429a966137f",
   "lastOpenFiles": [
+    "conflict-files-obsidian-git.md",
+    "제미니.md",
+    "특수 기호.md",
+    "캡쳐 창고/Pasted image 20260403161309.png",
+    "캡쳐 창고/Pasted image 20260402193242.png",
+    "캡쳐 창고/Pasted image 20260402193201.png",
+    "캡쳐 창고/Pasted image 20260402192334.png",
+    "캡쳐 창고/Pasted image 20260402192226.png",
+    "캡쳐 창고/Pasted image 20260402192210.png",
+    "캡쳐 창고/Pasted image 20260402191816.png",
+    "캡쳐 창고/Pasted image 20260402191205.png",
+    "캡쳐 창고/Pasted image 20260402174041.png",
+    "캡쳐 창고/Pasted image 20260402173713.png",
+    "리눅스(우분투)/쉘 스크립트/route.txt",
+    "리눅스(우분투)/쉘 스크립트/netplan.txt",
+    "리눅스(우분투)/쉘 스크립트/load-balancer.conf",
+    "리눅스(우분투)/쉘 스크립트/dns.sh",
+    "리눅스(우분투)/마지막 총정리 문제.md",
+    "강의 자료/db.sh",
+    "^net-finish.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "리눅스(우분투)/쉘 스크립트/웹서버 구성.txt",
     "리눅스(우분투)/쉘 스크립트/디비서버 구성.txt",
     "리눅스(우분투)/쉘 스크립트/web.sh",
     "리눅스(우분투)/쉘 스크립트/db.sh",
     "리눅스(우분투)/쉘 스크립트/boot.war",
-    "리눅스(우분투)/쉘 스크립트",
     "리눅스(우분투)/우분투.md",
     "템플릿/오답노트 템플릿.md",
-    "템플릿",
-    "캡쳐 창고/리눅스(우분투).webp",
-    "캡쳐 창고/리눅스(우분투) 9.webp",
-    "캡쳐 창고/리눅스(우분투) 8.webp",
-    "캡쳐 창고/리눅스(우분투) 7.webp",
-    "캡쳐 창고/리눅스(우분투) 6.webp",
-    "캡쳐 창고/리눅스(우분투) 5.webp",
-    "캡쳐 창고/리눅스(우분투) 4.webp",
-    "캡쳐 창고/리눅스(우분투) 3.webp",
-    "캡쳐 창고/리눅스(우분투) 26.webp",
-    "캡쳐 창고/리눅스(우분투) 2.webp",
     "복사용.md",
     "리눅스(우분투)/정규 표현식.md",
     "리눅스(우분투)/논리 연산자.md",
@@ -266,13 +273,9 @@
     "MSA.md",
     "CMD.md",
     "SSH.md",
-    "제미니.md",
     "라우팅.md",
     "스위치.md",
     "팁.md",
-    "새 텍스트 문서.txt",
-    "무제",
-    "강의 자료/리눅스(우분투).pdf",
     "옵시디언 활용 팁/논리 연산자.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "네트워크/GNS3.md",
@@ -280,10 +283,6 @@
     "네트워크/CISCO.md",
     "CISCO(broken).md",
     "네트워크.md",
-    "Excalidraw/Drawing 2026-03-06 10.26.31.excalidraw.md",
-    "무제.canvas",
-    "명령어.md",
-    "그그 뭐더라.md",
-    "test.md"
+    "무제.canvas"
   ]
 }

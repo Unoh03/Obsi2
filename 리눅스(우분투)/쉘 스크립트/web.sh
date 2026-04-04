@@ -34,6 +34,7 @@ sudo systemctl enable --now tomcat
 # 2. war 파일 이동 (boot.war 파일이 스크립트와 같은 폴더에 있다고 가정)
 if [ -f "boot.war" ]; then
     sudo mv boot.war /opt/tomcat/tomcat-10/webapps/
+    sudo chown tomcat:tomcat /opt/tomcat/tomcat-10/webapps/boot.war
     echo "[INFO] boot.war 배포 완료. Tomcat이 압축을 해제할 때까지 대기합니다..."
 else
     echo "[ERROR] boot.war 파일이 없습니다! 스크립트를 중단합니다."
@@ -60,7 +61,8 @@ done
 echo "[SUCCESS] application.properties 파일 발견! 설정을 변경합니다."
 sudo sed -i 's|spring.datasource.username.*|spring.datasource.username=web|' $PROP_FILE
 sudo sed -i 's|spring.datasource.password.*|spring.datasource.password=123|' $PROP_FILE
-sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://192.168.42.131:3306/care|' $PROP_FILE
+sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://4.4.4.4:3306/care|' $PROP_FILE
 
+sudo ufw allow 8080/tcp
 sudo systemctl restart tomcat
 echo "[SUCCESS] WEB 서버 세팅 및 DB 연동이 완벽하게 끝났습니다!"

@@ -23,8 +23,8 @@ filename varchar(1000), PRIMARY KEY(no)
 ) DEFAULT CHARSET=UTF8;
 
 ALTER USER 'root'@'localhost' IDENTIFIED BY '123';
-CREATE USER 'web'@'3.3.3.3' IDENTIFIED BY '123';
-GRANT ALL PRIVILEGES ON care.* TO 'web'@'3.3.3.3';
+CREATE USER 'web'@'192.168.42.%' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON care.* TO 'web'@'192.168.42.%';
 FLUSH PRIVILEGES;
 EOF
 
@@ -32,6 +32,5 @@ EOF
 sudo sed -i 's/bind-address.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # 3. 재시작 및 완료
-sudo ufw allow 3306/tcp
 sudo systemctl restart mariadb
 echo "[SUCCESS] DB 서버 세팅이 완료되었습니다."
