@@ -1,22 +1,30 @@
+#!/bin/bash
+echo "[INFO] Load-Balancer 설치 및 세팅을 시작합니다..."
+sudo apt update
+sudo apt install nginx -y
+
+sudo tee /etc/nginx/conf.d/load-balancer.conf > /dev/null << EOF
+
 upstream backend_nodes {
-    # 로드밸런싱 대상 웹 서버들
     server 192.168.3.1:8080;
     server 192.168.3.2:8080;
 }
-
 server {
     listen 80;
-    server_name _; # 모든 호스트 이름에 대해 응답
+    server_name _;
 
     location / {
-        # Proxy 설정
         proxy_pass http://backend_nodes;
 
-        # 실제 클라이언트의 정보를 웹 서버에 전달하기 위한 헤더 설정
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+EOF
 
+# Nginx 문법 검사 (오타 방지)
+sudo nginx -t
+# Nginx 설정 적용 및 재시작
+sudo systemctl restart nginx
