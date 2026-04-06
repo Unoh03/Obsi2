@@ -1,4 +1,4 @@
-sudo tee /etc/netplan/50-* > /dev/null << EOF
+sudo tee /etc/netplan/50-cloud-init.yaml > /dev/null << EOF
 network:
   version: 2
   ethernets:
@@ -10,7 +10,7 @@ network:
         - 192.168.2.1/24
       routes:
         - to: default
-          via: 192.168.2.254
+          via: 192.168.2.254 
       nameservers:
         addresses:
           - 2.2.2.2
