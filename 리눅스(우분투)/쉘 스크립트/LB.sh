@@ -3,7 +3,7 @@ echo "[INFO] Load-Balancer 설치 및 세팅을 시작합니다..."
 sudo apt update
 sudo apt install nginx -y
 
-sudo tee /etc/nginx/conf.d/load-balancer.conf > /dev/null << EOF
+sudo tee /etc/nginx/conf.d/load-balancer.conf > /dev/null << 'EOF'
 
 upstream backend_nodes {
     server 192.168.3.1:8080;

@@ -3,7 +3,7 @@ echo "[INFO] Tomcat 웹 서버 세팅을 시작합니다..."
 
 sudo apt update
 sudo apt install -y openjdk-17-jdk
-wget http://mirror.apache-kr.org/apache/tomcat/tomcat-10/v10.1.53/bin/apache-tomcat-10.1.53.tar.gz
+wget http://mirror.apache-kr.org/apache/tomcat/tomcat-10/v10.1.54/bin/apache-tomcat-10.1.54.tar.gz
 
 sudo useradd -r -m -U -d /opt/tomcat -s /bin/false tomcat
 sudo tar -xf apache-tomcat-10.1.53.tar.gz -C /opt/tomcat
