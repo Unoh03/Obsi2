@@ -86,7 +86,7 @@ ip add 3.3.3.3 255.255.255.0
 no sh
 exit
 
-! NAT 추가 (Static NAT: WEB 서버 매핑)
+! NAT 추가 (Static NAT: LB 서버 매핑, NAT-PAT: WEB 서버 매핑)
 ip nat inside source static 192.168.3.3 3.3.3.3
 access-list 1 permit 192.168.3.0 0.0.0.255
 ip nat inside source list 1 int f1/0 overload
