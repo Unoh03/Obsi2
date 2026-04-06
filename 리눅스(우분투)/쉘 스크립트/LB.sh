@@ -24,6 +24,8 @@ server {
 }
 EOF
 
+sudo rm -rf /etc/nginx/sites-enabled/default
+
 # Nginx 문법 검사 (오타 방지)
 sudo nginx -t
 # Nginx 설정 적용 및 재시작
