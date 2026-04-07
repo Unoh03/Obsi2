@@ -111,9 +111,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 228,
+                "page": 229,
                 "left": -18,
-                "top": 169,
+                "top": 544,
                 "zoom": 0.8156250000000002
               },
               "icon": "lucide-file-text",
@@ -188,13 +188,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "강의 자료/리눅스(우분투).pdf",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "우분투 의 개요"
+              "title": "리눅스(우분투) 의 개요"
             }
           },
           {
@@ -240,8 +240,9 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "dfd8998876363a62",
+  "active": "de1ad9340aaa8f1d",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
     "강의 자료/리눅스(우분투).pdf",
@@ -269,7 +270,6 @@
     "강의 자료/db.sh",
     "^net-finish.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
-    "리눅스(우분투)/우분투.md",
     "템플릿/오답노트 템플릿.md",
     "복사용.md",
     "리눅스(우분투)/정규 표현식.md",
