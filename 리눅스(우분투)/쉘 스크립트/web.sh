@@ -71,6 +71,8 @@ sudo sed -i 's|spring.datasource.username.*|spring.datasource.username=web|' $PR
 sudo sed -i 's|spring.datasource.password.*|spring.datasource.password=123|' $PROP_FILE
 sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://4.4.4.4:3306/care|' $PROP_FILE
 
+sudo mkdir --mode=777 /opt/tomcat/tomcat-10/webapps/upload
+
 sudo ufw allow 8080/tcp
 sudo systemctl restart tomcat
 echo "[SUCCESS] WEB 서버 세팅 및 DB 연동이 완벽하게 끝났습니다!"
