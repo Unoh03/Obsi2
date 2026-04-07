@@ -111,9 +111,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 232,
+                "page": 233,
                 "left": -18,
-                "top": 335,
+                "top": 330,
                 "zoom": 0.8156250000000002
               },
               "icon": "lucide-file-text",
@@ -188,13 +188,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "강의 자료/리눅스(우분투).pdf",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "우분투 의 개요"
+              "title": "리눅스(우분투) 의 개요"
             }
           },
           {
@@ -240,12 +240,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "dfd8998876363a62",
+  "active": "de1ad9340aaa8f1d",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/쉘 스크립트/nfs.sh",
     "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/쉘 스크립트/web-nfs.sh",
-    "리눅스(우분투)/우분투.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
     "리눅스(우분투)/쉘 스크립트/db.sh",
@@ -268,7 +268,6 @@
     "캡쳐 창고/Pasted image 20260402173713.png",
     "리눅스(우분투)/쉘 스크립트/route.txt",
     "리눅스(우분투)/쉘 스크립트/netplan.txt",
-    "리눅스(우분투)/쉘 스크립트/load-balancer.conf",
     "^net-finish.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "템플릿/오답노트 템플릿.md",
