@@ -14,11 +14,25 @@
               "type": "markdown",
               "state": {
                 "file": "리눅스(우분투)/마지막 총정리 문제.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "마지막 총정리 문제"
+            }
+          },
+          {
+            "id": "4bd4584628add359",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "리눅스(우분투)/우분투.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "우분투"
             }
           }
         ]
@@ -110,9 +124,9 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 228,
+                "page": 198,
                 "left": -18,
-                "top": 278,
+                "top": 178,
                 "zoom": 0.8156250000000002
               },
               "icon": "lucide-file-text",
@@ -243,9 +257,9 @@
   },
   "active": "eb63b429a966137f",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
     "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/마지막 총정리 문제.md",
-    "리눅스(우분투)/우분투.md",
     "리눅스(우분투)/쉘 스크립트/nfs.sh",
     "리눅스(우분투)/쉘 스크립트/web-nfs.sh",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
