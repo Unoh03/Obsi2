@@ -7,5 +7,6 @@ echo '192.168.3.4:/share_directory /opt/tomcat/tomcat-10/webapps/upload nfs defa
 # NFS 서버(192.168.3.4)가 어떤 폴더를 공유(Export)하고 있는지 확인
 showmount -e 192.168.3.4
 sudo mount -a
+sudo systemctl daemon-reload
 df -h | grep nfs4
 echo "[SUCCESS] NFS 클라이언트 세팅이 완벽하게 끝났습니다!"
