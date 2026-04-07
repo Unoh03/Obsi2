@@ -18,7 +18,7 @@ mobile varchar(15), PRIMARY KEY(id)
 
 CREATE TABLE board(
 no int, title varchar(200), content varchar(9999),
-id varchar(20), writedate varchar(100), hit int,
+id varchar(20), writedate varchar(100), hits int(11),
 filename varchar(1000), PRIMARY KEY(no)
 ) DEFAULT CHARSET=UTF8;
 
