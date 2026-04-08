@@ -124,10 +124,10 @@
               "type": "pdf",
               "state": {
                 "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 198,
+                "page": 228,
                 "left": -18,
-                "top": 178,
-                "zoom": 0.8156250000000002
+                "top": 231,
+                "zoom": 0.815625
               },
               "icon": "lucide-file-text",
               "title": "리눅스(우분투)"
@@ -235,8 +235,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 1095.5,
-    "collapsed": true
+    "width": 1095.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -258,8 +257,8 @@
   "active": "eb63b429a966137f",
   "lastOpenFiles": [
     "리눅스(우분투)/우분투.md",
-    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/마지막 총정리 문제.md",
+    "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/쉘 스크립트/nfs.sh",
     "리눅스(우분투)/쉘 스크립트/web-nfs.sh",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
