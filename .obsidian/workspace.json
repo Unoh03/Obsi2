@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "자바/자바.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "우분투"
+              "title": "자바"
             }
           }
         ],
@@ -258,13 +258,16 @@
   },
   "active": "4bd4584628add359",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
+    "자바/자바.md",
+    "자바",
+    "네트워크/CISCO.md",
     "캡쳐 창고/Pasted image 20260408105120.png",
     "캡쳐 창고/Pasted image 20260408105108.png",
     "캡쳐 창고/Pasted image 20260408104500.png",
     "캡쳐 창고/Pasted image 20260408103930.png",
     "캡쳐 창고/Pasted image 20260408103914.png",
     "리눅스(우분투)/마지막 총정리 문제.md",
-    "리눅스(우분투)/우분투.md",
     "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/쉘 스크립트/nfs.sh",
     "리눅스(우분투)/쉘 스크립트/web-nfs.sh",
@@ -282,9 +285,7 @@
     "캡쳐 창고/Pasted image 20260402193201.png",
     "캡쳐 창고/Pasted image 20260402192334.png",
     "캡쳐 창고/Pasted image 20260402192226.png",
-    "캡쳐 창고/Pasted image 20260402192210.png",
     "리눅스(우분투)/쉘 스크립트/route.txt",
-    "리눅스(우분투)/쉘 스크립트/netplan.txt",
     "^net-finish.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "템플릿/오답노트 템플릿.md",
@@ -302,7 +303,6 @@
     "옵시디언 활용 팁/논리 연산자.md",
     "네트워크/GNS3.md",
     "Pasted image 20260313094007.md",
-    "네트워크/CISCO.md",
     "CISCO(broken).md",
     "무제.canvas"
   ]
