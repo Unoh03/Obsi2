@@ -35,7 +35,8 @@
               "title": "우분투"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -254,10 +255,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "eb63b429a966137f",
+  "active": "4bd4584628add359",
   "lastOpenFiles": [
-    "리눅스(우분투)/우분투.md",
+    "캡쳐 창고/Pasted image 20260408103930.png",
+    "캡쳐 창고/Pasted image 20260408103914.png",
     "리눅스(우분투)/마지막 총정리 문제.md",
+    "리눅스(우분투)/우분투.md",
     "강의 자료/리눅스(우분투).pdf",
     "리눅스(우분투)/쉘 스크립트/nfs.sh",
     "리눅스(우분투)/쉘 스크립트/web-nfs.sh",
@@ -279,7 +282,6 @@
     "캡쳐 창고/Pasted image 20260402191816.png",
     "캡쳐 창고/Pasted image 20260402191205.png",
     "캡쳐 창고/Pasted image 20260402174041.png",
-    "캡쳐 창고/Pasted image 20260402173713.png",
     "리눅스(우분투)/쉘 스크립트/route.txt",
     "리눅스(우분투)/쉘 스크립트/netplan.txt",
     "^net-finish.md",
