@@ -236,7 +236,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 1095.5
+    "width": 1095.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -257,6 +258,8 @@
   },
   "active": "4bd4584628add359",
   "lastOpenFiles": [
+    "캡쳐 창고/Pasted image 20260408105120.png",
+    "캡쳐 창고/Pasted image 20260408105108.png",
     "캡쳐 창고/Pasted image 20260408104500.png",
     "캡쳐 창고/Pasted image 20260408103930.png",
     "캡쳐 창고/Pasted image 20260408103914.png",
@@ -280,8 +283,6 @@
     "캡쳐 창고/Pasted image 20260402192334.png",
     "캡쳐 창고/Pasted image 20260402192226.png",
     "캡쳐 창고/Pasted image 20260402192210.png",
-    "캡쳐 창고/Pasted image 20260402191816.png",
-    "캡쳐 창고/Pasted image 20260402191205.png",
     "리눅스(우분투)/쉘 스크립트/route.txt",
     "리눅스(우분투)/쉘 스크립트/netplan.txt",
     "^net-finish.md",
