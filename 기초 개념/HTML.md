@@ -244,6 +244,7 @@ public class HtmlController {
 >- 브라우저 엔진이 워낙 똑똑해서 콤마를 무시하고 렌더링해 줬겠지만, 엄격한 파서(Parser)를 만나면 에러를 뱉고 표가 박살 난다.
 >- **✅ 패치:** `<th colspan="2" rowspan="2">09:00~12:00</th>` (콤마 삭제!)
 ## 사이트
+[[intro.jsp]]
 ```html
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
