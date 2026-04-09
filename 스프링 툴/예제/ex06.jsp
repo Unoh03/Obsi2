@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>ex06</title>
-</head>
 		<!--권장-->
 		<meta charset="UTF-8">
 		<title>ex06</title>
@@ -16,7 +15,7 @@
 			.header { background-color: orange; height: 200px;}
 			#footer { background-color: skyblue; height: 300px;}
 		</style>
-
+</head>
 
 <body>
 
@@ -45,9 +44,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
