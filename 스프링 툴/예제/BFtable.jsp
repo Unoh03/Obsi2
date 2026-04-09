@@ -6,25 +6,40 @@
 	<title>ex09</title>
 </head>
 <body>
-	<table border=1>
+	<table border=1> <!--8행, 10열-->
 		<tr>
-			<th colspan="2">1행 1열</th> <!--이러면 혼자 2칸 먹음-->
-			<!--<th>1행 2열</th>-->
-			<th>1행 3열</th>
+			<th colspan="10"></th>
 		</tr>
 		<tr>
-			<th rowspan="3">2행 1열</th>
-			<th>2행 2열</th>
-			<th>2행 3열</th>
+			<th colspan="2"></th>
+			<th>401호</th>
+			<th>402호</th>
+			<th>403호</th>
+			<th>404호</th>
 		</tr>
 		<tr>
-			<!--<th>3행 1열</th>-->
-			<th>3행 2열</th>
-			<th>3행 3열</th>
+			<th colspan="2", rowspan="2">09:00~12:00</th>
+			<th rowspan="6">공사중</th>
 		</tr>
 		<tr>
-			<!--<th>4행 1열</th>-->
-			<th>4행 2열</th>
+			<th colspan="2"></th>
+			
+		</tr>
+		<tr>
+			<th colspan="2"></th>
+			
+		</tr>
+		<tr>
+			<th colspan="2"></th>
+			
+		</tr>
+		<tr>
+			<th colspan="2"></th>
+			
+		</tr>
+		<tr>
+			<th colspan="2"></th>
+			
 		</tr>
 	</table>
 </body>
