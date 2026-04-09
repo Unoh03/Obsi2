@@ -6,6 +6,8 @@
 <title>ex06</title>
 </head>
 <body>
+
+	// 권장하지 않는 방법
 	<div style="background: #53FF4C; height: 100px" align="center">
 		<br>header<br> 사전 / 뉴스 / 증권 / 영화 / 뮤직
 	</div>
