@@ -179,7 +179,7 @@ public class HtmlController {
 - **XSS (크로스 사이트 스크립팅):** 만약 저 `src` 경로를 사용자가 직접 입력할 수 있는 게시판이라면? 해커는 `<img src="x" onerror="alert('해킹')">`을 주입하여 악성 스크립트를 실행시킨다.
 - **SSRF (서버 측 요청 위조):** 해커가 `src="http://127.0.0.1/admin"` 처럼 서버 내부망을 찌르는 주소를 넣으면, 톰캣 서버가 이미지를 가져오려고 내부망을 스스로 공격하는 대참사가 발생한다.
 ## 시간표
-![[Pasted image 20260409144215.png]]
+![[Pasted image 20260409153205.png]]
 ```html
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
