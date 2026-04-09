@@ -186,7 +186,7 @@ public class HtmlController {
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>ex09</title>
+	<title>시간표</title>
 </head>
 <body>
 	<table border=1> <!--8행, 9열-->
