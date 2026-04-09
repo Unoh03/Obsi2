@@ -170,7 +170,7 @@ public class HtmlController {
 ### 🔍 아키텍처 포인트 1: `px` vs `%` (반응형 웹의 시작)
 - **`width="100px"` (절대 크기):** 모니터가 100인치든, 스마트폰 화면이든 무조건 가로 100픽셀의 크기로 고정(Hardcoding)한다.
 - **`width="25%"` (상대 크기):** 브라우저 창 크기의 **25%**만큼만 차지하라는 뜻이다. 사용자가 브라우저 창을 줄이면 이미지도 같이 작아진다. 이것이 모바일과 PC를 동시에 지원하는 **'반응형 웹(Responsive Web)'** 아키텍처의 가장 기초적인 원리다.
-
+>[! tip] 일단 상위 계층에 크기가 지정되어야 하위에서 % 사용 가능.
 ### 🔍 아키텍처 포인트 2: `src` 속성의 경로 (Path)
 - `src="icon1.png"`는 **상대 경로**다. 즉, 이 `ex07.jsp` 파일이 있는 폴더와 **정확히 똑같은 위치**에 `icon1.png` 파일이 있어야만 엑스박스(404)가 뜨지 않는다.
 - 나중에 스프링(Spring) 실무로 가면, 이미지는 무조건 `/resources/static/` 같은 정적(Static) 폴더에 몰아넣고 절대 경로(`/images/icon1.png`)로 호출하는 아키텍처를 쓰게 된다.
@@ -262,7 +262,7 @@ public class HtmlController {
 		</style>
 </head>
 <body>
-	<table border=1 style="width: 100%;">
+	<table border=1 style="width: 100%;"> <!--안하면 밑에서 범위 지정 안됨-->
 		<tr><!--1행-->
 			<th colspan="3">
 				<b><div class="a" style="text-align: center";><h1>회사 소개</h1></div></b>
