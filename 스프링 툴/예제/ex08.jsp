@@ -24,7 +24,7 @@
 		</tr>
 		<tr>
 			<th>4행 1열</th>
-			
+			<th>4행 2열</th>
 		</tr>
 	</table>
 </body>
