@@ -20,6 +20,20 @@
               "icon": "lucide-file",
               "title": "HTML"
             }
+          },
+          {
+            "id": "95584ca996c6bed3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "콜아웃(Callout) 총정리"
+            }
           }
         ]
       }
@@ -242,6 +256,9 @@
   },
   "active": "eb63b429a966137f",
   "lastOpenFiles": [
+    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+    "기초 개념/HTML.md",
+    "캡쳐 창고/Pasted image 20260409144215.png",
     "스프링 툴/예제/BFtable.jsp",
     "스프링 툴/예제/BF table.jsp",
     "스프링 툴/예제/ex09 copy.jsp",
@@ -250,14 +267,12 @@
     "스프링 툴/예제/ex08.jsp",
     "스프링 툴/예제/ex07 copy.jsp",
     "기초 개념/HTML 보안 취약점 태그.md",
-    "기초 개념/HTML.md",
     "스프링 툴/예제/ex07.jsp",
     "스프링 툴/예제/미확인 898841.crdownload",
     "스프링 툴/예제/icon2.png",
     "스프링 툴/예제/icon3.png",
     "스프링 툴/예제/icon1.png",
     "스프링 툴/예제/클라우드 기반 보안엔지니어링 (1).zip",
-    "스프링 툴/예제/미확인 876829.crdownload",
     "스프링 툴/자바.md",
     "HTML/자바.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
@@ -271,12 +286,10 @@
     "캡쳐 창고/Pasted image 20260408104500.png",
     "캡쳐 창고/Pasted image 20260408103930.png",
     "캡쳐 창고/Pasted image 20260408103914.png",
-    "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "제미니.md",
     "conflict-files-obsidian-git.md",
     "특수 기호.md",
     "캡쳐 창고/Pasted image 20260403161309.png",
-    "캡쳐 창고/Pasted image 20260402193242.png",
     "^net-finish.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
     "복사용.md",

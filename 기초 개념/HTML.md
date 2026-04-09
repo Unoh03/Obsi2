@@ -178,3 +178,63 @@ public class HtmlController {
 ### 💀 DevSecOps의 시선: `<img>` 태그의 보안 취약점
 - **XSS (크로스 사이트 스크립팅):** 만약 저 `src` 경로를 사용자가 직접 입력할 수 있는 게시판이라면? 해커는 `<img src="x" onerror="alert('해킹')">`을 주입하여 악성 스크립트를 실행시킨다.
 - **SSRF (서버 측 요청 위조):** 해커가 `src="http://127.0.0.1/admin"` 처럼 서버 내부망을 찌르는 주소를 넣으면, 톰캣 서버가 이미지를 가져오려고 내부망을 스스로 공격하는 대참사가 발생한다.
+## 시간표
+![[Pasted image 20260409144215.png]]
+```html
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ex09</title>
+</head>
+<body>
+	<table border=1> <!--8행, 9열-->
+		<tr> <!--1행-->
+			<th colspan="10">2026년 04월 IT 시간표</th>
+		</tr>
+		<tr> <!--2행-->
+			<th colspan="2"></th>
+			<th>401호</th>
+			<th colspan="2">402호</th>
+			<th colspan="2">403호</th>
+			<th colspan="2">404호</th>
+		</tr>
+		<tr> <!--3행-->
+			<th colspan="2", rowspan="2">09:00~12:00</th>
+			<th rowspan="6">공<br>사<br>중</th>
+			<td colspan="2" rowspan="2">PYTHON 기초</td>
+			<td colspan="2" rowspan="4">네트워크 보안<br>실무자 양성</td>
+			<td colspan="2" rowspan="2">보충훈련 과정<br>(OS/네트워크)</td>
+		</tr>
+		<tr> <!--4행-->
+
+		</tr>
+		<tr> <!--5행-->
+			<th colspan="2", rowspan="2">12:30~15:30</th>
+			<td colspan="2">JAVA</td>
+			<td colspan="2">보충훈련 과정<br>(언어계열)</td>
+		</tr>
+		<tr> <!--6행-->
+			
+		</tr>
+		<tr> <!--7행-->
+			<th colspan="2">15:30~18:30</th>
+			<td colspan="2">C언어</td>
+			<td colspan="2", rowspan="2">가상화 시스템<br>엔지니어 실무자 양성</td>
+			<td colspan="2">리눅스</td>
+		</tr>
+		<tr> <!--8행-->
+			<th colspan="2">19:00~22:00</th>
+			<td colspan="2">PYTHON_WEB</td>
+			<td colspan="2">서버</td>
+		</tr>
+	</table>
+</body>
+</html>
+```
+>[! warning] **🚨 버그: 속성(Attribute) 사이의 콤마(`,`) 사용**
+>- **강도님의 이전 코드:** `<th colspan="2", rowspan="2">09:00~12:00</th>`
+>- **팩트 폭격:** HTML 태그 안에서 속성과 속성 사이에는 **절대 콤마(`,`)를 쓰지 않는다.** 오직 **'띄어쓰기(Space)'**로만 구분해야 한다.
+>- 브라우저 엔진이 워낙 똑똑해서 콤마를 무시하고 렌더링해 줬겠지만, 엄격한 파서(Parser)를 만나면 에러를 뱉고 표가 박살 난다.
+>- **✅ 패치:** `<th colspan="2" rowspan="2">09:00~12:00</th>` (콤마 삭제!)
