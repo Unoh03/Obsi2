@@ -12,7 +12,7 @@
 				text-align: center;
 			}
 			.header { background-color: #F3FF48; height: 100px;}
-			.header { background-color: orange; height: 200px;}
+			.center { background-color: orange; height: 200px;}
 			#footer { background-color: skyblue; height: 300px;}
 		</style>
 </head>
