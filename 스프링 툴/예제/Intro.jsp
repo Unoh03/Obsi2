@@ -14,7 +14,7 @@
 		</style>
 </head>
 <body>
-	<table border=1 style="width: 100%;"> <!--8행, 9열-->
+	<table border=1 style="width: 100%;">
 		<tr><!--1행-->
 			<th colspan="3">
 				<b><div class="a" style="text-align: center";><h1>회사 소개</h1></div></b>
@@ -25,9 +25,12 @@
 			<td>
 				<div class="side">
 				<ul>
-					<li> <a href="https://www.naver.com"> 네이버 </a> </li><br>
-					<li> <a href="https://www.google.com"> 구글 </a> </li><br>
-					<li> <a href="https://www.daum.net/">  다음 </a> </li><br>
+					<li> <a href="https://www.naver.com"> 네이버 </a> </li>
+					<br>
+					<li> <a href="https://www.google.com"> 구글 </a> </li>
+					<br>
+					<li> <a href="https://www.daum.net/">  다음 </a> </li>
+					<br>
 				</ul>
 				</div>
 			</td>
@@ -35,7 +38,7 @@
 				<b>졸려요<br><br>침대가 그리워요<br><br>집 가고싶어요</b>
 			</td>
 			<td>
-				<div class="a"><li> <a href="quiz1"> <img src="icon1.png" width="100px"/> </a> </li></div>
+				<div class="a"><li> <a href="quiz1" title="시간표 보기"> <img src="icon1.png" width="100px"/> </a> </li></div>
 			</td>
 		</tr>
 		<tr><!--3행-->
