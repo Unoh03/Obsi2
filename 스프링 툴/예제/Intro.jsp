@@ -16,8 +16,8 @@
 			<th colspan="3">
 				<b><div id="h1">회사 소개</div></b>
 			</th>
-		<hr>
 		</tr>
+		<tr></tr>
 		<tr><!--2행-->
 			<td>
 				<ul>
