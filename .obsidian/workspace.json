@@ -8,6 +8,34 @@
         "type": "tabs",
         "children": [
           {
+            "id": "e4bf46ef21cc9d11",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "리눅스(우분투)/마지막 총정리 문제.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "마지막 총정리 문제"
+            }
+          },
+          {
+            "id": "dfd8998876363a62",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "콜아웃(Callout) 총정리"
+            }
+          },
+          {
             "id": "eb63b429a966137f",
             "type": "leaf",
             "state": {
@@ -20,22 +48,9 @@
               "icon": "lucide-file",
               "title": "마지막 총정리 문제"
             }
-          },
-          {
-            "id": "4bd4584628add359",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "리눅스(우분투)/우분투.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "우분투"
-            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -92,8 +107,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -103,36 +117,6 @@
         "id": "9224ace80aca165a",
         "type": "tabs",
         "children": [
-          {
-            "id": "dfd8998876363a62",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "리눅스(우분투)/우분투.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "우분투"
-            }
-          },
-          {
-            "id": "de1ad9340aaa8f1d",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "강의 자료/리눅스(우분투).pdf",
-                "page": 198,
-                "left": -18,
-                "top": 178,
-                "zoom": 0.8156250000000002
-              },
-              "icon": "lucide-file-text",
-              "title": "리눅스(우분투)"
-            }
-          },
           {
             "id": "f1389678c18568d0",
             "type": "leaf",
@@ -201,13 +185,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "리눅스(우분투)/마지막 총정리 문제.md",
+                "file": "환영합니다!.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "마지막 총정리 문제 의 개요"
+              "title": "환영합니다! 의 개요"
             }
           },
           {
@@ -231,11 +215,11 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 6
       }
     ],
     "direction": "horizontal",
-    "width": 1095.5,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -257,18 +241,13 @@
   },
   "active": "eb63b429a966137f",
   "lastOpenFiles": [
-    "리눅스(우분투)/우분투.md",
-    "강의 자료/리눅스(우분투).pdf",
-    "리눅스(우분투)/마지막 총정리 문제.md",
-    "리눅스(우분투)/쉘 스크립트/nfs.sh",
     "리눅스(우분투)/쉘 스크립트/web-nfs.sh",
+    "리눅스(우분투)/쉘 스크립트/nfs.sh",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
-    "리눅스(우분투)/쉘 스크립트/db.sh",
-    "리눅스(우분투)/쉘 스크립트/dns.sh",
-    "리눅스(우분투)/쉘 스크립트/LB.sh",
-    "리눅스(우분투)/쉘 스크립트/web.sh",
-    "새 폴더",
+    "리눅스(우분투)/마지막 총정리 문제.md",
     "제미니.md",
+    "^net-finish.md",
+    "리눅스(우분투)/쉘 스크립트/LB.sh",
     "conflict-files-obsidian-git.md",
     "특수 기호.md",
     "캡쳐 창고/Pasted image 20260403161309.png",
@@ -283,8 +262,14 @@
     "캡쳐 창고/Pasted image 20260402173713.png",
     "리눅스(우분투)/쉘 스크립트/route.txt",
     "리눅스(우분투)/쉘 스크립트/netplan.txt",
-    "^net-finish.md",
+    "리눅스(우분투)/쉘 스크립트/load-balancer.conf",
+    "리눅스(우분투)/쉘 스크립트/dns.sh",
+    "강의 자료/db.sh",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
+    "리눅스(우분투)/쉘 스크립트/웹서버 구성.txt",
+    "리눅스(우분투)/쉘 스크립트/디비서버 구성.txt",
+    "리눅스(우분투)/쉘 스크립트/web.sh",
+    "리눅스(우분투)/우분투.md",
     "템플릿/오답노트 템플릿.md",
     "복사용.md",
     "리눅스(우분투)/정규 표현식.md",
