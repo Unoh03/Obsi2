@@ -117,52 +117,39 @@ public class HtmlController {
 >[!danger] 🚨 아키텍트의 팩트 폭격: "이 코드는 HTML 뼈대가 박살 났고, CSS는 스스로를 파괴하고 있다."
 
 ```html
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
 <head>
 <meta charset="UTF-8">
 <title>ex06</title>
-		<!--권장-->
+</head> <!-- 🚨 여기서 머리(head)가 닫혔는데... -->
+
+<!-- 🚨 머리가 닫힌 뒤에 또 meta, title, style이 나온다! 완벽한 구조 붕괴(Syntax Error)다. -->
+<!-- 브라우저가 억지로 고쳐서 렌더링해주긴 하지만, 실무에선 절대 용납 안 되는 스파게티 코드다. -->
 		<meta charset="UTF-8">
 		<title>ex06</title>
 		<style type="text/css">
-			div {
-				text-align: center;
-			}
+			div { text-align: center; }
+			
+			/* 🚨 CSS의 절대 법칙: Cascading (폭포수) */
+			/* 똑같은 .header 클래스에 대해 색상과 높이를 두 번 정의했다. */
+			/* 컴퓨터 공학의 진리: "마지막에 읽힌 놈이 승리한다." */
+			/* 결과적으로 #F3FF48(노란색)은 무시되고, orange(주황색) 200px이 최종 적용된다. */
 			.header { background-color: #F3FF48; height: 100px;}
-			.center { background-color: orange; height: 200px;}
+			.header { background-color: orange; height: 200px;}
+			
 			#footer { background-color: skyblue; height: 300px;}
 		</style>
-</head>
-
 <body>
-
-	<!-- 권장하지 않는 방법 -->
-	<div style="background: #53FF4C; height: 100px" align="center">
-		<br>header<br> 사전 / 뉴스 / 증권 / 영화 / 뮤직
-	</div>
-	<div style="background: orange; height: 200px" align="center">
-		<br>center<br> 컨텐츠가 들어갈 영역 <br>환영합니다.
-	</div>
-	<div style="background: skyblue; height: 100px" align="center">
-		<br>footer<br>바닥글 들어갈 영역<br> 회사소개 | 인재채용 | 제휴제안 | 이용약관
-	</div>
-	
-	<!--권장-->
+	<!-- 권장하는 방법 (Internal CSS 적용) -->
 	<div class="header">
 		<br>header<br> 사전 / 뉴스 / 증권 / 영화 / 뮤직
 	</div>
+	
+	<!-- 🚨 치명적 버그: class="center" 라고 줬지만, 위쪽 <style> 블록에 .center 에 대한 정의가 아예 없다! -->
+	<!-- 결과: 배경색도 없고 높이도 없는 투명한 깡통 div가 출력된다. -->
 	<div class="center">
 		<br>center<br> 컨텐츠가 들어갈 영역 <br>환영합니다.
 	</div>
-	<div id="footer">
-		<br>footer<br>바닥글 들어갈 영역<br> 회사소개 | 인재채용 | 제휴제안 | 이용약관
-	</div>
-
-
 </body>
-</html>
 ```
 ## 🖼️ [Architecture] 2. `ex07.jsp` 해부: 이미지 태그와 반응형 웹의 기초
 

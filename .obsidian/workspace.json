@@ -240,8 +240,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "eb63b429a966137f",
   "lastOpenFiles": [
+    "스프링 툴/예제/ex09.jsp",
+    "스프링 툴/예제/ex08 copy.jsp",
+    "스프링 툴/예제/ex08.jsp",
+    "스프링 툴/예제/ex07 copy.jsp",
     "기초 개념/HTML 보안 취약점 태그.md",
     "기초 개념/HTML.md",
     "스프링 툴/예제/ex07.jsp",
@@ -254,9 +258,6 @@
     "스프링 툴/예제/ex06.jsp",
     "스프링 툴/예제/ex05.jsp",
     "스프링 툴/예제/ex04.jsp",
-    "스프링 툴/예제/ex03.jsp",
-    "스프링 툴/예제/ex02.jsp",
-    "스프링 툴/예제/ex01.jsp",
     "스프링 툴/자바.md",
     "HTML/자바.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
@@ -287,7 +288,6 @@
     "SSH.md",
     "라우팅.md",
     "스위치.md",
-    "팁.md",
     "무제.canvas"
   ]
 }
