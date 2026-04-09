@@ -187,6 +187,11 @@ public class HtmlController {
 <head>
 	<meta charset="UTF-8">
 	<title>시간표</title>
+		<style type="text/css">
+			table {
+				margin: auto; <!--표 중앙 정렬-->
+			}
+		</style>
 </head>
 <body>
 	<table border=1> <!--8행, 9열-->
@@ -194,16 +199,16 @@ public class HtmlController {
 			<th colspan="10"><b>2026년 04월 IT 시간표</b></th>
 		</tr>
 		<tr> <!--2행-->
-			<th colspan="2"></th>
+			<th colspan="2"></th>  <!--글자 중앙 정렬-->
 			<th><b>401호</b></th>
 			<th colspan="2"><b>402호</b></th>
-			<th colspan="2"><b>403호</b></th>
+			<th colspan="2"><b>403호</b></th> 
 			<th colspan="2"><b>404호</b></th>
 		</tr>
 		<tr> <!--3행-->
-			<th colspan="2", rowspan="2"><b>09:00~12:00</b></th>
+			<th colspan="2" rowspan="2"><b>09:00~12:00</b></th>
 			<th rowspan="6"><b>공<br>사<br>중</b></th>
-			<td colspan="2" rowspan="2">PYTHON 기초</td>
+			<td colspan="2" rowspan="2">PYTHON 기초</td> <!--글자 왼쪽 정렬-->
 			<td colspan="2" rowspan="4">네트워크 보안<br>실무자 양성</td>
 			<td colspan="2" rowspan="2">보충훈련 과정<br>(OS/네트워크)</td>
 		</tr>
@@ -211,7 +216,7 @@ public class HtmlController {
 
 		</tr>
 		<tr> <!--5행-->
-			<th colspan="2", rowspan="2"><b>12:30~15:30</b></th>
+			<th colspan="2" rowspan="2"><b>12:30~15:30</b></th>
 			<td colspan="2">JAVA</td>
 			<td colspan="2">보충훈련 과정<br>(언어계열)</td>
 		</tr>
@@ -221,7 +226,7 @@ public class HtmlController {
 		<tr> <!--7행-->
 			<th colspan="2"><b>15:30~18:30</b></th>
 			<td colspan="2">C언어</td>
-			<td colspan="2", rowspan="2">가상화 시스템<br>엔지니어 실무자 양성</td>
+			<td colspan="2" rowspan="2">가상화 시스템<br>엔지니어 실무자 양성</td>
 			<td colspan="2">리눅스</td>
 		</tr>
 		<tr> <!--8행-->
@@ -238,3 +243,4 @@ public class HtmlController {
 >- **팩트 폭격:** HTML 태그 안에서 속성과 속성 사이에는 **절대 콤마(`,`)를 쓰지 않는다.** 오직 **'띄어쓰기(Space)'**로만 구분해야 한다.
 >- 브라우저 엔진이 워낙 똑똑해서 콤마를 무시하고 렌더링해 줬겠지만, 엄격한 파서(Parser)를 만나면 에러를 뱉고 표가 박살 난다.
 >- **✅ 패치:** `<th colspan="2" rowspan="2">09:00~12:00</th>` (콤마 삭제!)
+## 사이트
