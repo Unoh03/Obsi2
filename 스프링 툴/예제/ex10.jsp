@@ -19,14 +19,16 @@
 		비번 <input type="password" name="pw"><br>
 
 		<!-- checkbox: 여러 개 동시 선택 가능 (배열로 날아감) -->
-		다중선택 <input type="checkbox" name="hobby" value="game">
-				<input type="checkbox" name="hobby" value="coding">
-				<input type="checkbox">
-				<input type="checkbox"><br>
+		취미 선택<br>
+		겜 <input type="checkbox" name="hobby" value="game"><br>
+		코딩 <input type="checkbox" name="hobby" value="coding"><br>
+		리눅스 <input type="checkbox" name="hobby" value="linux"><br>
+		네트워크 <input type="checkbox" name="hobby" value="network"><br>
 		
 		<!-- radio: name을 똑같이 맞춰줘야 둘 중 하나만 선택되는 그룹핑이 성립된다. -->
-		단일선택 <input type="radio" name="gender" value="M">
-				<input type="radio" name="gender" value="F"><br>
+		개인 정보 주세요<br>
+		ㅇㅇ<input type="radio" name="injung" value="Y"><br>
+		ㄴㄴ<input type="radio" name="injung" value="N"><br>
 		
 		<!-- file: 파일을 보낼 때는 form 태그에 반드시 enctype="multipart/form-data" 속성을 추가해야 서버가 파일을 인식한다. (나중에 배울 것) -->
 		파일 <input type="file"><br>

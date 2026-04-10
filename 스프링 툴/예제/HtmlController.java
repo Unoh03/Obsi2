@@ -42,8 +42,15 @@ public class HtmlController {
 	public void ex10() {}
 
 	@RequestMapping("ex11") 
-	public void ex11(String id, String pw) {
-		System.out.println("아디" + id);
-		System.out.println("비번" + pw);
+	public void ex11(
+		String id,
+		String pw,
+		String hobby,
+		String injung
+	) {
+		System.out.println("아디: " + id);
+		System.out.println("비번: " + pw);
+		System.out.println("사전지식: " + hobby);
+		System.out.println("개인정보 동의: " + injung);
 	}
 }
