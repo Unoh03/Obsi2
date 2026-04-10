@@ -67,4 +67,21 @@ public class HtmlController {
 	}
 	@GetMapping("ex12")
 	public void ex12View() {}
+
+	@PostMapping("WTF")
+	public void WTFData
+	(
+	String M, String name, String id, String pw, String G, String H, String word
+	)
+	{
+		System.out.println("전공: " + M);
+		System.out.println("이름: " + name);
+		System.out.println("아디: " + id);
+		System.out.println("비번: " + pw);
+		System.out.println("성: " + G);
+		System.out.println("취미: " + H);
+		System.out.println("말: " + word);
+	}
+	@GetMapping("WTF")
+	public void WTFView() {}
 }

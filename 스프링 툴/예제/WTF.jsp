@@ -17,7 +17,7 @@
 			<th rowspan="5"><img src="icon2.png" width="100%" /></th>
 		</tr>
 		<tr> <!--2행(전공 분야~,셀렉트)-->
-			<td colspan="2">전공 분야를 입력하세요.<select name="major">
+			<td colspan="2">전공 입력<select name="M">
 				<option value="sw">소프트웨어</option>
 				<option value="sys">시스템</option>
 				<option value="net">네트워크</option>
@@ -36,33 +36,37 @@
 		<tr> <!--6행(레전드(성별조사){3열},인풋 타입 라디오)-->
 			<td colspan="3">
 				<fieldset>
-					<legend>성별 조사</legend>
-					책 읽기<input type="checkbox" name="hobby" value="read">
-					공부 하기<input type="checkbox" name="hobby" value="study">
-					책 읽으며 공부하기<input type="checkbox" name="hobby" value="read&study">
-					컴퓨터<input type="checkbox" name="hobby" value="computer">
-					자기<input type="checkbox" name="hobby" value="sleep">
+					<legend>성</legend>
+					여자<input type="radio" name="G" value="W">
+					남자<input type="radio" name="G" value="M">
 				</fieldset>
 			</td>
 		</tr>
 		<tr> <!--7행(레전드(취미 조사){3열},인풋 타입 체크박스)-->
 			<td colspan="3">
 				<fieldset>
-					<legend>취미 조사</legend>
-					
+					<legend>취미</legend>
+					책 읽기<input type="checkbox" name="H" value="read">
+					공부 하기<input type="checkbox" name="H" value="study">
+					책 읽으며 공부하기<input type="checkbox" name="H" value="read&study">
+					컴퓨터<input type="checkbox" name="H" value="computer">
+					자기<input type="checkbox" name="H" value="sleep">
 				</fieldset>
 			</td>
 		</tr>
 		<tr> <!--8행(레전드(하고픈말){3열},텍.에)-->
 			<td colspan="3">
 				<fieldset>
-					<legend>하고싶은 말</legend>
+					<legend>말</legend>
 					<textarea rows="3" cols="50" name="word"></textarea>
 				</fieldset>
 			</td>
 		</tr>
 		<tr> <!--9행(완료(인풋 타입 서밋),다시 작성(인풋 타입 중 하나.))-->
-			
+			<td>
+				<input type="submit" value="전송">
+				<input type="reset" value="쓴거 엎어버리기">
+			</td>
 		</tr>
 	</table>
 	</form>
