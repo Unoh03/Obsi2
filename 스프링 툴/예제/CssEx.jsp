@@ -4,23 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>2</title>
+<title>4</title>
 	<style type="text/css">
-        #id1 { background-color:  yellow;}
-        #id2 { background-color: green;}
-        h3#id2 { background-color: red;}
+        h1[align] { color: orange; }
+        h1[m] { color: red; background-color: yellow; }
+        p[text] { color: blue; background-color: yellow; }
+        h1[text="attr3"] { color: green; background-color: pink; }
     </style>
 </head>
 <body>
-    <p>Tag selctor</p>
-
-    <h1 id="id1">id1 selector</h1>
-    <p id="id1">id1 selector</p>
-
-    <h2 id="id2">id2 selector</h2>
-    <h3 id="id2">id2 selector</h3>
-    <p id="id2">
-    id2 selector
-    </p>
+    <h1 align="left">a</h1>
+    <h1 m=>m 속성 이름 선택자</h1>
+    <h1 m="표현내용">m 속성 이름 선택자</h1>
+    <
 </body>
 </html>
