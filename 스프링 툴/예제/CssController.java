@@ -9,4 +9,6 @@ public class CssController {
 	public void ex01() {}
 	@RequestMapping("ex02")
 	public void ex02() {}
+	@RequestMapping("ex03")
+	public void ex03() {}
 }
