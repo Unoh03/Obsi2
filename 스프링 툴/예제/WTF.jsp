@@ -10,6 +10,7 @@
 	</style>
 </head>
 <body>
+	<form method="post" action="WTF">
 	<table border="1"><!--9행, 3열-->
 		<tr> <!--1행[다음 내용~|이미지{5행}]-->
 			<td colspan="2">다음 <b>내용에 맞게 입력</b> 하시오.</td>
@@ -23,27 +24,47 @@
 				<option value="db">데이터베이스</option>
 			</select></td>
 		</tr>
-		<tr> <!--3행(이름|텍스트 에어리어)-->
-			
+		<tr> <!--3행(이름|텍스트)-->
+			<td>이름</td><td><input type="text" name="name"></td>
 		</tr>
-		<tr> <!--4행(아디|텍.에)-->
-			
+		<tr> <!--4행(아디|텍)-->
+			<td>아디</td><td><input type="text" name="id"></td>
 		</tr>
-		<tr> <!--5행(비번|텍.에)-->
-			
+		<tr> <!--5행(비번|패스워드)-->
+			<td>비번</td><td><input type="password" name="pw"></td>
 		</tr>
-		<tr> <!--6행(레전드(성별조사),인풋 타입 라디오)-->
-			
+		<tr> <!--6행(레전드(성별조사){3열},인풋 타입 라디오)-->
+			<td colspan="3">
+				<fieldset>
+					<legend>성별 조사</legend>
+					책 읽기<input type="checkbox" name="hobby" value="read">
+					공부 하기<input type="checkbox" name="hobby" value="study">
+					책 읽으며 공부하기<input type="checkbox" name="hobby" value="read&study">
+					컴퓨터<input type="checkbox" name="hobby" value="computer">
+					자기<input type="checkbox" name="hobby" value="sleep">
+				</fieldset>
+			</td>
 		</tr>
-		<tr> <!--7행(레전드(취미 조사),인풋 타입 체크박스)-->
-			
+		<tr> <!--7행(레전드(취미 조사){3열},인풋 타입 체크박스)-->
+			<td colspan="3">
+				<fieldset>
+					<legend>취미 조사</legend>
+					
+				</fieldset>
+			</td>
 		</tr>
-		<tr> <!--8행(레전드(하고픈말),텍.에)-->
-			
+		<tr> <!--8행(레전드(하고픈말){3열},텍.에)-->
+			<td colspan="3">
+				<fieldset>
+					<legend>하고싶은 말</legend>
+					<textarea rows="3" cols="50" name="word"></textarea>
+				</fieldset>
+			</td>
 		</tr>
 		<tr> <!--9행(완료(인풋 타입 서밋),다시 작성(인풋 타입 중 하나.))-->
 			
 		</tr>
 	</table>
+	</form>
 </body>
 </html>
