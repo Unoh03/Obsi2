@@ -40,7 +40,6 @@ public class HtmlController {
 
 	@RequestMapping("ex10") 
 	public void ex10() {}
-
 	@RequestMapping("ex11") 
 	public void ex11(
 		String id,
@@ -53,6 +52,16 @@ public class HtmlController {
 		System.out.println("사전지식: " + hobby);
 		System.out.println("개인정보 동의: " + injung);
 	}
+	
 	@RequestMapping("ex12") 
 	public void ex12() {}
+	@RequestMapping("ex13") 
+	public void ex13
+	(
+	String data, String country
+	)
+	{
+		System.out.println("게시글: " + data);
+		System.out.println("국가: " + country);
+	}
 }
