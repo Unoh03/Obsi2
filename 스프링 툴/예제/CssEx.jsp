@@ -6,18 +6,21 @@
 <meta charset="UTF-8">
 <title>2</title>
 	<style type="text/css">
-        h1 { background-color:  yellow;}
-        h2 { background-color: green;}
-        p { background-color: orange;}
+        #id1 { background-color:  yellow;}
+        #id2 { background-color: green;}
+        h3#id2 { background-color: red;}
     </style>
 </head>
 <body>
     <p>Tag selctor</p>
 
-    <h1>서로 다른 색상</h1>
-    <h2>태크별로 다른 스타일을 적용 시 사용</h2>
-    <p>
-        Tag를 지정해서 적용하기에 동일한 Tag에 모두 적용
+    <h1 id="id1">id1 selector</h1>
+    <p id="id1">id1 selector</p>
+
+    <h2 id="id2">id2 selector</h2>
+    <h3 id="id2">id2 selector</h3>
+    <p id="id2">
+    id2 selector
     </p>
 </body>
 </html>
