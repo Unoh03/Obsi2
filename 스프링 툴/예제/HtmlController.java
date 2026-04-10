@@ -53,4 +53,6 @@ public class HtmlController {
 		System.out.println("사전지식: " + hobby);
 		System.out.println("개인정보 동의: " + injung);
 	}
+	@RequestMapping("ex12") 
+	public void ex12() {}
 }
