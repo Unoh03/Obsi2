@@ -13,7 +13,7 @@
 	<form method="post" action="WTF">
 	<table border="1"><!--9행, 3열-->
 		<tr> <!--1행[다음 내용~|이미지{5행}]-->
-			<td colspan="2">다음 <b>내용에 맞게 입력</b> 하시오.</td>
+			<td colspan="2">다음 <span style="background-color: #00ff00"><b>내용에 맞게 입력</b></span> 하시오.</td>
 			<th rowspan="5"><img src="icon2.png" width="100%" /></th>
 		</tr>
 		<tr> <!--2행(전공 분야~,셀렉트)-->
