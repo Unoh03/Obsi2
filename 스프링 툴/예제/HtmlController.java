@@ -1,6 +1,8 @@
 package com.example.HtmlExample;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -53,10 +55,9 @@ public class HtmlController {
 		System.out.println("개인정보 동의: " + injung);
 	}
 	
-	@RequestMapping("ex12") 
-	public void ex12() {}
-	@RequestMapping("ex13") 
-	public void ex13
+	
+	@PostMapping("ex12")
+	public void ex12Data
 	(
 	String data, String country
 	)
@@ -64,4 +65,6 @@ public class HtmlController {
 		System.out.println("게시글: " + data);
 		System.out.println("국가: " + country);
 	}
+	@GetMapping("ex12")
+	public void ex12View() {}
 }
