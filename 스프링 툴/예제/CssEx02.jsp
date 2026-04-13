@@ -4,20 +4,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>2</title>
-	<style type="text/css">
-        h1 { background-color:  yellow;}
-        h2 { background-color: green;}
-        p { background-color: orange;}
+<title>6</title>
+    <style>
+        div h2 {
+            color: yellow;
+            background-color: purple;
+        }
+        div ul li {
+        	display: inline;
+        }
     </style>
 </head>
 <body>
-    <p>Tag selctor</p>
-
-    <h1>서로 다른 색상</h1>
-    <h2>태크별로 다른 스타일을 적용 시 사용</h2>
-    <p>
-        Tag를 지정해서 적용하기에 동일한 Tag에 모두 적용
-    </p>
+    <div>
+        <h2>Descendant Selector_1</h2>
+        <ul><!--후손 선택자-->
+            <li>자식의 자식 (후손 1)</li>
+            <li>자식의 자식 (후손 2)</li>
+            <li>자식의 자식 (후손 3)</li>
+        </ul>
+    </div>
+   <h2>Descendant Selector_2</h2>
 </body>
 </html>

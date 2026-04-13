@@ -11,4 +11,26 @@ public class CssController {
 	public void ex02() {}
 	@RequestMapping("ex03")
 	public void ex03() {}
+	@RequestMapping("ex04")
+	public void ex04() {}
+	@RequestMapping("ex05")
+	public void ex05() {}
+	@RequestMapping("ex06")
+	public void ex06() {}
+	@RequestMapping("ex07")
+	public void ex07() {}
+	@RequestMapping("ex08")
+	public void ex08() {}
+	@RequestMapping("ex09")
+	public void ex09() {}
+	@RequestMapping("ex10")
+	public void ex10() {}
+	@RequestMapping("ex11")
+	public void ex11() {}
+	@RequestMapping("ex12")
+	public void ex12() {}
+	@RequestMapping("ex13")
+	public void ex13() {}
+	@RequestMapping("ex14")
+	public void ex14() {}
 }
