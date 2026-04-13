@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "스프링 툴/자바.md",
+                "file": "기초 개념/HTML.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "자바"
+              "title": "HTML"
             }
           },
           {
@@ -92,7 +92,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
@@ -256,6 +257,7 @@
   },
   "active": "eb63b429a966137f",
   "lastOpenFiles": [
+    "스프링 툴/자바.md",
     "스프링 툴/예제/CssEx02.jsp",
     "스프링 툴/예제/CssEx copy.jsp",
     "스프링 툴/예제/CssController.java",
@@ -263,14 +265,12 @@
     "스프링 툴/예제/CssEx.jsp",
     "기초 개념/HTML.md",
     "기초 개념/HTML 보안 취약점 태그.md",
-    "스프링 툴/자바.md",
     "기초 개념/논리 연산자.md",
     "스프링 툴/예제/WTF.jsp",
     "스프링 툴/예제/ex12 copy.jsp",
     "스프링 툴/예제/ex12.jsp",
     "스프링 툴/예제/ex10 copy.jsp",
     "스프링 툴/예제/ex10(ver 썜).jsp",
-    "스프링 툴/예제/미확인 304267.crdownload",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/Pasted image 20260409153205.png",
     "캡쳐 창고/Pasted image 20260409144215.png",
