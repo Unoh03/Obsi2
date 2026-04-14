@@ -3,28 +3,24 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>ex08</title>
+	<title>quiz3</title>
+<style>
+		table {border-style: solid;}
+</style>
 </head>
 <body>
 	<table border=0>
 		<tr>
-			<th>1행 1열</th>
-			<th>1행 2열</th>
-			<th>1행 3열</th>
+		<th colspan="3">&lt;header&gt</th>
 		</tr>
 		<tr>
-			<th>2행 1열</th>
-			<th>2행 2열</th>
-			<th>2행 3열</th>
+		<th rowspan="2">&lt;nav&gt</th><th colspan="2" rowspan="2">&lt;section&gt</th>
 		</tr>
 		<tr>
-			<th>3행 1열</th>
-			<th>3행 2열</th>
-			<th>3행 3열</th>
+			
 		</tr>
 		<tr>
-			<th>4행 1열</th>
-			<th>4행 2열</th>
+		<th colspan="3">&lt;footer&gt</th>
 		</tr>
 	</table>
 </body>

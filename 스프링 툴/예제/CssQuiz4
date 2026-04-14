@@ -1,0 +1,84 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>quiz5</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+div.default {
+	width: 1400px;
+	height: 1400px;
+	margin: 0 auto;
+}
+
+header {
+	border-style: solid;
+	height: 20%;
+	text-align: center;
+	border-bottom: none; 
+}
+
+nav {
+	height: 10%;
+	border-style: solid;
+	border-bottom: none; 
+	text-align: center;
+}
+
+article {
+	width: 50%;
+	height: 50%;
+	border-style: solid;
+	float: left;
+	border-right: none;
+	text-align: center;
+}
+
+aside {
+	float: left;
+	width: 50%;
+	height: 50%;
+	border-style: solid;
+	text-align: center;
+}
+
+footer {
+	border-style: solid;
+	clear: both
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div class="default">
+		<header>
+			<h1>header</h1>
+		</header>
+		<nav>
+			<h4>nav</h4>
+		</nav>
+		<article>
+			<h4>article</h4><br><br>
+			header<br><br>
+			article<br><br>
+			footer<br><br>
+		</article>
+		<aside>
+			<input type="text" name="id">
+			<input type="password" name="pw">
+		<ul>
+			<li><a href="#">회원가입</a></li>/
+			<li><a href="#">ID/PW 찾기</a></li> 
+		</ul>
+		</aside>
+		<footer>
+			<h3>footer</h3>
+		</footer>
+	</div>
+</body>
+</html>
