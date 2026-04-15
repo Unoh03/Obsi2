@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "스프링 툴/자바스크립트/자바 스크립트.md",
+                "file": "스프링 툴/예제 모음.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "자바 스크립트"
+              "title": "예제 모음"
             }
           }
         ]
@@ -243,9 +243,10 @@
   },
   "active": "2362d05f2a84f3c7",
   "lastOpenFiles": [
+    "스프링 툴/자바스크립트/자바 스크립트.md",
+    "스프링 툴/예제 모음.md",
     "기초 개념/논리 연산자.md",
     "기초 개념/정규 표현식.md",
-    "스프링 툴/자바스크립트/자바 스크립트.md",
     "기초 개념/0의 종류.md",
     "스프링 툴/자바스크립트/예제/ex01New.jsp",
     "스프링 툴/자바스크립트/예제/ex08.jsp",
@@ -288,7 +289,6 @@
     "MSA.md",
     "CMD.md",
     "SSH.md",
-    "라우팅.md",
     "무제.canvas"
   ]
 }
