@@ -16,9 +16,9 @@
     document.write("'장운호'(문자) : " + typeof "장운호"+ "<br>");
     document.write('true(논리형) : ' + typeof true + "<br>");
     document.write('[1,2,3](객체) : ' + typeof [1,2,3] + "<br>");
-    document.write('{name:장운호'(객체) : ' + typeof {name:장운호' });
-    document.write();
-    document.write();
+    document.write('{name:"장운호"}(객체) : ' + typeof {name:'장운호', age:25} + "<br>" );
+    document.write('num(정의 되지 않았음) : ' + typeof num + "<br>");
+    document.write('obj=null(객체) : '+ typeof obj + "<br>");
 
     //클라이언트(웹 브라우저) 개발자 도구(F12) 콘솔 탭에서 확인 가능
     console.log('hello')
