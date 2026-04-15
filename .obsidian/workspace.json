@@ -28,7 +28,7 @@
               "type": "markdown",
               "state": {
                 "file": "기초 개념/정규 표현식.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -50,7 +50,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -270,8 +270,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "032b5c1b87fd435f",
+  "active": "4ff46e14e8affb9a",
   "lastOpenFiles": [
+    "기초 개념/논리 연산자.md",
+    "기초 개념/정규 표현식.md",
     "스프링 툴/자바스크립트/예제/ex13.jsp",
     "스프링 툴/자바스크립트/예제/ex12 copy.jsp",
     "스프링 툴/예제 모음.md",
@@ -279,8 +281,6 @@
     "스프링 툴/자바스크립트/예제/미확인 738899.crdownload",
     "스프링 툴/자바스크립트/예제/ex12.jsp",
     "스프링 툴/자바스크립트/예제/미확인 248107.crdownload",
-    "기초 개념/정규 표현식.md",
-    "기초 개념/논리 연산자.md",
     "스프링 툴/자바.md",
     "스프링 툴/자바스크립트/자바 스크립트.md",
     "기초 개념/0의 종류.md",
@@ -288,7 +288,6 @@
     "스프링 툴/자바스크립트/예제/ex08.jsp",
     "스프링 툴/자바스크립트/예제/ex04.jsp",
     "스프링 툴/자바스크립트/예제/ex09.jsp",
-    "스프링 툴/자바스크립트/예제/ex10.jsp",
     "기초 개념/HTML.md",
     "기초 개념/HTML 보안 취약점 태그.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",

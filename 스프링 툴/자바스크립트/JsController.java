@@ -29,4 +29,10 @@ public class JsController {
 	public void ex09() {}
     @RequestMapping("ex10")
 	public void ex10() {}
+    @RequestMapping("ex11")
+	public void ex11() {}
+    @RequestMapping("ex12")
+	public void ex12() {}
+    @RequestMapping("ex13")
+	public void ex13() {}
 }
