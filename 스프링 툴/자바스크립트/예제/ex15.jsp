@@ -8,19 +8,15 @@
 	<script type="text/javascript">
 		function inputDataPrint() {
 			var name1 = document.getElementById('name1');
-			var name2 = document.getElementById('name2');
-			document.write('name.value : ' + name1.value);
-			if(name1.value.length < 5){
-				document.write('다섯 자리 미만은 너무함');
-			}else{
-				document.write('요구조건에 맞음')
-			}
+			var displayMSG = document.getElementById('displayMSG');
+			displayMSG.innerHTML = '졸려';
+            name1.value = "";
 		}
 	</script>
 </head>
 <body>
 	name1 : <input type="text" id="name1" value="ㅎㅇ"> <br>
-	name2 : <input type="text" id="name2"> <br>
+	<span id="displayMSG" > </span><br>
 	<input type="button" value="버튼" onclick="inputDataPrint()">
 </body>
 </html>
