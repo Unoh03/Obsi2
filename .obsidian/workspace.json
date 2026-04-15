@@ -4,35 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "13719cf4c8394963",
+        "id": "f3268377ebe33b39",
         "type": "tabs",
         "children": [
           {
-            "id": "eb63b429a966137f",
+            "id": "2362d05f2a84f3c7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "기초 개념/HTML.md",
+                "file": "스프링 툴/자바스크립트/자바 스크립트.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "HTML"
-            }
-          },
-          {
-            "id": "ca197ced4801dd48",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "기초 개념/HTML.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "HTML"
+              "title": "자바 스크립트"
             }
           }
         ]
@@ -255,23 +241,23 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "eb63b429a966137f",
+  "active": "2362d05f2a84f3c7",
   "lastOpenFiles": [
+    "스프링 툴/자바.md",
+    "스프링 툴/자바스크립트/자바 스크립트.md",
+    "기초 개념/HTML.md",
     "스프링 툴/예제/CssQuiz3",
     "스프링 툴/예제/CssEx16",
-    "스프링 툴/자바.md",
     "스프링 툴/예제/CssEx02.jsp",
     "스프링 툴/예제/CssEx copy.jsp",
     "스프링 툴/예제/CssController.java",
     "스프링 툴/예제/HtmlController copy.java",
     "스프링 툴/예제/CssEx.jsp",
-    "기초 개념/HTML.md",
     "기초 개념/HTML 보안 취약점 태그.md",
     "기초 개념/논리 연산자.md",
     "스프링 툴/예제/WTF.jsp",
     "스프링 툴/예제/ex12 copy.jsp",
     "스프링 툴/예제/ex12.jsp",
-    "스프링 툴/예제/ex10 copy.jsp",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/Pasted image 20260409153205.png",
     "캡쳐 창고/Pasted image 20260409144215.png",

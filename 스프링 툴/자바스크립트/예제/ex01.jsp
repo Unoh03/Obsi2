@@ -12,11 +12,11 @@
     var obj = null; //객체 변수 값이 없음
     document.write('100(숫자) : ' + typeof 100 + "<br>");
     document.write('10.5(숫자) : '+typeof 10.5+"<br>");
-    document.write("\"장운호\"(문자) : " + typeof "장운호"+ <br>);
-    document.write("'장운호'(문자) : " + typeof "장운호"+ <br>);
-    document.write();
-    document.write();
-    document.write();
+    document.write("\"장운호\"(문자) : " + typeof "장운호"+ "<br>");
+    document.write("'장운호'(문자) : " + typeof "장운호"+ "<br>");
+    document.write('true(논리형) : ' + typeof true + "<br>");
+    document.write('[1,2,3](객체) : ' + typeof [1,2,3] + "<br>");
+    document.write('{name:장운호'(객체) : ' + typeof {name:장운호' });
     document.write();
     document.write();
 
