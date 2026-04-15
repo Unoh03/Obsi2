@@ -42,7 +42,7 @@
               "type": "markdown",
               "state": {
                 "file": "기초 개념/논리 연산자.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -50,7 +50,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -270,10 +270,11 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "4ff46e14e8affb9a",
+  "active": "032b5c1b87fd435f",
   "lastOpenFiles": [
-    "기초 개념/논리 연산자.md",
+    "스프링 툴/자바스크립트/예제/ex14.jsp",
     "기초 개념/정규 표현식.md",
+    "기초 개념/논리 연산자.md",
     "스프링 툴/자바스크립트/예제/ex13.jsp",
     "스프링 툴/자바스크립트/예제/ex12 copy.jsp",
     "스프링 툴/예제 모음.md",
