@@ -32,7 +32,7 @@ nav {
 
 article {
 	width: 50%;
-	height: 50%;
+	height: 30%;
 	border-style: solid;
 	float: left;
 	border-right: none;
@@ -42,15 +42,21 @@ article {
 aside {
 	float: left;
 	width: 50%;
-	height: 50%;
+	height: 30%;
 	border-style: solid;
 	text-align: center;
 }
 
 footer {
-	border-style: solid;
-	clear: both
 	text-align: center;
+	border-style: solid;
+	border-top: none;
+	clear: both
+}
+
+li {  
+        list-style: none; 
+        text-align: center;
 }
 </style>
 </head>
@@ -60,21 +66,26 @@ footer {
 			<h1>header</h1>
 		</header>
 		<nav>
-			<h4>nav</h4>
+			<h3>nav</h3>
 		</nav>
 		<article>
-			<h4>article</h4><br><br>
-			header<br><br>
-			article<br><br>
-			footer<br><br>
+		<p><h3>article</h3></p>
+		<p>header</p>
+		<p>article</p>
+		<p>footer</p>
+		
 		</article>
 		<aside>
-			<input type="text" name="id">
-			<input type="password" name="pw">
-		<ul>
-			<li><a href="#">회원가입</a></li>/
-			<li><a href="#">ID/PW 찾기</a></li> 
+			<h3>aside</h3>
+		<ul>	
+			<div>
+			<input style="float: inline-start;" type="text" name="id">
+			<input style="float: left;" type="password" name="pw">
+			<input style="float: right" type="button"  value="로그인">
+			</div>
 		</ul>
+		<a href="#">회원가입</a>|
+		<a href="#">ID/PW 찾기</a>
 		</aside>
 		<footer>
 			<h3>footer</h3>

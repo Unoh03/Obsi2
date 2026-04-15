@@ -1,6 +1,8 @@
 package com.example.HtmlExample;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -33,4 +35,44 @@ public class CssController {
 	public void ex13() {}
 	@RequestMapping("ex14")
 	public void ex14() {}
+	@RequestMapping("ex15")
+	public void ex15() {}
+	@RequestMapping("ex16")
+	public void ex16() {}
+	@RequestMapping("ex17")
+	public void ex17() {}
+	@RequestMapping("ex18")
+	public void ex18() {}
+	@RequestMapping("quiz1")
+	public void quiz1() {}
+	@RequestMapping("quiz2")
+	public void quiz2() {}
+	@RequestMapping("quiz3")
+	public void quiz3() {}
+	@RequestMapping("quiz4")
+	public void quiz4() {}
+	@RequestMapping("quiz5")
+	public void quiz5() {}
+	@RequestMapping("quiz6")
+	public void quiz6() {}
+	@PostMapping("quiz7")
+	public void quiz7Data
+	(
+		String id, String pw, String pwConfirm , String name, String y, String m, String d , String g, String country, String num, String verify
+	)
+	{
+		System.out.println("아디: " + id);
+		System.out.println("비번: " + pw);
+		System.out.println("비번확인: " + pwConfirm);
+		System.out.println("이름: " + name);
+		System.out.println("년: " + y);
+		System.out.println("월: " + m);
+		System.out.println("일: " + d);
+		System.out.println("성: " + g);
+		System.out.println("지역 번호: " + country);
+		System.out.println("전화 번호: " + num);
+		System.out.println("인증번호 확인: " + verify);
+	}
+	@GetMapping("quiz7")
+	public void quiz7View() {}
 }
