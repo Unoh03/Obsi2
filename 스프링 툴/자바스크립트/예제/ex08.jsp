@@ -8,6 +8,13 @@
 </head>
 <body>
 	<script>
+		/*
+			var i = 0;
+			for(초기식; 조건식 증감식) {
+				반복적으로 수행할 문장;
+				반복적으로 수행할 문장;
+			}
+		*/
 		var x, y;
 		for (x = 2; x <= 5; x++) {
 			document.write("<b> ---[" + x + "단]--- </b>" + "<br>");
@@ -19,4 +26,3 @@
 	</script>
 </body>
 </html>
-
