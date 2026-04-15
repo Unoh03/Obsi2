@@ -20,8 +20,37 @@
               "icon": "lucide-file",
               "title": "예제 모음"
             }
+          },
+          {
+            "id": "4ff46e14e8affb9a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "기초 개념/정규 표현식.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "정규 표현식"
+            }
+          },
+          {
+            "id": "032b5c1b87fd435f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "기초 개념/논리 연산자.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "논리 연산자"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -241,13 +270,17 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "2362d05f2a84f3c7",
+  "active": "032b5c1b87fd435f",
   "lastOpenFiles": [
-    "스프링 툴/자바.md",
     "스프링 툴/예제 모음.md",
-    "스프링 툴/자바스크립트/자바 스크립트.md",
-    "기초 개념/논리 연산자.md",
+    "스프링 툴/자바스크립트/예제/ex11.jsp",
+    "스프링 툴/자바스크립트/예제/미확인 738899.crdownload",
+    "스프링 툴/자바스크립트/예제/ex12.jsp",
+    "스프링 툴/자바스크립트/예제/미확인 248107.crdownload",
     "기초 개념/정규 표현식.md",
+    "기초 개념/논리 연산자.md",
+    "스프링 툴/자바.md",
+    "스프링 툴/자바스크립트/자바 스크립트.md",
     "기초 개념/0의 종류.md",
     "스프링 툴/자바스크립트/예제/ex01New.jsp",
     "스프링 툴/자바스크립트/예제/ex08.jsp",
@@ -255,10 +288,6 @@
     "스프링 툴/자바스크립트/예제/ex09.jsp",
     "스프링 툴/자바스크립트/예제/ex10.jsp",
     "스프링 툴/자바스크립트/예제/ex05.jsp",
-    "스프링 툴/자바스크립트/예제/ex06.jsp",
-    "스프링 툴/자바스크립트/예제/ex07.jsp",
-    "스프링 툴/자바스크립트/예제/클라우드 기반 보안엔지니어링.zip",
-    "스프링 툴/자바스크립트/예제/미확인 519738.crdownload",
     "기초 개념/HTML.md",
     "기초 개념/HTML 보안 취약점 태그.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
@@ -288,7 +317,6 @@
     "네트워크/스위치.md",
     "MSA.md",
     "CMD.md",
-    "SSH.md",
     "무제.canvas"
   ]
 }
