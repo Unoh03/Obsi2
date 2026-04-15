@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "기초 개념/0의 종류.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "701453cb909506ae",
