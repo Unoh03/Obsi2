@@ -4,19 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ex13</title>
+<title>ex15</title>
 	<script type="text/javascript">
-		function inputDataPrint() {
-			var name1 = document.getElementById('name1');
-			var displayMSG = document.getElementById('displayMSG');
-			displayMSG.innerHTML = '졸려';
-            name1.value = "";
+		function change(imgObj){
+			console.log(imgObj);
+			console.log(imgObj.src);
+
+			if (imgObj.src == 'http://localhost/ok.png'){
+				imgObj.src='delete.png';
+			}else{
+				imgObj.src='ok.png';
+			}
 		}
 	</script>
 </head>
 <body>
-	name1 : <input type="text" id="name1" value="ㅎㅇ"> <br>
-	<span id="displayMSG" > </span><br>
-	<input type="button" value="버튼" onclick="inputDataPrint()">
+	<!--이미지를 클릭하면 delete.png로 변경하기-->
+	<img src="ok.png" id="imgObj" onclick="change(this)">
 </body>
 </html>
