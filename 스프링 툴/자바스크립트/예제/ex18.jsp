@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ex17</title>
+<title>ex18</title>
 <script>
 	function mouse_over(obj){
 		 obj.innerHTML = "mouse_out";
