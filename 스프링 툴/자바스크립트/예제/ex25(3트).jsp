@@ -13,15 +13,15 @@
 		if (idValue.length <= 0 && pwValue.length <= 0) {
 			alert("아디, 비번 입력.");
 		}else{
-			idcheck(); pwcheck();
+			idcheck(idValue); pwcheck(pwValue);
 		}
 	}
-	function idcheck() {
+	function idcheck(idValue) {
 		if (idValue.length <= 0) {
 			alert("아디 입력.");
 		}
 	}
-	function pwcheck() {
+	function pwcheck(pwValue) {
 		if (pwValue.length <= 0) {
 			alert("비번 입력.");
 		}else if (pwValue.length < 4) {
