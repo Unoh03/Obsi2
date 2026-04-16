@@ -6,9 +6,10 @@
 <meta charset="UTF-8">
 <title>ex25</title>
 <script>
-	let pwValue = document.getElementsByName('pw')[0].value;
-	let idValue = document.getElementsByName('id')[0].value;
 	function check(){
+		let idValue = document.getElementsByName('id')[0].value;
+		let pwValue = document.getElementsByName('pw')[0].value;
+
 		if (idValue.length <= 0 && pwValue.length <= 0) {
 			alert("아디, 비번 입력.");
 		}else{
@@ -31,7 +32,7 @@
     // 🚨 주의: name 속성으로 바로 접근(pw.value)하는 건 구식(Legacy) 브라우저의 잔재다.
     // 실무에서는 무조건 document.getElementsByName('pw')[0].value 를 쓰거나,
     // input 태그에 id="pw"를 주고 document.getElementById('pw').value 를 써야 안전하다.
-    
+    let pwValue = document.getElementsByName('pw')[0].value;
     
     
     if (pwValue.length <= 0) {
