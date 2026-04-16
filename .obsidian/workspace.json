@@ -35,8 +35,7 @@
               "title": "자바 스크립트"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -256,8 +255,9 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "d892c72fe27d41b9",
+  "active": "2362d05f2a84f3c7",
   "lastOpenFiles": [
+    "스프링 툴/자바스크립트/자바 스크립트.md",
     "스프링 툴/자바스크립트/예제/ex20.jsp",
     "스프링 툴/자바스크립트/예제/ex19 copy.jsp",
     "스프링 툴/자바스크립트/예제/ex19.jsp",
@@ -270,14 +270,12 @@
     "스프링 툴/자바스크립트/예제/ex16 copy.jsp",
     "스프링 툴/예제 모음.md",
     "기초 개념/논리 연산자.md",
-    "스프링 툴/자바스크립트/예제/ex16 (1).jsp",
     "스프링 툴/자바스크립트/예제/ok.png",
     "스프링 툴/자바스크립트/예제/lighton.png",
     "스프링 툴/자바스크립트/예제/lightoff.png",
     "스프링 툴/자바스크립트/예제/delete.png",
     "기초 개념/정규 표현식.md",
     "스프링 툴/자바.md",
-    "스프링 툴/자바스크립트/자바 스크립트.md",
     "기초 개념/0의 종류.md",
     "기초 개념/HTML.md",
     "기초 개념/HTML 보안 취약점 태그.md",
