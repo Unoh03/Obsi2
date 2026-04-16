@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ex19</title>
+<title>ex20</title>
 <script>
 	function mouse_down(obj){
-		 obj.innerHTML = "lighton.png";
+		 obj.innerHTML = `<img src="lighton.png">`;
 	}
 	function mouse_up(obj){
-		obj.innerHTML = "lightoff.png";
+		obj.innerHTML = `<img src="lightoff.png">`;
 	}
 </script>
 </head>
@@ -18,5 +18,6 @@
     <div onmousedown="mouse_down(this)" onmouseup="mouse_up(this)">
 		<img src="lightoff.png">
 	</div>
+	<br>딸깍딸깍
 </body>
 </html>
