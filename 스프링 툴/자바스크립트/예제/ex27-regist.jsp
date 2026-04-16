@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ex26</title>
+<title>ex27</title>
 <style>
 body {
 	background-color: #898989;
