@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ tag
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>NAVER_regist</title>
+<style>
+body {
+	background-color: #F6F6F6;
+}
+
+#content {
+	margin: 0 auto;
+	width: 450px;
+	table-layout: fixed;
+}
+
+td, th {
+	width: 100%;
+}
+
+th {
+	text-align: left;
+	padding-left: 10px;
+}
+
+caption {
+	font-size: 40px;
+	color: #1DDB16;
+	font-weight: bold;
+}
+
+input {
+	width: 90%;
+	margin: 5px;
+	height: 40px
+}
+
+.id_email {
+	position: relative;
+	top: -30px;
+	left: 315px;
+	color: gray
+}
+
+#birth td {
+	all: initial;
+}
+
+#birth select {
+	height: 45px;
+	width: 130px;
+}
+
+#birth input {
+	height: 38px;
+	width: 130px;
+	margin: 10px 0px 0px 0px;
+}
+
+#birth .year {
+	margin-left: 5px;
+}
+
+#gender select {
+	height: 45px;
+	width: 410px;
+	margin-left: 5px;
+}
+
+.choice {
+	font-size: 14px;
+}
+
+#mobile {
+	all: initial;
+}
+
+#mobile input, #mobile td {
+	width: 300px;
+}
+
+#mobile button {
+	width: 95px;
+	height: 43px;
+	background-color: #1DDB16;
+	color: white;
+	border: 1px gray;
+	font-size: 12px;
+}
+
+.number {
+	width: 410px;
+	height: 38px;
+	margin-left: 5px;
+}
+
+button[type="submit"] {
+	width: 410px;
+	height: 50px;
+	background-color: #1DDB16;
+	color: white;
+	border: 1px gray;
+	margin-left: 5px;
+}
+</style>
