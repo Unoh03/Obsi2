@@ -63,4 +63,6 @@ public class JsController {
 	public void ex24_2() {}
 	@RequestMapping("ex25")
 	public void ex25() {}
+	@RequestMapping("ex26")
+	public void ex26() {}
 }
