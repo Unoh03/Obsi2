@@ -31,10 +31,14 @@
 	<input type="text" name="id" placeholder="아디">(*필수항목)
 	<br>
 	<input type="password" name="pw" placeholder="비번">
-	if (/**/) {
-		비번 입력
-	}elif () {
-
+	while (pw.value.length <= 0) {
+			비번 입력.
+		}elif (pw.value.length < 4) {
+			비번 5자리 입력.
+		}
 	}
+	<br>
+	<input type="button" value="로긴" onclick="check()">
+	<input type="reset" value="취소">
 </body>
 </html>
