@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ tag
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,3 +105,7 @@ button[type="submit"] {
 	margin-left: 5px;
 }
 </style>
+<script>
+	
+</script>
+</head>
