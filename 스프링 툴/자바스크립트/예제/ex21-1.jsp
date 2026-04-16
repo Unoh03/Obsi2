@@ -18,8 +18,3 @@
 	<input type="button" 	value="다음 페이지" 	onclick="forward()">
 </body>
 </html>
-
-
-
-
-
