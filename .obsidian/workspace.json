@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "기초 개념/정규 표현식.md",
+                "file": "리눅스(우분투)/마지막 총정리 문제.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "정규 표현식"
+              "title": "마지막 총정리 문제"
             }
           },
           {
@@ -271,6 +271,11 @@
   },
   "active": "f305fc1456fceaab",
   "lastOpenFiles": [
+    "스프링 툴/MVC/MemberDTO.java",
+    "스프링 툴/MVC/MemberDTO",
+    "스프링 툴/MVC",
+    "리눅스(우분투)/우분투.md",
+    "기초 개념/정규 표현식.md",
     "스프링 툴/자바스크립트/예제/NAVER_script.js",
     "스프링 툴/자바스크립트/예제/NAVER_style copy.css",
     "스프링 툴/자바스크립트/예제/NAVER_style.css",
@@ -280,17 +285,12 @@
     "스프링 툴/자바스크립트/예제/NAVER_header.jsp",
     "스프링 툴/자바스크립트/예제/NAVER_h2_script.jsp",
     "스프링 툴/자바스크립트/예제/NAVER_h1_script.jsp",
-    "스프링 툴/자바스크립트/예제/NAVER_h1_style.jsp",
-    "스프링 툴/자바스크립트/예제/NAVER_h1_style copy.jsp",
-    "스프링 툴/자바스크립트/예제/NAVER_h1.style.jsp",
-    "리눅스(우분투)/우분투.md",
     "스프링 툴/자바스크립트/자바 스크립트.md",
     "기초 개념/논리 연산자.md",
     "스프링 툴/자바스크립트/예제/ok.png",
     "스프링 툴/자바스크립트/예제/lighton.png",
     "스프링 툴/자바스크립트/예제/lightoff.png",
     "스프링 툴/자바스크립트/예제/delete.png",
-    "기초 개념/정규 표현식.md",
     "스프링 툴/자바.md",
     "기초 개념/0의 종류.md",
     "기초 개념/HTML.md",
