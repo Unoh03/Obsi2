@@ -21,7 +21,7 @@
     			<input type="password" name="pw">
 			</label></td>
 		</tr>
-		<tr> <!--3행(비번 재입력{텍스트. 비번 검토 기능은 지금 못함})-->
+		<tr> <!--3행(비번 재입력{텍스트. 비번 검토 기능은 못했는데 가능})-->
 			
 			<td colspan="3"><label>
 				비번 재입<br>
