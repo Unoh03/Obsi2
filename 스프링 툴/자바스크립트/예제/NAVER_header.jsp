@@ -107,7 +107,7 @@ button[type="submit"] {
 </style>
 <script>
 	function idCheck() {
-    let idVal = document.getElementsByid('id').value;
+    let idVal = document.getElementById('id').value;
     const idRegex = /^[a-z0-9_-]{5,20}$/;
     
     if (!idRegex.test(idVal)) {
@@ -128,8 +128,9 @@ button[type="submit"] {
 	}
 }
 	function pwConfirm() {
+		let pwVal = document.getElementById('pw').value;
 		let pwCon = document.getElementById('pwConfirm').value
-		if (pwcon != pwVal) {
+		if (pwCon != pwVal) {
 			document.getElementById('pwConmsg').innerHTML = "비밀번호가 일치하지 않습니다.";
 		} else {
 			document.getElementById('pwConmsg').innerHTML = "✅비밀번호가 일치합니다.";
@@ -138,7 +139,7 @@ button[type="submit"] {
 	}
 	function nameCheck() {
 		let nameVal = document.getElementById('name').value
-		
+
 		if (nameval === /*????*/) {
 			document.getElementById('namemsg').innerHTML = "한글과 영문 대소문자를 사용하세요.(특수기호, 공백 사용 불가.)";
 		}else{
@@ -148,15 +149,16 @@ button[type="submit"] {
 	function yCheck() {
 		let  = document.getElementById('y').value
 		if () {
-			document.getElementById('ymsg').innerHTML = "";
+			document.getElementById('ymsg').innerHTML = "4자리 입력.";
 		}else{
 			document.getElementById('ymsg').innerHTML = "✅";
 		}
 	}
 	function dCheck() {
+		let  = document.getElementById('m').value
 		let  = document.getElementById('d').value
 		if () {
-			document.getElementById('dmsg').innerHTML = "";
+			document.getElementById('dmsg').innerHTML = "1~31 입력.";
 		}else{
 			document.getElementById('dmsg').innerHTML = "✅";
 		}
@@ -164,7 +166,7 @@ button[type="submit"] {
 	function eCheck() {
 		let  = document.getElementById('e').value
 		if () {
-			document.getElementById('emsg').innerHTML = "";
+			document.getElementById('emsg').innerHTML = "이메일 양식 틀림.";
 		}else{
 			document.getElementById('emsg').innerHTML = "✅";
 		}
