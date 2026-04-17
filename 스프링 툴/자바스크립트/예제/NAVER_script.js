@@ -24,7 +24,7 @@ function pwCheck() {
 
 function pwConfirm() {
 	let pwVal = document.getElementById('pw').value;
-	let pwCon = document.getElementById('pwConfirm').value
+	let pwCon = document.getElementById('pwCon').value
 	if (pwCon != pwVal) {
 		document.getElementById('pwConmsg').innerHTML = "비밀번호가 일치하지 않습니다.";
 	} else {
