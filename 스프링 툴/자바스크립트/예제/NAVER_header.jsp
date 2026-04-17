@@ -107,10 +107,10 @@ button[type="submit"] {
 </style>
 <script>
 	function idCheck() {
-    let idValue = document.getElementsByName('id')[0].value;
+    let idVal = document.getElementsByName('id')[0].value;
     
     
-    if (idValue = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
+    if (idVal = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
         document.getElementById('idmsg').innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_), (*)만 사용 가능합니다.";
 
     } else {
@@ -118,10 +118,10 @@ button[type="submit"] {
 	}
 }
 	function pwCheck() {
-    let pwValue = document.getElementsByName('pw')[0].value;
+    let pwVal = document.getElementsByName('pw')[0].value;
     
     
-    if (pwValue = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
+    if (pwVal = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
         document.getElementById('pwmsg').innerHTML = "8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.";
 
     } else {
@@ -130,7 +130,7 @@ button[type="submit"] {
 }
 	function pwConfirm() {
 		let pwCon = document.getElementById('pwConfirm')[0].value
-		if (pwcon != pwValue) {
+		if (pwcon != pwVal) {
 			document.getElementById('pwConfirm').innerHTML = "비밀번호가 일치하지 않습니다."
 		} else {
 			document.getElementById('pwConfirm').innerHTML = "✅비밀번호가 일치합니다."
@@ -138,22 +138,47 @@ button[type="submit"] {
 
 	}
 	function nameCheck() {
-
+		let nameVal = document.getElementById('name')[0].value
+		if (nameval === /*????*/) {
+			document.getElementById('name').innerHTML = "한글과 영문 대소문자를 사용하세요.(특수기호, 공백 사용 불가.)"
+		}else{
+			document.getElementById('name').innerHTML = "✅"
+		}
 	}
 	function yCheck() {
-		
+		let  = document.getElementById('')[0].value
+		if () {
+			document.getElementById('').innerHTML = ""
+		}else{
+			document.getElementById('').innerHTML = "✅"
+		}
 	}
 	function dCheck() {
-		
+		let  = document.getElementById('')[0].value
+		if () {
+			document.getElementById('').innerHTML = ""
+		}else{
+			document.getElementById('').innerHTML = "✅"
+		}
 	}
 	function eCheck() {
-		
+		let  = document.getElementById('')[0].value
+		if () {
+			document.getElementById('').innerHTML = ""
+		}else{
+			document.getElementById('').innerHTML = "✅"
+		}
 	}
 	function sendVerify() {
 		
 	}
 	function verifyCheck() {
-		
+		let  = document.getElementById('')[0].value
+		if () {
+			document.getElementById('').innerHTML = ""
+		}else{
+			document.getElementById('').innerHTML = "✅"
+		}
 	}
 
 	function ALERT() {
