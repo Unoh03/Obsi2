@@ -34,8 +34,9 @@ function pwConfirm() {
 }
 function nameCheck() {
 	let nameVal = document.getElementById('name').value
+	const nameRegex = /^[가-힣a-zA-Z]+$/;
 
-	if (nameval === /*????*/) {
+	if (!nameRegex.test(nameVal)) {
 		document.getElementById('namemsg').innerHTML = "한글과 영문 대소문자를 사용하세요.(특수기호, 공백 사용 불가.)";
 	}else{
 		document.getElementById('namemsg').innerHTML = "✅";
