@@ -106,6 +106,28 @@ button[type="submit"] {
 }
 </style>
 <script>
-	
+	function idCheck() {
+    let idValue = document.getElementsByName('id')[0].value;
+    
+    
+    if (idValue = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
+        document.getElementById('idmsg').innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_), (*)만 사용 가능합니다.";
+
+    } else {
+        document.getElementById('idmsg').innerHTML = "✅ 적절한 아이디입니다";
+	}
+}
+	function pwCheck() {
+    let idValue = document.getElementsByName('pw')[0].value;
+    
+    
+    if (pwValue = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
+        document.getElementById('pwmsg').innerHTML = "8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.";
+
+    } else {
+        document.getElementById('pwmsg').innerHTML = "✅ 적절한 비밀번호입니다";
+	}
+}
+	function pwConfirm() 
 </script>
 </head>
