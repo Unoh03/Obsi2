@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="n" %>
-<n:import url="/NAVER_header"/>
+<n:import url="/src/main/resourse/static/NAVER_style.css"/>
+<n:import url="/src/main/resourse/static/NAVER_script.js"/>
 <body>
 	<form method="post" action="NAVER_regist">
 	<table id="content"><!--11행, 3열-->

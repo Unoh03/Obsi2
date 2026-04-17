@@ -9,17 +9,17 @@
     } else {
         document.getElementById('idmsg').innerHTML = "✅ 적절한 아이디입니다";
 	}
-}
+
 	function pwCheck() {
     let pwVal = document.getElementsByid('pw').value;
-    const pwRegex = /^[a-zA-Z0-9`-=~!@#$%^&*()_+\|;:'"]{8,16}$/
+	}
     
     if () {
         document.getElementById('pwmsg').innerHTML = "8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.";
     } else {
         document.getElementById('pwmsg').innerHTML = "✅ 적절한 비밀번호입니다";
 	}
-}
+
 	function pwConfirm() {
 		let pwVal = document.getElementById('pw').value;
 		let pwCon = document.getElementById('pwConfirm').value
