@@ -118,7 +118,7 @@ button[type="submit"] {
 	}
 }
 	function pwCheck() {
-    let idValue = document.getElementsByName('pw')[0].value;
+    let pwValue = document.getElementsByName('pw')[0].value;
     
     
     if (pwValue = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
@@ -128,6 +128,36 @@ button[type="submit"] {
         document.getElementById('pwmsg').innerHTML = "✅ 적절한 비밀번호입니다";
 	}
 }
-	function pwConfirm() 
+	function pwConfirm() {
+		let pwCon = document.getElementById('pwConfirm')[0].value
+		if (pwcon != pwValue) {
+			document.getElementById('pwConfirm').innerHTML = "비밀번호가 일치하지 않습니다."
+		} else {
+			document.getElementById('pwConfirm').innerHTML = "✅비밀번호가 일치합니다."
+		}
+
+	}
+	function nameCheck() {
+
+	}
+	function yCheck() {
+		
+	}
+	function dCheck() {
+		
+	}
+	function eCheck() {
+		
+	}
+	function sendVerify() {
+		
+	}
+	function verifyCheck() {
+		
+	}
+
+	function ALERT() {
+		
+	}
 </script>
 </head>
