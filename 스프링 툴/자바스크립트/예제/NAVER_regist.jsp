@@ -11,8 +11,8 @@
 			<td colspan="3"><label>
 				아이디<br>
     			<input type="text" name="id" id="id" onkeyup="idCheck()"></label> <span
-				class="id_email">@naver.com</span> <br>
-				<span id="idmsg"></span>
+				class="id_email">@naver.com</span>
+				<br><span id="idmsg"></span>
 			</td>
 		</tr>
 		<tr> <!--2행(비번{텍스트})-->
@@ -20,6 +20,7 @@
 			<td colspan="3"><label>
 				비번<br>
     			<input type="password" name="pw" id="pw" onkeyup="pwCheck()">
+				<br><span id="pwmsg"></span>
 			</label></td>
 		</tr>
 		<tr> <!--3행(비번 재입력{텍스트. 비번 검토 기능은 못했는데 가능})-->
@@ -27,6 +28,7 @@
 			<td colspan="3"><label>
 				비번 재입<br>
     			<input type="password" name="pwConfirm" id="pwcon" onkeyup="pwConfirm()">
+			<br><span id="pwConmsg"></span>
 			</label></td>
 		</tr>
 		<tr> <!--4행(이름{텍스트})-->
@@ -34,6 +36,7 @@
 			<td colspan="3"><label>
 				이름<br>
     			<input type="text" name="name" id="name" onkeyup="nameCheck()">
+			<br><span id="namemsg"></span>
 			</label></td>
 		</tr>
 		<tr id="birth"> <!--5행(생년월일{텍스트[플.홀],셀렉트,텍스트[플.홀]})-->
@@ -41,7 +44,7 @@
 			<td class="year"><label>
 			생년월일<br>
     			<input type="text" name="y" id="y" placeholder="년(4자)" onkeyup="yCheck()">
-			<br>
+				<br><span id="ymsg"></span>
 			</td>
 			<td><select name="m">
 				<option value="1">1</option>
@@ -59,7 +62,8 @@
 			</select></label></td>
 			<td>
     			<input type="text" name="d" id="d" placeholder="일" onkeyup="dCheck()">
-		</td>
+				<br><span id="dmsg"></span>
+			</td>
 		</tr>
 		<tr  id="gender"> <!--6행(성별{셀렉트})-->
 			
@@ -78,7 +82,7 @@
 			<td colspan="3"><label>
 			이메일<span class="choice">(선택)</span><br>
     			<input type="text" name="e" id="e" onkeyup="eCheck()">
-			</label></td>
+			</label><br><span id="emsg"></span></td>
 			
 		</tr>
 		<tr> <!--8,9,10행(셀렉트)(텍스트[플.홀], 버튼)(텍스트[플.홀])-->
@@ -95,7 +99,7 @@
 			</tr>
 			<tr id="mobile">
 			<td colspan="2">
-    			<input type="text" name="num" id="num" placeholder="전화번호 입력">
+    			<input type="text" name="num" placeholder="전화번호 입력">
 			</td>
 			<td>	
 			<input type="button" value="인증번호 받기" onclick="sendVerify()">
@@ -104,6 +108,7 @@
 			<tr>
 			<td colspan="3">
 				<input type="text" name="verify" id="verify" placeholder="인증번호 입력하세요" onkeyup="verifyCheck()">
+			<br><span id="vmsg"></span>
 			</td>
 			
 		</tr>

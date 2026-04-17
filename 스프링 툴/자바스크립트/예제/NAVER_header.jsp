@@ -107,77 +107,77 @@ button[type="submit"] {
 </style>
 <script>
 	function idCheck() {
-    let idVal = document.getElementsByName('id')[0].value;
+    let idVal = document.getElementsByid('id').value;
+    const idRegex = /^[a-z0-9_-]{5,20}$/;
     
-    
-    if (idVal = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
-        document.getElementById('idmsg').innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_), (*)만 사용 가능합니다.";
+    if (!idRegex.test(idVal)) {
+        document.getElementById('idmsg').innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_), (-)만 사용 가능합니다.";
 
     } else {
         document.getElementById('idmsg').innerHTML = "✅ 적절한 아이디입니다";
 	}
 }
 	function pwCheck() {
-    let pwVal = document.getElementsByName('pw')[0].value;
+    let pwVal = document.getElementsByid('pw').value;
+    const pwRegex = /^[a-zA-Z0-9`-=~!@#$%^&*()_+\|;:'"]{8,16}$/
     
-    
-    if (pwVal = /*아니 이거 어케 해야됨? 정규식이 써야되는건 알고, 내 정규식 정리 노트에 양식도 있는데, 어케 적용시킬지를 모르겠어*/) {
+    if () {
         document.getElementById('pwmsg').innerHTML = "8~16자 영문 대소문자, 숫자, 특수문자를 사용하세요.";
-
     } else {
         document.getElementById('pwmsg').innerHTML = "✅ 적절한 비밀번호입니다";
 	}
 }
 	function pwConfirm() {
-		let pwCon = document.getElementById('pwConfirm')[0].value
+		let pwCon = document.getElementById('pwConfirm').value
 		if (pwcon != pwVal) {
-			document.getElementById('pwConfirm').innerHTML = "비밀번호가 일치하지 않습니다."
+			document.getElementById('pwConmsg').innerHTML = "비밀번호가 일치하지 않습니다.";
 		} else {
-			document.getElementById('pwConfirm').innerHTML = "✅비밀번호가 일치합니다."
+			document.getElementById('pwConmsg').innerHTML = "✅비밀번호가 일치합니다.";
 		}
 
 	}
 	function nameCheck() {
-		let nameVal = document.getElementById('name')[0].value
+		let nameVal = document.getElementById('name').value
+		
 		if (nameval === /*????*/) {
-			document.getElementById('name').innerHTML = "한글과 영문 대소문자를 사용하세요.(특수기호, 공백 사용 불가.)"
+			document.getElementById('namemsg').innerHTML = "한글과 영문 대소문자를 사용하세요.(특수기호, 공백 사용 불가.)";
 		}else{
-			document.getElementById('name').innerHTML = "✅"
+			document.getElementById('namemsg').innerHTML = "✅";
 		}
 	}
 	function yCheck() {
-		let  = document.getElementById('')[0].value
+		let  = document.getElementById('y').value
 		if () {
-			document.getElementById('').innerHTML = ""
+			document.getElementById('ymsg').innerHTML = "";
 		}else{
-			document.getElementById('').innerHTML = "✅"
+			document.getElementById('ymsg').innerHTML = "✅";
 		}
 	}
 	function dCheck() {
-		let  = document.getElementById('')[0].value
+		let  = document.getElementById('d').value
 		if () {
-			document.getElementById('').innerHTML = ""
+			document.getElementById('dmsg').innerHTML = "";
 		}else{
-			document.getElementById('').innerHTML = "✅"
+			document.getElementById('dmsg').innerHTML = "✅";
 		}
 	}
 	function eCheck() {
-		let  = document.getElementById('')[0].value
+		let  = document.getElementById('e').value
 		if () {
-			document.getElementById('').innerHTML = ""
+			document.getElementById('emsg').innerHTML = "";
 		}else{
-			document.getElementById('').innerHTML = "✅"
+			document.getElementById('emsg').innerHTML = "✅";
 		}
 	}
 	function sendVerify() {
 		
 	}
 	function verifyCheck() {
-		let  = document.getElementById('')[0].value
+		let  = document.getElementById('verify').value
 		if () {
-			document.getElementById('').innerHTML = ""
+			document.getElementById('vmsg').innerHTML = "";
 		}else{
-			document.getElementById('').innerHTML = "✅"
+			document.getElementById('vmsg').innerHTML = "✅";
 		}
 	}
 
