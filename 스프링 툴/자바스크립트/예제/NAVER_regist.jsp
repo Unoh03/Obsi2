@@ -45,6 +45,7 @@
 			생년월일<br>
     			<input type="text" name="y" id="y" placeholder="년(4자)" onkeyup="yCheck()">
 				<br><span id="ymsg"></span>
+			</label>
 			</td>
 			<td><select name="m">
 				<option value="1">1</option>
@@ -59,7 +60,7 @@
 				<option value="10">10</option>
 				<option value="11">11</option>
 				<option value="12">12</option>
-			</select></label></td>
+			</select></td>
 			<td>
     			<input type="text" name="d" id="d" placeholder="일" onkeyup="dCheck()">
 				<br><span id="dmsg"></span>
