@@ -85,11 +85,12 @@ public class MvcController {
 		 * 디비에서 결과를 받아 출력하기.
 		 */
 	}
-	@GetMapping("logout") // logout은 링크 클릭으로 호출되니 Post가 자연스러움. Get은 보안 별로.
+	@PostMapping("logout") // logout은 링크 클릭으로 호출되니 Post가 자연스러움. Get은 보안 별로.
 	public String logout(HttpSession session) {
 		session.invalidate(); // 현재 사용자의 세션 전체 무효화
 		return "redirect:index"; // 홈으로 리다이렉트
 	}
+	@RequestMapping("memberInfo")
 	public String memberInfo(Model model) {
 		// 클라 요청 받아 DB에 데이터 가져와 화면에 바로 제공
 		ArrayList<MemberDTO> members = service.memberinfo();
@@ -167,4 +168,6 @@ public class MvcController {
 			return "forward:login";
 		}
 	 */
+
+
 }

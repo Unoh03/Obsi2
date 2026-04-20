@@ -1,12 +1,8 @@
 package com.example.mvcExample;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import jakarta.servlet.http.HttpSession;
 
 @Service
 public class MvcService {
@@ -14,7 +10,7 @@ public class MvcService {
 	
 	public String registProc(MemberDTO member, String confirm) {
 		String msg = "";
-		if(member.getId() == "") {
+		if(member.getId() == null || member.getId().isEmpty()) {
 			msg = "아이디를 입력하세요.";
 		}else if(member.getPw() == "" ) {
 			msg = "비밀번호를 입력하세요.";
