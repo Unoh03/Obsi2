@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class MvcController {
@@ -14,51 +15,62 @@ public class MvcController {
 	}
 	@RequestMapping("index")
 	public void index() {}
+	
 	@RequestMapping("header")
 	public String header() {
 		return "default/header";
 	}
+	
 	@RequestMapping("main")
 	public String main() {
 		return "default/main";
 	}
+	
 	@RequestMapping("footer")
 	public String footer() {
 		return "default/footer";
 	}
+
 	
-	@GetMapping("delete")
-	public String delete() {
-		return "member/delete";
-	}
-	@GetMapping("memberinfo")
-	public String memberinfo() {
-		return "member/memberinfo";
-	}
-	@GetMapping("userinfo")
-	public String userinfo() {
-		return "member/userinfo";
+	@GetMapping("regist") // 회원 가입 하면 제공
+	public String regist() {
+		return "member/regist";
 	}
 	
-	@RequestMapping("login")
+//	MvcService service = new MvcService();
+	@Autowired MvcService service; // MvcService Class를 자동으로 실행해서 관리해
+	
+	@PostMapping("registProc") // 회원 정보 전달
+	public String registProc(MemberDTO member, String confirm, RedirectAttributes ra) {
+		String msg = service.registProc(member, confirm);
+		ra.addFlashAttribute("msg", msg);
+		if(msg.equals("회원 가입 성공")) {
+			return "redirect:login";
+		}else {
+			return "redirect:regist";
+		}
+	}
+	
+	
+	@GetMapping("login")
 	public String login () {
 		System.out.println("로그인 화면");
 		return "member/login";
 	}
-	@GetMapping("regist")
-	public String regist() {
-		return "member/regist";
-	}
-	@Autowired MvcService service;
 	
-	@PostMapping("registProc")
-	public String registProc(MemberDTO member, String confirm) {
-		service.registProc(member, confirm);
-		//return "forward:login"; 화면과 URL이 다름
-		return "redirect:login"; //화면과 URL이 일치	
+	@PostMapping("loginProc")
+	public String loginProc(MemberDTO member) {
+		System.out.println("로그인 프로세스");
+		String msg = service.loginProc(member);
+		System.out.println("msg:  " + msg);
+		/*
+		 * 아이디/비밀번호를 전달받아 서비스 안에 메서드로 전달
+		 * 서비스에서 입력 값 검증 후 디비로 전달
+		 * 디비에서 결과를 받아 출력하기.
+		 */
+		return "member/login";
 	}
-
-
+	
 	/*
 	 * 매핑 애너테이션
 	 
