@@ -1,11 +1,16 @@
 package com.example.mvcExample;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MvcController {
@@ -59,16 +64,38 @@ public class MvcController {
 	}
 	
 	@PostMapping("loginProc")
-	public String loginProc(MemberDTO member) {
-		System.out.println("로그인 프로세스");
-		String msg = service.loginProc(member);
-		System.out.println("msg:  " + msg);
+	public String loginProc(MemberDTO member, HttpSession session, RedirectAttributes ra) {
+	    // Service가 이제 MemberDTO를 반환 — null이면 실패
+	    MemberDTO result = service.loginProc(member);
+	    
+	    if (result != null) {
+	        // 세션 처리는 Controller가 담당
+	        session.setAttribute("id", result.getId());
+	        session.setAttribute("userName", result.getUserName());
+	        System.out.println("로그인 성공: " + result.getId());
+	        return "redirect:index"; // 성공 시 메인으로
+	    } else {
+	        // 실패 메시지를 다음 페이지로 전달
+	        ra.addFlashAttribute("msg", "아이디/비밀번호가 일치하지 않습니다.");
+	        return "redirect:login"; // 실패 시 로그인 페이지로
+	    }
 		/*
 		 * 아이디/비밀번호를 전달받아 서비스 안에 메서드로 전달
 		 * 서비스에서 입력 값 검증 후 디비로 전달
 		 * 디비에서 결과를 받아 출력하기.
 		 */
-		return "member/login";
+	}
+	@GetMapping("logout") // logout은 링크 클릭으로 호출되니 Post가 자연스러움. Get은 보안 별로.
+	public String logout(HttpSession session) {
+		session.invalidate(); // 현재 사용자의 세션 전체 무효화
+		return "redirect:index"; // 홈으로 리다이렉트
+	}
+	public String memberInfo(Model model) {
+		// 클라 요청 받아 DB에 데이터 가져와 화면에 바로 제공
+		ArrayList<MemberDTO> members = service.memberinfo();
+		model.addAttribute("members", members);
+		
+		return "member/memberinfo";
 	}
 	
 	/*
@@ -140,6 +167,4 @@ public class MvcController {
 			return "forward:login";
 		}
 	 */
-
-
 }

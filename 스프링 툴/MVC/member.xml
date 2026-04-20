@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- Window -> Preferences -> Maven -> download artifact javadoc 체크 -->
+  
+  <mapper namespace="com.example.mvcExample.IMvcMapper">
+  	<insert id="registProc">
+  		<!-- INSERT INTO member VALUES('user77', '123', '유저칠칠', '12344', '서울시', '303호', '010-3012-0626'); -->
+  		INSERT INTO member VALUES(
+  		#{id}, #{pw}, #{userName}, #{postCode}, #{address}, #{detailAddress}, #{mobile})
+  	</insert>
+  	
+  	<resultMap type="com.example.mvcExample.MemberDTO" id="memberVO">
+  		<id column="id" property="id"/> <!-- 컬럼과 프로퍼티가 같아서 안해도 됨 -->
+  		<result column="postcode" property="postCode"/> <!-- 컬럼과 프로퍼티가 달라서 필수 -->
+  		<result column="postcode" property="postCode"/>
+  		<result column="detailaddress" property="detailAddress"/>
+  	</resultMap>
+  	
+  	<select id="loginProc">
+  		SELECT * FROM member WHERE id=#{id}
+  	</select>
+  	
+  	<select id="memberInfo">
+  		SELECT * FROM member
+  	</select>
+  </mapper>
