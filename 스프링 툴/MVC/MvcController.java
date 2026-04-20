@@ -1,27 +1,61 @@
 package com.example.mvcExample;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MvcController {
+	@RequestMapping("/")
+	public String root() {
+		return "index";
+	}
+	@RequestMapping("index")
+	public void index() {}
+	@RequestMapping("header")
+	public String header() {
+		return "default/header";
+	}
+	@RequestMapping("main")
+	public String main() {
+		return "default/main";
+	}
+	@RequestMapping("footer")
+	public String footer() {
+		return "default/footer";
+	}
+	
+	@GetMapping("delete")
+	public String delete() {
+		return "member/delete";
+	}
+	@GetMapping("memberinfo")
+	public String memberinfo() {
+		return "member/memberinfo";
+	}
+	@GetMapping("userinfo")
+	public String userinfo() {
+		return "member/userinfo";
+	}
+	
+	@RequestMapping("login")
+	public String login () {
+		System.out.println("로그인 화면");
+		return "member/login";
+	}
 	@GetMapping("regist")
 	public String regist() {
 		return "member/regist";
 	}
+	@Autowired MvcService service;
 	
 	@PostMapping("registProc")
 	public String registProc(MemberDTO member, String confirm) {
-		System.out.println("아디: " + member.getId());
-		System.out.println("비번: " + member.getPw());
-		System.out.println("비번확인: " + confirm);
-		System.out.println("이름: " + member.getUserName());
-		System.out.println("우편번호: " + member.getPostCode());
-		System.out.println("주소: " + member.getAddress());
-		System.out.println("상세주소: " + member.getDetailAddress());
-		System.out.println("전번: " + member.getMobile());
-		return "member/login";
+		service.registProc(member, confirm);
+		//return "forward:login"; 화면과 URL이 다름
+		return "redirect:login"; //화면과 URL이 일치	
 	}
 
 

@@ -43,8 +43,8 @@ function nameCheck() {
 	}
 }
 function yCheck() {
-	let  = document.getElementById('y').value
-	if () {
+	let yVal = document.getElementById('y').value
+	if (yVal.length != 4) {
 		document.getElementById('ymsg').innerHTML = "4자리 입력.";
 	}else{
 		document.getElementById('ymsg').innerHTML = "✅";
@@ -53,7 +53,7 @@ function yCheck() {
 function dCheck() {
 	let  = document.getElementById('m').value
 	let  = document.getElementById('d').value
-	if () {
+	if (m==2 && ) {
 		document.getElementById('dmsg').innerHTML = "1~31 입력.";
 	}else{
 		document.getElementById('dmsg').innerHTML = "✅";
