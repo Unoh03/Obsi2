@@ -8,31 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "2362d05f2a84f3c7",
+            "id": "3ee7e1f35712e678",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "스프링 툴/자바스크립트/예제 모음.md",
-                "mode": "source",
+                "file": "스프링 툴/MVC/데이터 흐름.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "예제 모음"
-            }
-          },
-          {
-            "id": "f305fc1456fceaab",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "리눅스(우분투)/마지막 총정리 문제.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "마지막 총정리 문제"
+              "title": "데이터 흐름"
             }
           },
           {
@@ -63,8 +49,7 @@
               "title": "우분투"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -283,13 +268,14 @@
       "mermaid-tools:Open Mermaid Toolbar": false
     }
   },
-  "active": "795477efa3ba782b",
+  "active": "3ee7e1f35712e678",
   "lastOpenFiles": [
+    "스프링 툴/자바스크립트/예제 모음.md",
+    "리눅스(우분투)/마지막 총정리 문제.md",
     "스프링 툴/자바스크립트/예제/MvcController.java",
     "스프링 툴/MVC/IMvcMapper.java",
     "스프링 툴/MVC/MvcService.java",
     "리눅스(우분투)/우분투.md",
-    "리눅스(우분투)/마지막 총정리 문제.md",
     "스프링 툴/MVC/데이터 흐름.md",
     "기초 개념/정규 표현식.md",
     "스프링 툴/자바스크립트/예제/NAVER_Sc_T.js",
@@ -300,8 +286,6 @@
     "스프링 툴/MVC/MvcController.java",
     "스프링 툴/MVC/미확인 555006.crdownload",
     "스프링 툴/MVC/MemberDTO.java",
-    "스프링 툴/MVC/MemberDTO",
-    "스프링 툴/자바스크립트/예제 모음.md",
     "기초 개념/논리 연산자.md",
     "스프링 툴/자바스크립트/예제/ok.png",
     "스프링 툴/자바스크립트/예제/lighton.png",
