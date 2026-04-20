@@ -58,15 +58,3 @@ public class MvcService {
 		return msg;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
