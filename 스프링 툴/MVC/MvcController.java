@@ -96,7 +96,11 @@ public class MvcController {
 		ArrayList<MemberDTO> members = service.memberinfo();
 		model.addAttribute("members", members);
 		
-		return "member/memberinfo";
+		return "member/memberInfo";
+	}
+	@GetMapping("userInfo")
+	public String userInfo() {
+		return "member/userInfo";
 	}
 	
 	/*
