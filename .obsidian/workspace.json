@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "기초 개념/암호화와 해시.md",
-                "mode": "preview",
+                "file": "스프링 툴/MVC/데이터 흐름.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "암호화와 해시"
+              "title": "데이터 흐름"
             }
           },
           {
@@ -283,8 +283,8 @@
   },
   "active": "3ee7e1f35712e678",
   "lastOpenFiles": [
-    "스프링 툴/MVC/데이터 흐름.md",
     "기초 개념/암호화와 해시.md",
+    "스프링 툴/MVC/데이터 흐름.md",
     "스프링 툴/MVC/memberInfo,jsp",
     "스프링 툴/MVC/바탕 화면.code-workspace",
     "스프링 툴/MVC/member.xml",
