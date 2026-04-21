@@ -27,9 +27,9 @@
   		SELECT * FROM member
   	</select>	
   	
-  	<select id="updateProc">
+  	<update id="updateProc">
   		UPDATE member SET pw=#{pw}, username=#{userName}, address=#{address}, detailAddress=#{detailAddress}, mobile=#{mobile}
   		WHERE id=#{id}
-  	</select>
+  	</update>
   	
   </mapper>

@@ -11,4 +11,6 @@ public interface IMvcMapper {
 	public MemberDTO loginProc(String id);
 	
 	public ArrayList<MemberDTO> memberInfo();
+
+	public void updateProc(MemberDTO member);
 }

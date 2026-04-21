@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
@@ -72,8 +73,7 @@ public class MvcController {
 	    if (result != null) {
 	        // 세션 처리는 Controller가 담당
 	        session.setAttribute("id", result.getId());
-	        session.setAttribute("userName", result.getUserName());
-	        System.out.println("로그인 성공: " + result.getId());
+	        session.setAttribute("userName", result.getUserName());	        System.out.println("로그인 성공: " + result.getId());
 	        return "redirect:index"; // 성공 시 메인으로
 	    } else {
 	        // 실패 메시지를 다음 페이지로 전달
@@ -108,16 +108,27 @@ public class MvcController {
 	}
 	
 	@GetMapping("update")
-	public String update () {
-		// 로그인된 사용자만 화면 제공
-		System.out.println("update 화면");
-		return "member/update";
+	public String update(HttpSession session, Model model) {
+	    if(session.getAttribute("id") == null)
+	        return "redirect:login";
+	    
+	    String id = (String) session.getAttribute("id");
+	    MemberDTO member = service.getUserById(id); // DB 조회
+	    model.addAttribute("member", member);
+	    return "member/update";
 	}
 	@PostMapping("updateProc")
-	public String updateProc() {
+	public String updateProc(MemberDTO member, String confirm, 
+            RedirectAttributes ra, HttpSession session) {
 		// 회원 정보 수정이 잘 되면 로그아웃 후 로그인 화면으로 이동
 		// 회원 정보 수정에 문제가 있다면 update 화면으로 이동
-		return "";
+		String msg = service.updateProc(member, confirm);
+	    ra.addFlashAttribute("msg", msg);
+	    if(msg.equals("수정 완료")) {
+	        session.invalidate();
+	        return "redirect:login";
+	    }
+	    return "redirect:update";
 	}
 	
 	/*
