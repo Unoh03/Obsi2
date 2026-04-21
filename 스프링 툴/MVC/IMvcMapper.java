@@ -14,5 +14,5 @@ public interface IMvcMapper {
 
 	public void updateProc(MemberDTO member);
 	
-	public int deleteProc(MemberDTO member);
+	public int deleteProc(String id);
 }

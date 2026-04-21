@@ -95,26 +95,28 @@ public class MvcService {
 	    return "수정 완료";
 	}
 	
-	public String deleteProc(MemberDTO member, String confirm, String id) {
+	public String deleteProc(String confirm, String id, String pw) {
 		String msg = "";
 	
-		if(member.getPw() == null || member.getPw().isEmpty()) {
+		// 1. 1차 검증: 입력값 자체의 무결성 확인
+		if(pw == null || pw.isEmpty())  {
 			msg = "비번 넣어.";
 		} 
-		if(member.getPw().equals(confirm) == false) {
+		if(!pw.equals(confirm)) {
 			msg = "비번 틀림.";
 		}
-		// 데이터베이스의 비밀번호와 사용자가 입력한 비밀번호가 일치하면 삭제
-		String id = (String)session.getAttribute("id");
+		// 2. DB에서 현재 로그인한 유저의 '진짜 정보'를 끌고 옴
 		MemberDTO member = mapper.loginProc(id);
-		if(member.getPw().equals(pw)) {
-			mapper.deleteProc(id);
-			return "회원 정보 삭제 완료";
+		
+		// 3. 2차 검증: 자바(RAM) 단에서 비밀번호 일치 여부 확인 
+		// (나중에 여기에 BCrypt.matches() 암호화 로직이 들어갈 완벽한 자리다)
+		if(member != null && member.getPw().equals(pw)) {
+			// 4. 검증 통과 시, DB에는 오직 'id'만 던져서 삭제 명령 (책임 분리)
+			int result = mapper.deleteProc(id);
+			System.out.println("삭제 결과: " + result);
+			msg = "탈퇴 성공";
+		} else {
+			msg = "비밀번호가 틀렸습니다.";
 		}
-		return "비밀번호가 틀렸습니다.";
+		return msg;
 	}
-	public MemberDTO getUserById(String id) {
-		// TODO Auto-generated method stub
-		return mapper.loginProc(id);
-	}
-}
