@@ -131,6 +131,30 @@ public class MvcController {
 	    return "redirect:update";
 	}
 	
+	@GetMapping("delete")
+	public String delete (HttpSession session, Model model) {
+		//로그인된 사용자만 화면 제공
+		    if(session.getAttribute("id") == null)
+		        return "redirect:login";
+
+		    return "member/delete";
+	}
+	
+	
+	@PostMapping("deleteProc")
+	public String deleteProc (MemberDTO member, String confirm, RedirectAttributes ra, HttpSession session) {
+		//회원 정보 삭제가 잘 되면 로갓 후 로긴 화면으로
+		//회원 정보 삭제에 문제가 있다면 del 화면으로
+		String id = (String) session.getAttribute("id");
+		String msg = service.deleteProc(member, confirm, id);
+	    ra.addFlashAttribute("msg", msg);
+		if(msg.equals("탈퇴 성공")) {
+	        session.invalidate();
+	        return "redirect:login";
+	    }
+	    return "redirect:delete";
+	}
+	
 	/*
 	 * 매핑 애너테이션
 	 

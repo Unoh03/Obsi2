@@ -95,6 +95,22 @@ public class MvcService {
 	    mapper.updateProc(member);
 	    return "수정 완료";
 	}
+	
+	public String deleteProc(MemberDTO member, String confirm, String id) {
+		String msg = "";
+	
+		if(member.getPw() == null || member.getPw().isEmpty()) {
+			msg = "비번 넣어.";
+		}else if(member.getPw().equals(confirm) == false) {
+			msg = "비번 틀림.";
+		} else {
+			member.setId(id);
+			int result = mapper.deleteProc(member);
+			System.out.println("결과: " + result);
+			msg = "탈퇴 성공";
+		}
+		return msg;
+	}
 	public MemberDTO getUserById(String id) {
 		// TODO Auto-generated method stub
 		return mapper.loginProc(id);

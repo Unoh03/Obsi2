@@ -13,4 +13,6 @@ public interface IMvcMapper {
 	public ArrayList<MemberDTO> memberInfo();
 
 	public void updateProc(MemberDTO member);
+	
+	public int deleteProc(MemberDTO member);
 }
