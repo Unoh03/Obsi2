@@ -99,7 +99,16 @@ public class MvcController {
 		return "member/memberInfo";
 	}
 	@GetMapping("userInfo")
-	public String userInfo() {
+	public String userInfo(String id, Model model) {
+		String sessionId = (String)session.getAttribute("id");
+
+		if(sessionId == null || sessionId == "")
+			return "redirect:memberInfo";
+		if(sessionId.equals(id) == false) 
+			return "redirect:memberInfo";
+		
+		MemberDTO member = service.userInfo(id);
+		model.addAttribute("member", member);
 		return "member/userInfo";
 	}
 	
