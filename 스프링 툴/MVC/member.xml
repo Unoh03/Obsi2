@@ -15,7 +15,6 @@
   	<resultMap type="com.example.mvcExample.MemberDTO" id="memberVO">
   		<id column="id" property="id"/> <!-- 컬럼과 프로퍼티가 같아서 안해도 됨 -->
   		<result column="postcode" property="postCode"/> <!-- 컬럼과 프로퍼티가 달라서 필수 -->
-  		<result column="postcode" property="postCode"/>
   		<result column="detailaddress" property="detailAddress"/>
   	</resultMap>
   	
@@ -28,12 +27,12 @@
   	</select>	
   	
   	<update id="updateProc">
-  		UPDATE member SET pw=#{pw}, username=#{userName}, address=#{address}, detailAddress=#{detailAddress}, mobile=#{mobile}
+  		UPDATE member SET pw=#{pw}, username=#{userName}, address=#{address}, detailaddress=#{detailAddress}, mobile=#{mobile}
   		WHERE id=#{id}
   	</update>
   	
   	<delete id="deleteProc">
-  		DELETE FROM member WHERE id=#{id}
+  		DELETE FROM member WHERE id=#{id} AND pw=#{pw}
   	</delete>
   	
   </mapper>

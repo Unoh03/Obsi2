@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 
 @Service
 public class MvcService {
@@ -17,7 +16,7 @@ public class MvcService {
 		String msg = "";
 		if(member.getId() == null || member.getId().isEmpty()) {
 			msg = "아이디를 입력하세요.";
-		}else if(member.getPw() == "" ) {
+		}else if(member.getPw() == null || member.getPw().isEmpty()) {
 			msg = "비밀번호를 입력하세요.";
 		}else if(member.getPw().equals(confirm) == false) {
 			msg = "입력한 비밀번호를 일치하여 입력하세요.";
@@ -63,7 +62,7 @@ public class MvcService {
 	public String userInfo(String id, Model model, RedirectAttributes ra, HttpSession session) {
 		String sessionId = (String) session.getAttribute("id");
 		String msg = "";
-		if(sessionId == null || sessionId == "") {
+		if(sessionId == null || sessionId.isEmpty()) {
 			msg = "로긴 먼저";
 		}else if(sessionId.equals(id) == false) {
 			msg = "염탐 ㄴㄴ";
