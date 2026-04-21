@@ -140,17 +140,19 @@ public class MvcController {
 	
 	
 	@PostMapping("deleteProc")
-	public String deleteProc (MemberDTO member, String confirm, RedirectAttributes ra, HttpSession session) {
-		//회원 정보 삭제가 잘 되면 로갓 후 로긴 화면으로
-		//회원 정보 삭제에 문제가 있다면 del 화면으로
+	public String deleteProc (String pw, String confirm, RedirectAttributes ra, HttpSession session) {
+		// 1. 세션에서 현재 로그인한 사용자의 ID를 꺼냄
 		String id = (String) session.getAttribute("id");
-		String msg = service.deleteProc(member, confirm, id);
-	    ra.addFlashAttribute("msg", msg);
+		
+		// 2. DTO가 아닌, 딱 필요한 String 데이터 3개만 Service로 던짐
+		String msg = service.deleteProc(pw, confirm, id);
+		
+		ra.addFlashAttribute("msg", msg);
 		if(msg.equals("탈퇴 성공")) {
-	        session.invalidate();
-	        return "redirect:login";
-	    }
-	    return "redirect:delete";
+			session.invalidate(); // 탈퇴했으니 세션 폭파
+			return "redirect:login";
+		}
+		return "redirect:delete";
 	}
 	
 	/*

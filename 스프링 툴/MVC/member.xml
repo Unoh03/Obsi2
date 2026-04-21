@@ -16,6 +16,8 @@
   		<id column="id" property="id"/> <!-- 컬럼과 프로퍼티가 같아서 안해도 됨 -->
   		<result column="postcode" property="postCode"/> <!-- 컬럼과 프로퍼티가 달라서 필수 -->
   		<result column="detailaddress" property="detailAddress"/>
+		<!-- 🚨 추가됨: DB의 username(소문자)을 DTO의 userName(카멜)에 완벽하게 꽂아 넣음 -->
+  		<result column="username" property="userName"/>
   	</resultMap>
   	
   	<select id="loginProc" parameterType="String" resultMap="memberVO">
