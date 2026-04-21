@@ -145,7 +145,7 @@ public class MvcController {
 		String id = (String) session.getAttribute("id");
 		
 		// 2. DTO가 아닌, 딱 필요한 String 데이터 3개만 Service로 던짐
-		String msg = service.deleteProc(pw, confirm, id);
+		String msg = service.deleteProc(confirm, id, pw);
 		
 		ra.addFlashAttribute("msg", msg);
 		if(msg.equals("탈퇴 성공")) {

@@ -34,7 +34,7 @@
   	</update>
   	
   	<delete id="deleteProc">
-  		DELETE FROM member WHERE id=#{id} AND pw=#{pw}
+  		DELETE FROM member WHERE id=#{id}
   	</delete>
   	
   </mapper>

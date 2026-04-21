@@ -99,12 +99,8 @@ public class MvcService {
 		String msg = "";
 	
 		// 1. 1차 검증: 입력값 자체의 무결성 확인
-		if(pw == null || pw.isEmpty())  {
-			msg = "비번 넣어.";
-		} 
-		if(!pw.equals(confirm)) {
-			msg = "비번 틀림.";
-		}
+		if(pw == null || pw.isEmpty()) return "비번 넣어.";
+		if(!pw.equals(confirm)) return "비번 틀림.";
 		// 2. DB에서 현재 로그인한 유저의 '진짜 정보'를 끌고 옴
 		MemberDTO member = mapper.loginProc(id);
 		
@@ -120,3 +116,4 @@ public class MvcService {
 		}
 		return msg;
 	}
+}
