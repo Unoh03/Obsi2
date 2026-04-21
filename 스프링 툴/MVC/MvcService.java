@@ -3,6 +3,10 @@ package com.example.mvcExample;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class MvcService {
@@ -54,5 +58,20 @@ public class MvcService {
 	public ArrayList<MemberDTO> memberinfo() {
 		ArrayList<MemberDTO> members = mapper.memberInfo();
 		return members;
+	}
+	public String userInfo(String id, Model model, RedirectAttributes ra, HttpSession session) {
+		String sessionId = (String) session.getAttribute("id");
+		String msg = "";
+		if(sessionId == null || sessionId == "") {
+			msg = "로긴 먼저";
+		}else if(sessionId.equals(id) == false) {
+			msg = "염탐 ㄴㄴ";
+		}else {
+			MemberDTO member = mapper.loginProc(id);
+			model.addAttribute("member", member);
+			msg = "회원 검색 완료";
+		}
+		ra.addFlashAttribute("msg",msg);
+		return msg;	
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 
 @Controller
 public class MvcController {
@@ -99,17 +100,24 @@ public class MvcController {
 		return "member/memberInfo";
 	}
 	@GetMapping("userInfo")
-	public String userInfo(String id, Model model) {
-		String sessionId = (String)session.getAttribute("id");
-
-		if(sessionId == null || sessionId == "")
-			return "redirect:memberInfo";
-		if(sessionId.equals(id) == false) 
-			return "redirect:memberInfo";
-		
-		MemberDTO member = service.userInfo(id);
-		model.addAttribute("member", member);
-		return "member/userInfo";
+	public String userInfo (String id, Model model, RedirectAttributes ra, HttpSession session) {
+		String msg = service.userInfo(id, model, ra, session);
+		if(msg.equals("회원 검색 완료"))
+			return "member/userInfo";
+		return "redirect:memberInfo";
+	}
+	
+	@GetMapping("update")
+	public String update () {
+		// 로그인된 사용자만 화면 제공
+		System.out.println("update 화면");
+		return "member/update";
+	}
+	@PostMapping("updateProc")
+	public String updateProc() {
+		// 회원 정보 수정이 잘 되면 로그아웃 후 로그인 화면으로 이동
+		// 회원 정보 수정에 문제가 있다면 update 화면으로 이동
+		return "";
 	}
 	
 	/*

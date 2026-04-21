@@ -25,5 +25,11 @@
   	
   	<select id="memberInfo" resultMap="memberVO">
   		SELECT * FROM member
+  	</select>	
+  	
+  	<select id="updateProc">
+  		UPDATE member SET pw=#{pw}, username=#{userName}, address=#{address}, detailAddress=#{detailAddress}, mobile=#{mobile}
+  		WHERE id=#{id}
   	</select>
+  	
   </mapper>
