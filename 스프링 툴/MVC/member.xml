@@ -19,11 +19,11 @@
   		<result column="detailaddress" property="detailAddress"/>
   	</resultMap>
   	
-  	<select id="loginProc">
+  	<select id="loginProc" parameterType="String" resultMap="memberVO">
   		SELECT * FROM member WHERE id=#{id}
   	</select>
   	
-  	<select id="memberInfo">
+  	<select id="memberInfo" resultMap="memberVO">
   		SELECT * FROM member
   	</select>
   </mapper>
