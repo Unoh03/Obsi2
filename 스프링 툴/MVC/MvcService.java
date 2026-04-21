@@ -76,7 +76,7 @@ public class MvcService {
 		return msg;	
 	}
 	
-	public String updateProc(MemberDTO member, String confirm) {
+	public String updateProc(MemberDTO member, String confirm, String id) {
 		
 	    if(member.getPw() == null || member.getPw().isEmpty())
 	        return "비밀번호를 입력하세요.";
@@ -91,12 +91,12 @@ public class MvcService {
 	    if(member.getMobile() == null || member.getMobile().isEmpty())
 	        return "전번 입력.";
 	    
-	    member.setId((String)Session.getAttribute("id"));
+	    member.setId(id);
 	    mapper.updateProc(member);
 	    return "수정 완료";
 	}
 	public MemberDTO getUserById(String id) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.loginProc(id);
 	}
 }

@@ -118,11 +118,11 @@ public class MvcController {
 	    return "member/update";
 	}
 	@PostMapping("updateProc")
-	public String updateProc(MemberDTO member, String confirm, 
-            RedirectAttributes ra, HttpSession session) {
+	public String updateProc(MemberDTO member, String confirm, RedirectAttributes ra, HttpSession session) {
 		// 회원 정보 수정이 잘 되면 로그아웃 후 로그인 화면으로 이동
 		// 회원 정보 수정에 문제가 있다면 update 화면으로 이동
-		String msg = service.updateProc(member, confirm);
+		String id = (String) session.getAttribute("id");
+		String msg = service.updateProc(member, confirm, id);
 	    ra.addFlashAttribute("msg", msg);
 	    if(msg.equals("수정 완료")) {
 	        session.invalidate();
