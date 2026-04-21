@@ -100,15 +100,18 @@ public class MvcService {
 	
 		if(member.getPw() == null || member.getPw().isEmpty()) {
 			msg = "비번 넣어.";
-		}else if(member.getPw().equals(confirm) == false) {
+		} 
+		if(member.getPw().equals(confirm) == false) {
 			msg = "비번 틀림.";
-		} else {
-			member.setId(id);
-			int result = mapper.deleteProc(member);
-			System.out.println("결과: " + result);
-			msg = "탈퇴 성공";
 		}
-		return msg;
+		// 데이터베이스의 비밀번호와 사용자가 입력한 비밀번호가 일치하면 삭제
+		String id = (String)session.getAttribute("id");
+		MemberDTO member = mapper.loginProc(id);
+		if(member.getPw().equals(pw)) {
+			mapper.deleteProc(id);
+			return "회원 정보 삭제 완료";
+		}
+		return "비밀번호가 틀렸습니다.";
 	}
 	public MemberDTO getUserById(String id) {
 		// TODO Auto-generated method stub
