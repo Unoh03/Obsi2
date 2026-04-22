@@ -5,7 +5,7 @@ sudo apt install -y bind9 bind9utils bind9-doc
 sudo tee /etc/bind/named.conf.options > /dev/null <<EOF
 options {
     directory "/var/cache/bind";
-    recursion no;
+    recursion yes;
     allow-query { any; };
     listen-on-v6 { any; };
 };

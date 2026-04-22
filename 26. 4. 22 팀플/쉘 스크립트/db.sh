@@ -10,17 +10,7 @@ sudo mariadb -uroot <<EOF
 CREATE DATABASE care;
 USE care;
 
-CREATE TABLE member(
-id varchar(20), pw varchar(200), username varchar(99),
-postcode varchar(5), address varchar(1000), detailaddress varchar(100),
-mobile varchar(15), PRIMARY KEY(id)
-) DEFAULT CHARSET=UTF8;
-
-CREATE TABLE board(
-no int, title varchar(200), content varchar(9999),
-id varchar(20), writedate varchar(100), hits int(11),
-filename varchar(1000), PRIMARY KEY(no)
-) DEFAULT CHARSET=UTF8;
+# DB 만들기
 
 ALTER USER 'root'@'localhost' IDENTIFIED BY '123';
 CREATE USER 'web'@'34.34.34.3' IDENTIFIED BY '123';
