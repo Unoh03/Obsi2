@@ -1,4 +1,5 @@
 {
   "attachmentFolderPath": "캡쳐 창고",
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "defaultViewMode": "preview"
 }
