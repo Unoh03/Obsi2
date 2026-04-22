@@ -1,4 +1,18 @@
 [R1]
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+logi loc
+logg syn
+do cop r s
+
+exit
+
+
 conf t
 
 ! 인터페 추가

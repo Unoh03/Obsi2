@@ -134,7 +134,7 @@ logi loc
 logg syn
 do cop r s
 
-exi
+exit
 
 ```
 **초기화** (만일 리로드 후 저장 여부 물어보면 반드시 'no' 선택)

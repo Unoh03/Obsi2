@@ -91,8 +91,7 @@
               "title": "우분투"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -310,12 +309,12 @@
       "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "795477efa3ba782b",
+  "active": "3ee7e1f35712e678",
   "lastOpenFiles": [
-    "리눅스(우분투)/마지막 총정리 문제.md",
     "26. 4. 22 팀플/계획.md",
-    "26. 4. 22 팀플/설정 체크.md",
     "네트워크/CISCO.md",
+    "리눅스(우분투)/마지막 총정리 문제.md",
+    "26. 4. 22 팀플/설정 체크.md",
     "네트워크/GNS3.md",
     "리눅스(우분투)/우분투.md",
     "26. 4. 22 팀플/미확인 399288.crdownload",
