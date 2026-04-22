@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "리눅스(우분투)/마지막 총정리 문제.md",
-                "mode": "preview",
-                "source": true
+                "file": "26. 4. 22 팀플/계획.md",
+                "mode": "source",
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "마지막 총정리 문제"
+              "title": "계획"
             }
           },
           {
@@ -284,11 +284,11 @@
   },
   "active": "795477efa3ba782b",
   "lastOpenFiles": [
+    "26. 4. 22 팀플/설정 체크.md",
+    "리눅스(우분투)/마지막 총정리 문제.md",
     "네트워크/CISCO.md",
     "네트워크/GNS3.md",
     "리눅스(우분투)/우분투.md",
-    "26. 4. 22 팀플/설정 체크.md",
-    "리눅스(우분투)/마지막 총정리 문제.md",
     "26. 4. 22 팀플/미확인 399288.crdownload",
     "26. 4. 22 팀플/계획.md",
     "26. 4. 22 팀플/쉘 스크립트/route.txt",
