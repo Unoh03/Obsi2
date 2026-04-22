@@ -8,7 +8,6 @@ user asd sec '
 lin co 0
 logi loc
 logg syn
-do cop r s
 
 exit
 
@@ -30,7 +29,7 @@ router r
 version 2
 no au
 net 12.12.12.0
-!192.168.1.0은 보안 상의 이유로 광고 안함
+!192.168.1.0은 보안 상의 이유로 광고 안함. 안해도 NAT로 잘 받음.
 exit
 
 ! NAT (PAT - Overload: 내부 PC들이 12.12.12.1 공인 IP 하나를 공유하여 나감)
@@ -44,7 +43,7 @@ end
 cop r s
 
 
-[R2]
+[DNS-R]
 conf t
 
 ! 인터페 추가
