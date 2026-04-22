@@ -29,6 +29,7 @@ router r
 version 2
 no au
 net 12.12.12.0
+default-information originate
 !192.168.1.0은 보안 상의 이유로 광고 안함. 안해도 NAT로 잘 받음.
 exit
 
