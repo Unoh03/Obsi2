@@ -25,6 +25,7 @@ no sh
 exit
 
 ! 라우팅
+ip route 0.0.0.0 0.0.0.0 12.12.12.2
 router r
 version 2
 no au
