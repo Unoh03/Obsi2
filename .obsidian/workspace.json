@@ -4,39 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "f3268377ebe33b39",
+        "id": "13719cf4c8394963",
         "type": "tabs",
         "children": [
           {
-            "id": "3ee7e1f35712e678",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "네트워크/CISCO.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "CISCO"
-            }
-          },
-          {
-            "id": "bcf3fe8bd4a5872f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "스프링 툴/MVC/데이터 흐름.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "데이터 흐름"
-            }
-          },
-          {
-            "id": "795477efa3ba782b",
+            "id": "ca197ced4801dd48",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -50,21 +22,7 @@
             }
           },
           {
-            "id": "1fc60d560477beee",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "리눅스(우분투)/마지막 총정리 문제.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "마지막 총정리 문제"
-            }
-          },
-          {
-            "id": "6b7c3f71c0746b97",
+            "id": "2222ac2db8e16936",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -76,23 +34,9 @@
               "icon": "lucide-file",
               "title": "설정 체크"
             }
-          },
-          {
-            "id": "e6cb3ce9c8997d3a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "리눅스(우분투)/우분투.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "우분투"
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -282,11 +226,12 @@
             "state": {
               "type": "advanced-tables-toolbar",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "advanced-tables-toolbar"
+              "icon": "spreadsheet",
+              "title": "Advanced Tables"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -295,6 +240,11 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "pdf-plus:PDF++: Toggle auto-copy": false,
+      "pdf-plus:PDF++: Toggle auto-focus": false,
+      "pdf-plus:PDF++: Toggle auto-paste": false,
+      "obsidian-git:Open Git source control": false,
+      "remotely-save:Remotely Save": false,
       "switcher:빠른 전환기 열기": false,
       "graph:그래프 뷰 열기": false,
       "canvas:새 캔버스 만들기": false,
@@ -302,46 +252,36 @@
       "templates:템플릿 삽입": false,
       "command-palette:명령어 팔레트 열기": false,
       "bases:새 베이스 생성하기": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false,
-      "remotely-save:Remotely Save": false,
-      "obsidian-git:Open Git source control": false,
-      "pdf-plus:PDF++: Toggle auto-copy": false,
-      "pdf-plus:PDF++: Toggle auto-focus": false,
-      "pdf-plus:PDF++: Toggle auto-paste": false
+      "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "795477efa3ba782b",
+  "active": "2222ac2db8e16936",
   "lastOpenFiles": [
-    "스프링 툴/MVC/데이터 흐름.md",
-    "네트워크/CISCO.md",
     "26. 4. 22 팀플/계획.md",
-    "리눅스(우분투)/마지막 총정리 문제.md",
-    "26. 4. 22 팀플/설정 체크.md",
-    "네트워크/GNS3.md",
-    "리눅스(우분투)/우분투.md",
-    "26. 4. 22 팀플/미확인 399288.crdownload",
-    "26. 4. 22 팀플/쉘 스크립트/route.txt",
-    "26. 4. 22 팀플/쉘 스크립트/netplan.txt",
-    "26. 4. 22 팀플/쉘 스크립트/boot.war",
-    "26. 4. 22 팀플/쉘 스크립트/web.sh",
-    "26. 4. 22 팀플/쉘 스크립트/nfs.sh",
-    "26. 4. 22 팀플/쉘 스크립트/LB.sh",
-    "26. 4. 22 팀플/쉘 스크립트/dns.sh",
-    "26. 4. 22 팀플/쉘 스크립트/db.sh",
-    "26. 4. 22 팀플/쉘 스크립트/web-nfs.sh",
-    "기초 개념/암호화와 해시.md",
-    "스프링 툴/자바스크립트/예제 모음.md",
-    "기초 개념/정규 표현식.md",
-    "스프링 툴/자바스크립트/자바 스크립트.md",
-    "기초 개념/논리 연산자.md",
+    "기초 개념/HTML.md",
+    "스프링 툴/자바.md",
     "스프링 툴/자바스크립트/예제/ok.png",
+    "스프링 툴/자바스크립트/예제/NAVER_teacher.jsp",
+    "스프링 툴/자바스크립트/예제/NAVER_style.css",
+    "스프링 툴/자바스크립트/예제/NAVER_Sc_T.js",
+    "스프링 툴/자바스크립트/예제/NAVER_script.js",
+    "스프링 툴/자바스크립트/예제/NAVER_regist.jsp",
+    "스프링 툴/자바스크립트/예제/NAVER_header.jsp",
     "스프링 툴/자바스크립트/예제/lighton.png",
     "스프링 툴/자바스크립트/예제/lightoff.png",
+    "스프링 툴/자바스크립트/예제/ex27-regist.jsp",
+    "스프링 툴/자바스크립트/예제/ex27-login.jsp",
+    "스프링 툴/자바스크립트/예제/ex27-header.jsp",
+    "스프링 툴/자바스크립트/예제/ex27-footer.jsp",
     "스프링 툴/자바스크립트/예제/delete.png",
-    "스프링 툴/자바.md",
+    "스프링 툴/자바스크립트/자바 스크립트.md",
+    "스프링 툴/자바스크립트/예제 모음.md",
+    "스프링 툴/MVC/데이터 흐름.md",
+    "기초 개념/암호화와 해시.md",
     "기초 개념/0의 종류.md",
-    "기초 개념/HTML.md",
+    "26. 4. 22 팀플/설정 체크.md",
     "기초 개념/HTML 보안 취약점 태그.md",
+    "기초 개념/논리 연산자.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "캡쳐 창고/Pasted image 20260409153205.png",
     "캡쳐 창고/Pasted image 20260409144215.png",
@@ -349,15 +289,19 @@
     "스프링 툴/예제/icon3.png",
     "스프링 툴/예제/icon1.png",
     "HTML/자바.md",
+    "리눅스(우분투)/마지막 총정리 문제.md",
     "네트워크관리사.md",
     "템플릿/오답노트 템플릿.md",
     "자바/자바.md",
+    "리눅스(우분투)/우분투.md",
+    "네트워크/CISCO.md",
     "캡쳐 창고/Pasted image 20260408105120.png",
     "제미니.md",
     "conflict-files-obsidian-git.md",
     "특수 기호.md",
     "^net-finish.md",
     "리눅스(우분투)/웹,DB서버 스크립트 파일.md",
+    "복사용.md",
     "무제.canvas"
   ]
 }
