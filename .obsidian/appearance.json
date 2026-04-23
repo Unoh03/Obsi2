@@ -2,5 +2,6 @@
   "accentColor": "#00c000",
   "theme": "moonstone",
   "cssTheme": "Atom",
-  "baseFontSize": 16
+  "baseFontSize": 16,
+  "nativeMenus": false
 }
