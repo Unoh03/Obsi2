@@ -83,7 +83,7 @@ end
 cop r s
 
 
-[R3]
+[WEB-R]
 conf t
 
 ! 인터페 추가
@@ -125,7 +125,7 @@ end
 cop r s 
 
 
-[R4]
+[DB-R]
 conf t
 
 ! 인터페 추가
@@ -164,3 +164,6 @@ int f0/1
 ip access-group 1 in
 end
 cop r s
+
+
+[]
