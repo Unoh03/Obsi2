@@ -287,7 +287,7 @@ ip route 0.0.0.0 0.0.0.0 45.45.45.4
 ! PAT — Log(192.168.5.1), Monitor(192.168.5.2)가
 !        loopback0의 5.5.5.5 하나를 공유해서 외부로 나감
 access-list 10 permit 192.168.5.0 0.0.0.255
-ip nat inside source list 10 interface loopback 0 overload
+ip nat inside source list 10 interface fastethernet 1/0 overload
 
 ! RIP v2
 router rip
