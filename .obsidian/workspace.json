@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "26. 4. 22 팀플/IP 설정 표.md",
+                "file": "리눅스(우분투)/마지막 총정리 문제.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "IP 설정 표"
+              "title": "마지막 총정리 문제"
             }
           }
         ],
@@ -257,13 +257,13 @@
   },
   "active": "76b0fb269ec9f470",
   "lastOpenFiles": [
+    "26. 4. 22 팀플/IP 설정 표.md",
     "26. 4. 22 팀플/쉘 스크립트/route(ver.클로드).ios",
     "26. 4. 22 팀플/route(ver.클로드).ios",
     "26. 4. 22 팀플/미확인 491363.crdownload",
     "26. 4. 22 팀플/토폴로지.png",
     "26. 4. 22 팀플/미확인 213580.crdownload",
     "26. 4. 22 팀플/설정 체크.md",
-    "26. 4. 22 팀플/IP 설정 표.md",
     "26. 4. 22 팀플/쉘 스크립트/route.ios",
     "26. 4. 22 팀플/계획.md",
     "기초 개념/HTML.md",
@@ -274,7 +274,6 @@
     "스프링 툴/자바스크립트/예제/NAVER_Sc_T.js",
     "스프링 툴/자바스크립트/예제/NAVER_script.js",
     "스프링 툴/자바스크립트/예제/NAVER_regist.jsp",
-    "스프링 툴/자바스크립트/예제/NAVER_header.jsp",
     "스프링 툴/자바스크립트/예제/lighton.png",
     "스프링 툴/자바스크립트/예제/lightoff.png",
     "스프링 툴/자바스크립트/예제/delete.png",
