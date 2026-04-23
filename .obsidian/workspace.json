@@ -93,8 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -258,9 +257,9 @@
   },
   "active": "76b0fb269ec9f470",
   "lastOpenFiles": [
-    "26. 4. 22 팀플/쉘 스크립트/route.ios",
     "26. 4. 22 팀플/설정 체크.md",
     "26. 4. 22 팀플/IP 설정 표.md",
+    "26. 4. 22 팀플/쉘 스크립트/route.ios",
     "26. 4. 22 팀플/계획.md",
     "기초 개념/HTML.md",
     "스프링 툴/자바.md",
@@ -276,7 +275,6 @@
     "스프링 툴/자바스크립트/예제/ex27-regist.jsp",
     "스프링 툴/자바스크립트/예제/ex27-login.jsp",
     "스프링 툴/자바스크립트/예제/ex27-header.jsp",
-    "스프링 툴/자바스크립트/예제/ex27-footer.jsp",
     "스프링 툴/자바스크립트/예제/delete.png",
     "스프링 툴/자바스크립트/자바 스크립트.md",
     "스프링 툴/자바스크립트/예제 모음.md",
