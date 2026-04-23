@@ -45,6 +45,19 @@ cop r s
 
 
 [DNS-R]
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+logi loc
+logg syn
+
+exit
+
+
 conf t
 
 ! 인터페 추가
@@ -84,6 +97,19 @@ cop r s
 
 
 [WEB-R]
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+logi loc
+logg syn
+
+exit
+
+
 conf t
 
 ! 인터페 추가
@@ -126,6 +152,19 @@ cop r s
 
 
 [DB-R]
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+logi loc
+logg syn
+
+exit
+
+
 conf t
 
 ! 인터페 추가
@@ -167,3 +206,20 @@ cop r s
 
 
 [MANAGE-R]
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+logi loc
+logg syn
+
+exit
+
+
+conf t
+! 인터페 추가
+int f0/1
+ip add
