@@ -6,8 +6,8 @@ sudo apt install nginx -y
 sudo tee /etc/nginx/conf.d/load-balancer.conf > /dev/null << 'EOF'
 
 upstream backend_nodes {
-    server 192.168.3.1:8080;
-    server 192.168.3.2:8080;
+    server 192.168.3.3:8080;
+    server 192.168.3.4:8080;
     ip_hash;
 }
 server {
