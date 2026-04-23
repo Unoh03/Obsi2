@@ -1,0 +1,301 @@
+! =====================================================
+! 포트 고정 규칙 (전 라우터 공통)
+!   f0/0  = 서버/스위치 LAN (nat inside)
+!   f1/0  = 왼쪽 라우터   (nat outside)
+!   f0/1  = 오른쪽 라우터 (nat outside)
+! =====================================================
+
+
+! =====================================================
+! [Client-R]
+! 위치: 맨 왼쪽 — 왼쪽 라우터 없음
+! f0/0 = Switch1 (Client LAN)
+! f0/1 = DNS-R (오른쪽)
+! =====================================================
+enable
+terminal history size 256
+configure terminal
+no ip domain-lookup
+enable secret '
+username asd secret '
+line console 0
+ login local
+ logging synchronous
+exit
+
+! 인터페이스
+interface fastethernet 0/0
+ ip address 192.168.31.254 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+interface fastethernet 0/1
+ ip address 12.12.12.1 255.255.255.0
+ ip nat outside
+ no shutdown
+exit
+
+! 기본 경로 — DNS-R 방향으로 전부 넘김
+ip route 0.0.0.0 0.0.0.0 12.12.12.2
+
+! PAT — Client 내부망이 f0/1 주소 하나를 공유해서 외부로 나감
+access-list 1 permit 192.168.31.0 0.0.0.255
+ip nat inside source list 1 interface fastethernet 0/1 overload
+
+! ※ RIP 불필요 — 정적 기본경로 + NAT로 충분, 광고할 경로도 없음
+
+end
+copy running-config startup-config
+
+
+! =====================================================
+! [DNS-R]
+! 위치: Client-R 오른쪽
+! f0/0 = Switch2 (DNS LAN)
+! f1/0 = Client-R (왼쪽)
+! f0/1 = WEB-R   (오른쪽)
+! loopback0 = DNS 대표 공인 IP
+! =====================================================
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+ logi loc
+ logg syn
+exit
+
+! 인터페이스
+int f0/0
+ ip add 192.168.2.254 255.255.255.0
+ ip nat inside
+ no sh
+exit
+
+int f1/0
+ ip add 12.12.12.2 255.255.255.0
+ ip nat outside
+ no sh
+exit
+
+int f0/1
+ ip add 23.23.23.2 255.255.255.0
+ ip nat outside
+ no sh
+exit
+
+int loopback 0
+ ip add 2.2.2.2 255.255.255.0
+ no sh
+exit
+
+! Static NAT — DNS1(192.168.2.1)을 공인 IP 2.2.2.2로 1:1 고정 매핑
+! 외부에서 2.2.2.2 접근 시 DNS1으로 DNAT
+ip nat inside source static 192.168.2.1 2.2.2.2
+
+! RIP v2
+router rip
+ version 2
+ no auto-summary
+ network 12.12.12.0
+ network 23.23.23.0
+ network 2.2.2.0
+exit
+
+end
+cop r s
+
+
+! =====================================================
+! [WEB-R]
+! 위치: DNS-R 오른쪽
+! f0/0 = Switch3 (LB/WEB/NFS/Cache LAN)
+! f1/0 = DNS-R (왼쪽)
+! f0/1 = DB-R  (오른쪽) ← PAT 출구, DB-R ACL이 이 IP 기준으로 필터
+! loopback0 = LB 대표 공인 IP
+! =====================================================
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+ logi loc
+ logg syn
+exit
+
+! 인터페이스
+int f0/0
+ ip add 192.168.3.254 255.255.255.0
+ ip nat inside
+ no sh
+exit
+
+int f1/0
+ ip add 23.23.23.3 255.255.255.0
+ ip nat outside
+ no sh
+exit
+
+int f0/1
+ ip add 34.34.34.3 255.255.255.0
+ ip nat outside
+ no sh
+exit
+
+int loopback 0
+ ip add 3.3.3.3 255.255.255.0
+ no sh
+exit
+
+! Static NAT — LB1(192.168.3.1)을 공인 IP 3.3.3.3으로 1:1 고정 매핑
+! 외부 클라이언트가 3.3.3.3 접근 시 LB1으로 DNAT
+ip nat inside source static 192.168.3.1 3.3.3.3
+
+! PAT — 192.168.3.0/24 전체가 f0/1(34.34.34.3) 하나를 공유해서 DB 방향으로 나감
+! ※ 범위 주의: LB, WEB, NFS, Cache 포함 전체 대역 허용
+!    추후 WEB만 허용하려면 아래를 host 192.168.3.3 / 192.168.3.4 로 축소할 것
+access-list 10 permit 192.168.3.0 0.0.0.255
+ip nat inside source list 10 interface fastethernet 0/1 overload
+
+! RIP v2
+router rip
+ version 2
+ no auto-summary
+ network 23.23.23.0
+ network 34.34.34.0
+ network 3.3.3.0
+exit
+
+end
+cop r s
+
+
+! =====================================================
+! [DB-R]
+! 위치: WEB-R 오른쪽
+! f0/0 = Switch4 (DB LAN)
+! f1/0 = WEB-R    (왼쪽) ← ACL 화이트리스트 적용 대상
+! f0/1 = MANAGE-R (오른쪽)
+! loopback0 = DB 대표 공인 IP
+! =====================================================
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+ logi loc
+ logg syn
+exit
+
+! 인터페이스
+int f0/0
+ ip add 192.168.4.254 255.255.255.0
+ ip nat inside
+ no sh
+exit
+
+int f1/0
+ ip add 34.34.34.4 255.255.255.0
+ ip nat outside
+ no sh
+exit
+
+int f0/1
+ ip add 45.45.45.4 255.255.255.0
+ ip nat outside
+ no sh
+exit
+
+int loopback 0
+ ip add 4.4.4.4 255.255.255.0
+ no sh
+exit
+
+! Static NAT — DB1(192.168.4.1)을 공인 IP 4.4.4.4로 1:1 고정 매핑
+ip nat inside source static 192.168.4.1 4.4.4.4
+
+! RIP v2
+router rip
+ version 2
+ no auto-summary
+ network 34.34.34.0
+ network 45.45.45.0
+ network 4.4.4.0
+exit
+
+! [보안] 인바운드 ACL — WEB-R의 PAT 출구 IP(34.34.34.3)만 허용
+! WEB 서버들이 PAT되어 나오는 IP = WEB-R f0/1 = 34.34.34.3
+! 그 외 모든 출처는 차단
+! ※ RIP 업데이트도 34.34.34.3에서 오므로 차단되지 않음
+access-list 1 permit host 34.34.34.3
+access-list 1 deny any
+
+int f1/0
+ ip access-group 1 in
+exit
+
+end
+cop r s
+
+
+! =====================================================
+! [MANAGE-R]
+! 위치: 맨 오른쪽 — 오른쪽 라우터 없음
+! f0/0 = Switch5 (Log/Monitor LAN)
+! f1/0 = DB-R (왼쪽)
+! loopback0 = 5.5.5.5 (Log, Monitor 공유 공인 IP)
+! =====================================================
+en
+terminal history size 256
+conf t
+no ip domain-lookup
+ena sec '
+user asd sec '
+lin co 0
+ logi loc
+ logg syn
+exit
+
+! 인터페이스
+int f0/0
+ ip add 192.168.5.254 255.255.255.0
+ ip nat inside
+ no sh
+exit
+
+int f1/0
+ ip add 45.45.45.5 255.255.255.0
+ ip nat outside
+ no sh
+exit
+
+int loopback 0
+ ip add 5.5.5.5 255.255.255.0
+ no sh
+exit
+
+! 기본 경로 — 오른쪽 라우터 없으므로 DB-R 방향으로 넘김
+ip route 0.0.0.0 0.0.0.0 45.45.45.4
+
+! PAT — Log(192.168.5.1), Monitor(192.168.5.2)가
+!        loopback0의 5.5.5.5 하나를 공유해서 외부로 나감
+access-list 10 permit 192.168.5.0 0.0.0.255
+ip nat inside source list 10 interface loopback 0 overload
+
+! RIP v2
+router rip
+ version 2
+ no auto-summary
+ network 45.45.45.0
+ network 5.5.5.0
+exit
+
+end
+cop r s
