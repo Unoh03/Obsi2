@@ -25,7 +25,7 @@ exit
 
 ! 인터페이스
 interface fastethernet 0/0
- ip address 192.168.31.254 255.255.255.0
+ ip address 10.255.12.1 255.255.255.0
  ip nat inside
  no shutdown
 exit
