@@ -17,14 +17,15 @@
 ! NAT:
 ! - f0/0 = ip nat inside
 ! - f0/1 = ip nat outside
-! - DB1:     192.168.3.1 -> 1.2.3.1 Static NAT
-! - DB2:     192.168.3.2 -> 1.2.3.2 Static NAT
-! - Log:     192.168.3.3 -> 1.2.3.3 Static NAT
-! - Monitor: 192.168.3.4 -> 1.2.3.4 Static NAT
+! - DB1: 192.168.3.1 -> 1.2.3.1 Static NAT
+! - DB2: 192.168.3.2 -> 1.2.3.2 Static NAT
+! - Log: 192.168.3.3 -> 1.2.3.3 Static NAT
+! - Monitor: 192.168.3.4 is internal-only / Pull 방식 / Static NAT 없음
 !
 ! ACL:
 ! - Transit 쪽에서 B 공인 역할 IP(1.2.3.0/24)로 들어오는 접근 제한
 ! - WEB1(1.2.2.3), WEB2(1.2.2.4)만 DB1/DB2/Log 접근 허용
+! - Monitor는 Pull 방식이므로 외부 inbound 접근 허용 없음
 ! - 그 외 B 공인 역할 IP 접근 차단
 ! =====================================================
 
@@ -65,11 +66,11 @@ exit
 
 ! =====================================================
 ! 3. Static NAT - DATA/MGMT 서비스
+! Monitor는 Pull 방식 내부 전용이므로 Static NAT를 만들지 않음
 ! =====================================================
 ip nat inside source static 192.168.3.1 1.2.3.1
 ip nat inside source static 192.168.3.2 1.2.3.2
 ip nat inside source static 192.168.3.3 1.2.3.3
-ip nat inside source static 192.168.3.4 1.2.3.4
 
 ! =====================================================
 ! 4. 정적 라우트
@@ -86,12 +87,15 @@ ip route 1.2.2.0 255.255.255.0 1.2.123.2
 ! 정책:
 ! - WEB1(1.2.2.3), WEB2(1.2.2.4) -> DB1(1.2.3.1), DB2(1.2.3.2) 허용
 ! - WEB1(1.2.2.3), WEB2(1.2.2.4) -> Log(1.2.3.3) 허용
+! - Monitor(192.168.3.4)는 Pull 방식 내부 전용
+! - Monitor 공인 IP 1.2.3.4는 만들지 않음
+! - Monitor로 들어오는 inbound permit도 만들지 않음
 ! - Transit 라우터 IP로의 ICMP는 테스트 편의를 위해 허용
 ! - 그 외 1.2.3.0/24 접근은 차단
 ! - 나머지 트래픽은 통과
 !
 ! 주의:
-! - ACL은 상태 추적을 하지 않음
+! - 이 ACL은 상태 기반 방화벽이 아님
 ! - 테스트 중 필요한 서비스가 막히면 permit 라인을 추가해야 함
 ! =====================================================
 ip access-list extended B_ZONE_IN
@@ -103,6 +107,9 @@ ip access-list extended B_ZONE_IN
  remark === Allow WEB servers to Log server ===
  permit ip host 1.2.2.3 host 1.2.3.3
  permit ip host 1.2.2.4 host 1.2.3.3
+ remark === Monitor is pull-based and internal-only ===
+ remark === No Static NAT for Monitor 192.168.3.4 ===
+ remark === No inbound public access to Monitor ===
  remark === Allow basic router transit ping test ===
  permit icmp host 1.2.123.1 host 1.2.123.3
  permit icmp host 1.2.123.2 host 1.2.123.3
