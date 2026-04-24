@@ -1,0 +1,126 @@
+! =====================================================
+! A-R.ios
+! 2조 / A-PC / EDGE-DNS-DHCP 라우터 설정
+!
+! 기준 토폴로지:
+! - f0/0 = A LAN / Client, DHCP, DNS 쪽
+! - f0/1 = Transit-SW 쪽
+!
+! A LAN:
+! - 사설망: 192.168.1.0/24
+! - A-R Gateway: 192.168.1.254/24
+!
+! Transit LAN:
+! - 1.2.123.0/24
+! - A-R Transit: 1.2.123.1/24
+!
+! NAT:
+! - f0/0 = ip nat inside
+! - f0/1 = ip nat outside
+! - DNS1: 192.168.1.3 -> 1.2.1.3 Static NAT
+! - DNS2: 192.168.1.4 -> 1.2.1.4 Static NAT
+! - Client Pool: 192.168.1.10~29 -> 1.2.123.1 PAT
+! =====================================================
+
+enable
+terminal history size 256
+configure terminal
+
+! =====================================================
+! 1. 기본 설정
+! =====================================================
+hostname A-R
+no ip domain-lookup
+
+enable secret '
+username asd secret '
+
+line console 0
+ login local
+ logging synchronous
+exit
+
+! =====================================================
+! 2. 인터페이스 설정
+! =====================================================
+interface fastethernet 0/0
+ description A_LAN_CLIENT_DHCP_DNS
+ ip address 192.168.1.254 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+interface fastethernet 0/1
+ description TO_TRANSIT_SW
+ ip address 1.2.123.1 255.255.255.0
+ ip nat outside
+ no shutdown
+exit
+
+! =====================================================
+! 3. Static NAT - DNS 서버
+! =====================================================
+ip nat inside source static 192.168.1.3 1.2.1.3
+ip nat inside source static 192.168.1.4 1.2.1.4
+
+! =====================================================
+! 4. PAT - Client Pool
+! DHCP Pool: 192.168.1.10 ~ 192.168.1.29
+! 표준 ACL 와일드카드로 애매하게 범위 잡지 않고 host 단위로 명시
+! =====================================================
+access-list 10 permit host 192.168.1.10
+access-list 10 permit host 192.168.1.11
+access-list 10 permit host 192.168.1.12
+access-list 10 permit host 192.168.1.13
+access-list 10 permit host 192.168.1.14
+access-list 10 permit host 192.168.1.15
+access-list 10 permit host 192.168.1.16
+access-list 10 permit host 192.168.1.17
+access-list 10 permit host 192.168.1.18
+access-list 10 permit host 192.168.1.19
+access-list 10 permit host 192.168.1.20
+access-list 10 permit host 192.168.1.21
+access-list 10 permit host 192.168.1.22
+access-list 10 permit host 192.168.1.23
+access-list 10 permit host 192.168.1.24
+access-list 10 permit host 192.168.1.25
+access-list 10 permit host 192.168.1.26
+access-list 10 permit host 192.168.1.27
+access-list 10 permit host 192.168.1.28
+access-list 10 permit host 192.168.1.29
+
+ip nat inside source list 10 interface fastethernet 0/1 overload
+
+! =====================================================
+! 5. 정적 라우트
+! C-PC APP 공인 역할망: 1.2.2.0/24 -> C-R
+! B-PC DATA/MGMT 공인 역할망: 1.2.3.0/24 -> B-R
+! =====================================================
+ip route 1.2.2.0 255.255.255.0 1.2.123.2
+ip route 1.2.3.0 255.255.255.0 1.2.123.3
+
+! =====================================================
+! 6. 저장
+! =====================================================
+end
+copy running-config startup-config
+
+! =====================================================
+! 7. 확인 명령어
+! 아래 명령은 설정 후 사람이 직접 실행해서 확인
+! =====================================================
+show ip interface brief
+show ip route
+show access-lists
+show running-config | include ip nat
+show ip nat translations
+show ip nat statistics
+
+! =====================================================
+! 8. 기본 Ping 테스트
+! C-R, B-R 설정 후 실행
+! =====================================================
+ping 1.2.123.2
+ping 1.2.123.3
+ping 1.2.2.1
+ping 1.2.3.1

@@ -1,0 +1,110 @@
+! =====================================================
+! C-R.ios
+! 2조 / C-PC / APP + Transit-SW 라우터 설정
+!
+! 기준 토폴로지:
+! - f0/0 = C APP LAN / LB, WEB, NFS, Cache 쪽
+! - f0/1 = Transit-SW 쪽
+!
+! C APP LAN:
+! - 사설망: 192.168.2.0/24
+! - C-R Gateway: 192.168.2.254/24
+!
+! Transit LAN:
+! - 1.2.123.0/24
+! - C-R Transit: 1.2.123.2/24
+!
+! NAT:
+! - f0/0 = ip nat inside
+! - f0/1 = ip nat outside
+! - LB1: 192.168.2.1 -> 1.2.2.1 Static NAT
+! - LB2: 192.168.2.2 -> 1.2.2.2 Static NAT
+! - WEB1: 192.168.2.3 -> 1.2.2.3 Static NAT
+! - WEB2: 192.168.2.4 -> 1.2.2.4 Static NAT
+! - NFS1, NFS2, Cache는 보안상 NAT 미적용
+! =====================================================
+
+enable
+terminal history size 256
+configure terminal
+
+! =====================================================
+! 1. 기본 설정
+! =====================================================
+hostname C-R
+no ip domain-lookup
+
+enable secret '
+username asd secret '
+
+line console 0
+ login local
+ logging synchronous
+exit
+
+! =====================================================
+! 2. 인터페이스 설정
+! =====================================================
+interface fastethernet 0/0
+ description C_APP_LAN_LB_WEB_NFS_CACHE
+ ip address 192.168.2.254 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+interface fastethernet 0/1
+ description TO_TRANSIT_SW
+ ip address 1.2.123.2 255.255.255.0
+ ip nat outside
+ no shutdown
+exit
+
+! =====================================================
+! 3. Static NAT - APP 서비스
+! 외부에서 접근해야 하는 서비스만 NAT
+! =====================================================
+ip nat inside source static 192.168.2.1 1.2.2.1
+ip nat inside source static 192.168.2.2 1.2.2.2
+ip nat inside source static 192.168.2.3 1.2.2.3
+ip nat inside source static 192.168.2.4 1.2.2.4
+
+! =====================================================
+! 4. NAT 미적용 대상
+! NFS1: 192.168.2.5
+! NFS2: 192.168.2.6
+! Cache: 192.168.2.7
+! 보안상 외부 공인 역할 IP를 만들지 않음
+! =====================================================
+
+! =====================================================
+! 5. 정적 라우트
+! A-PC EDGE/DNS 공인 역할망: 1.2.1.0/24 -> A-R
+! B-PC DATA/MGMT 공인 역할망: 1.2.3.0/24 -> B-R
+! =====================================================
+ip route 1.2.1.0 255.255.255.0 1.2.123.1
+ip route 1.2.3.0 255.255.255.0 1.2.123.3
+
+! =====================================================
+! 6. 저장
+! =====================================================
+end
+copy running-config startup-config
+
+! =====================================================
+! 7. 확인 명령어
+! 아래 명령은 설정 후 사람이 직접 실행해서 확인
+! =====================================================
+show ip interface brief
+show ip route
+show running-config | include ip nat
+show ip nat translations
+show ip nat statistics
+
+! =====================================================
+! 8. 기본 Ping 테스트
+! A-R, B-R 설정 후 실행
+! =====================================================
+ping 1.2.123.1
+ping 1.2.123.3
+ping 1.2.1.3
+ping 1.2.3.1
