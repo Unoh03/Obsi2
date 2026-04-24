@@ -20,7 +20,8 @@
 ! - DB1: 192.168.3.1 -> 1.2.3.1 Static NAT
 ! - DB2: 192.168.3.2 -> 1.2.3.2 Static NAT
 ! - Log: 192.168.3.3 -> 1.2.3.3 Static NAT
-! - Monitor: 192.168.3.4 is internal-only / Pull 방식 / Static NAT 없음
+! - Monitor: 192.168.3.4 is Pull 방식 / inbound Static NAT 없음
+! - Monitor outbound Pull: 192.168.3.4 -> 1.2.123.3 PAT
 !
 ! ACL:
 ! - Transit 쪽에서 B 공인 역할 IP(1.2.3.0/24)로 들어오는 접근 제한
@@ -66,14 +67,22 @@ exit
 
 ! =====================================================
 ! 3. Static NAT - DATA/MGMT 서비스
-! Monitor는 Pull 방식 내부 전용이므로 Static NAT를 만들지 않음
+! Monitor는 Pull 방식이므로 inbound Static NAT를 만들지 않음
 ! =====================================================
 ip nat inside source static 192.168.3.1 1.2.3.1
 ip nat inside source static 192.168.3.2 1.2.3.2
 ip nat inside source static 192.168.3.3 1.2.3.3
 
 ! =====================================================
-! 4. 정적 라우트
+! 4. PAT - Monitor Pull 수집용 outbound NAT
+! Monitor가 WEB/외부 공인 역할 IP를 Pull 수집할 때 사용
+! 192.168.3.4 -> B-R f0/1 주소 1.2.123.3으로 PAT
+! =====================================================
+access-list 20 permit host 192.168.3.4
+ip nat inside source list 20 interface fastethernet 0/1 overload
+
+! =====================================================
+! 5. 정적 라우트
 ! A-PC EDGE/DNS 공인 역할망: 1.2.1.0/24 -> A-R
 ! C-PC APP 공인 역할망:      1.2.2.0/24 -> C-R
 ! =====================================================
@@ -81,13 +90,14 @@ ip route 1.2.1.0 255.255.255.0 1.2.123.1
 ip route 1.2.2.0 255.255.255.0 1.2.123.2
 
 ! =====================================================
-! 5. ACL - B 영역 접근 제어
+! 6. ACL - B 영역 접근 제어
 ! 적용 위치: f0/1 inbound
 !
 ! 정책:
 ! - WEB1(1.2.2.3), WEB2(1.2.2.4) -> DB1(1.2.3.1), DB2(1.2.3.2) 허용
 ! - WEB1(1.2.2.3), WEB2(1.2.2.4) -> Log(1.2.3.3) 허용
-! - Monitor(192.168.3.4)는 Pull 방식 내부 전용
+! - Monitor(192.168.3.4)는 Pull 방식
+! - Monitor outbound 트래픽은 ACL 20 + PAT로 처리
 ! - Monitor 공인 IP 1.2.3.4는 만들지 않음
 ! - Monitor로 들어오는 inbound permit도 만들지 않음
 ! - Transit 라우터 IP로의 ICMP는 테스트 편의를 위해 허용
@@ -107,7 +117,7 @@ ip access-list extended B_ZONE_IN
  remark === Allow WEB servers to Log server ===
  permit ip host 1.2.2.3 host 1.2.3.3
  permit ip host 1.2.2.4 host 1.2.3.3
- remark === Monitor is pull-based and internal-only ===
+ remark === Monitor is pull-based and internal-only for inbound access ===
  remark === No Static NAT for Monitor 192.168.3.4 ===
  remark === No inbound public access to Monitor ===
  remark === Allow basic router transit ping test ===
@@ -124,24 +134,25 @@ interface fastethernet 0/1
 exit
 
 ! =====================================================
-! 6. 저장
+! 7. 저장
 ! =====================================================
 end
 copy running-config startup-config
 
 ! =====================================================
-! 7. 확인 명령어
+! 8. 확인 명령어
 ! 아래 명령은 설정 후 사람이 직접 실행해서 확인
 ! =====================================================
 show ip interface brief
 show ip route
 show running-config | include ip nat
+show access-lists
 show ip nat translations
 show ip nat statistics
 show access-lists B_ZONE_IN
 
 ! =====================================================
-! 8. 기본 Ping 테스트
+! 9. 기본 Ping 테스트
 ! A-R, C-R 설정 후 실행
 ! =====================================================
 ping 1.2.123.1
