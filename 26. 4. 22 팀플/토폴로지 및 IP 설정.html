@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>2조 최종 GNS3 분산 토폴로지</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #eef2f7;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+    color: #111827;
+    overflow: hidden;
+  }
+  .canvas {
+    position: relative;
+    width: 1920px;
+    height: 1250px;
+    margin: 0 auto;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  h1 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10px;
+    margin: 0;
+    text-align: center;
+    font-size: 54px;
+    line-height: 1.1;
+    color: #071d3d;
+    letter-spacing: 0;
+  }
+  .subtitle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 78px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+  }
+  .transport-note {
+    position: absolute;
+    left: 420px;
+    right: 420px;
+    top: 117px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 8px 14px;
+    text-align: center;
+    font-size: 18px;
+    color: #334155;
+  }
+  .panel {
+    position: absolute;
+    border: 2px solid;
+    border-radius: 18px;
+    background: rgba(248, 250, 252, 0.68);
+  }
+  .panel-a { left: 18px; top: 166px; width: 520px; height: 748px; border-color: #5b8bd7; }
+  .panel-c { left: 562px; top: 166px; width: 794px; height: 840px; border-color: #65b84f; background: rgba(249, 252, 248, 0.72); }
+  .panel-b { left: 1380px; top: 166px; width: 522px; height: 748px; border-color: #fb923c; background: rgba(255, 250, 247, 0.72); }
+  .tag {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 170px;
+    padding: 9px 20px;
+    border-radius: 10px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 30px;
+    line-height: 1.05;
+    font-weight: 900;
+  }
+  .tag small {
+    display: block;
+    font-size: 13px;
+    margin-top: 4px;
+    font-weight: 700;
+  }
+  .tag-a { background: #0f5db8; }
+  .tag-c { background: #3c9638; }
+  .tag-b { background: #f97316; }
+  .links {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1250px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .device, .table-box, .transit-card, .policy-card { position: absolute; z-index: 2; }
+  .label {
+    position: absolute;
+    font-size: 22px;
+    font-weight: 800;
+  }
+  .small-label {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    white-space: nowrap;
+  }
+  .server {
+    width: 42px;
+    height: 68px;
+    border: 2px solid #64748b;
+    border-radius: 7px;
+    background: linear-gradient(90deg, #dbe2ea 0, #f8fafc 36%, #9aa9ba 100%);
+    box-shadow: 0 3px 0 #475569;
+  }
+  .server::before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 12px;
+    width: 22px;
+    height: 4px;
+    border-radius: 2px;
+    background: #64748b;
+    box-shadow: 0 8px 0 #64748b, 0 16px 0 #64748b;
+  }
+  .server::after {
+    content: "";
+    position: absolute;
+    left: 11px;
+    bottom: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 14px 0 0 #84cc16;
+  }
+  .pc-icon {
+    width: 58px;
+    height: 42px;
+    border: 4px solid #475569;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #93c5fd, #075985);
+  }
+  .pc-icon::after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 42px;
+    width: 18px;
+    height: 18px;
+    background: #475569;
+    box-shadow: -14px 18px 0 #475569, 14px 18px 0 #475569;
+  }
+  .switch {
+    width: 130px;
+    height: 58px;
+    border-radius: 9px;
+    border: 2px solid #475569;
+    transform: skewX(-14deg);
+    box-shadow: 0 5px 0 #334155;
+  }
+  .switch.blue { background: linear-gradient(135deg, #7dd3fc, #1d4ed8); }
+  .switch.green { background: linear-gradient(135deg, #d1fae5, #475569); }
+  .switch.orange { background: linear-gradient(135deg, #fdba74, #ea580c); }
+  .ports {
+    position: absolute;
+    left: 13px;
+    right: 13px;
+    bottom: 9px;
+    display: flex;
+    gap: 5px;
+    transform: skewX(14deg);
+  }
+  .ports span {
+    display: block;
+    width: 12px;
+    height: 10px;
+    border: 2px solid #111827;
+    background: #f8fafc;
+  }
+  .router {
+    width: 88px;
+    height: 78px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 900;
+    box-shadow: inset 0 -7px 0 rgba(0,0,0,0.18);
+  }
+  .router.blue { background: #1f77b4; }
+  .router.green { background: #2c9c9c; }
+  .router.orange { background: #dd7414; }
+  .router .rtext { font-size: 18px; }
+  .device-name {
+    position: absolute;
+    left: 50%;
+    top: 76px;
+    transform: translateX(-50%);
+    width: 120px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+  }
+  .table-box {
+    border: 2px solid;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+    font-size: 16px;
+  }
+  .table-title {
+    padding: 6px 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+  }
+  .table-content {
+    padding: 10px 18px 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 104px 1fr;
+    gap: 8px;
+    line-height: 1.25;
+  }
+  .row b { white-space: nowrap; }
+  .a-table { border-color: #82aee8; }
+  .a-table .table-title { background: #dbeafe; color: #0f4f9f; }
+  .c-table { border-color: #80c86e; }
+  .c-table .table-title { background: #dcfce7; color: #19833a; }
+  .b-table { border-color: #fdba74; }
+  .b-table .table-title { background: #ffedd5; color: #9a3412; }
+  .transit-card {
+    left: 1130px;
+    top: 400px;
+    width: 192px;
+    border: 2px dotted #22c55e;
+    background: #f7fff6;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 18px;
+    line-height: 1.45;
+  }
+  .transit-card h3 {
+    margin: 0 0 6px;
+    color: #238a35;
+    font-size: 21px;
+  }
+  .policy-card {
+    left: 1394px;
+    top: 1020px;
+    width: 486px;
+    height: 126px;
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    background: #fffbeb;
+    padding: 12px 18px;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .policy-card h3 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    color: #92400e;
+    text-align: center;
+  }
+  .legend {
+    position: absolute;
+    left: 40px;
+    top: 1020px;
+    width: 690px;
+    height: 126px;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 14px 18px;
+    font-size: 16px;
+    line-height: 1.4;
+    z-index: 2;
+  }
+  code {
+    background: #f1f5f9;
+    border-radius: 4px;
+    padding: 1px 4px;
+    font-family: Consolas, "Courier New", monospace;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <h1>3-PC GNS3 분산 토폴로지</h1>
+  <div class="subtitle">현재 라우터 스크립트 기준 최종 IP / NAT / ACL 의도</div>
+  <div class="transport-note">학원망 <code>192.168.33.x</code>는 UDP Tunnel 운반망이고, GNS3 내부 Transit LAN은 <code>1.2.123.0/24</code>이다.</div>
+
+  <svg class="links" viewBox="0 0 1920 1250" aria-hidden="true">
+    <defs>
+      <marker id="dot" markerWidth="8" markerHeight="8" refX="4" refY="4">
+        <circle cx="4" cy="4" r="4" fill="#111827" />
+      </marker>
+    </defs>
+
+    <!-- A internal cables -->
+    <path d="M142 260 L230 260 L230 410 L280 410" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M142 395 L230 395" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M142 495 L230 495 L230 410" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M407 410 L455 410" stroke="#111827" stroke-width="4" fill="none"/>
+
+    <!-- B internal cables -->
+    <path d="M1495 415 L1565 415" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M1692 415 L1735 415 L1735 260 L1780 260" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M1735 415 L1780 415" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M1735 415 L1735 505 L1780 505" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M1735 415 L1735 595 L1780 595" stroke="#111827" stroke-width="4" fill="none"/>
+
+    <!-- C internal cables -->
+    <path d="M954 292 L954 368" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M954 444 L954 542" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M954 600 L954 664" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M620 664 L1295 664" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M620 664 L620 720" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M735 664 L735 720" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M850 664 L850 720" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M965 664 L965 720" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M1080 664 L1080 720" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M1195 664 L1195 720" stroke="#111827" stroke-width="4" fill="none"/>
+    <path d="M1295 664 L1295 720" stroke="#111827" stroke-width="4" fill="none"/>
+
+    <!-- UDP tunnels / Transit -->
+    <path d="M540 420 L595 420 L595 292 L848 292" stroke="#135dc7" stroke-width="4" fill="none" stroke-dasharray="12 8" marker-start="url(#dot)" marker-end="url(#dot)"/>
+    <path d="M1060 292 L1318 292 L1318 420 L1380 420" stroke="#135dc7" stroke-width="4" fill="none" stroke-dasharray="12 8" marker-start="url(#dot)" marker-end="url(#dot)"/>
+    <text x="620" y="258" fill="#135dc7" font-size="22" font-weight="900">UDP Tunnel (A-C)</text>
+    <text x="1120" y="258" fill="#135dc7" font-size="22" font-weight="900">UDP Tunnel (B-C)</text>
+  </svg>
+
+  <div class="panel panel-a">
+    <div class="tag tag-a">A-PC<small>UDP endpoint 192.168.33.121</small></div>
+  </div>
+  <div class="panel panel-c">
+    <div class="tag tag-c">C-PC<small>UDP endpoint 192.168.33.122</small></div>
+  </div>
+  <div class="panel panel-b">
+    <div class="tag tag-b">B-PC<small>UDP endpoint 192.168.33.123</small></div>
+  </div>
+
+  <!-- A devices -->
+  <div class="label" style="left:40px; top:236px;">Client</div>
+  <div class="device pc-icon" style="left:112px; top:230px;"></div>
+  <div class="label" style="left:40px; top:370px;">DNS1</div>
+  <div class="device server" style="left:112px; top:350px;"></div>
+  <div class="label" style="left:40px; top:470px;">DNS2</div>
+  <div class="device server" style="left:112px; top:450px;"></div>
+  <div class="label" style="left:276px; top:352px;">Switch-A</div>
+  <div class="device switch blue" style="left:250px; top:390px;"><div class="ports"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+  <div class="label" style="left:447px; top:344px;">A-R</div>
+  <div class="device router blue" style="left:430px; top:384px;"><span class="rtext">A-R</span></div>
+
+  <div class="table-box a-table" style="left:58px; top:668px; width:430px;">
+    <div class="table-title">A LAN: 192.168.1.0/24</div>
+    <div class="table-content">
+      <div class="row"><b>Client</b><span>192.168.1.10~29 / PAT 1.2.123.1</span></div>
+      <div class="row"><b>DHCP</b><span>A-R 내장 DHCP</span></div>
+      <div class="row"><b>DNS1</b><span>192.168.1.2 / NAT 1.2.1.2</span></div>
+      <div class="row"><b>DNS2</b><span>192.168.1.3 / NAT 1.2.1.3</span></div>
+      <div class="row"><b>A-R GW</b><span>192.168.1.254</span></div>
+    </div>
+  </div>
+
+  <!-- C devices -->
+  <div class="label" style="left:885px; top:230px;">Transit-SW</div>
+  <div class="device switch green" style="left:875px; top:270px; width:160px; height:64px;"><div class="ports"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+  <div class="label" style="left:1010px; top:388px;">C-R</div>
+  <div class="device router green" style="left:910px; top:382px;"><span class="rtext">C-R</span></div>
+  <div class="label" style="left:905px; top:538px;">APP-SW</div>
+  <div class="device switch green" style="left:880px; top:578px;"><div class="ports"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+
+  <div class="device server" style="left:598px; top:720px;"><div class="device-name">LB1</div></div>
+  <div class="device server" style="left:713px; top:720px;"><div class="device-name">LB2</div></div>
+  <div class="device server" style="left:828px; top:720px;"><div class="device-name">WEB1</div></div>
+  <div class="device server" style="left:943px; top:720px;"><div class="device-name">WEB2</div></div>
+  <div class="device server" style="left:1058px; top:720px;"><div class="device-name">NFS1</div></div>
+  <div class="device server" style="left:1173px; top:720px;"><div class="device-name">NFS2</div></div>
+  <div class="device server" style="left:1275px; top:720px;"><div class="device-name">Cache</div></div>
+
+  <div class="transit-card">
+    <h3>Transit LAN</h3>
+    <div><b>1.2.123.0/24</b></div>
+    <div>A-R: 1.2.123.1</div>
+    <div>C-R: 1.2.123.2</div>
+    <div>B-R: 1.2.123.3</div>
+  </div>
+
+  <div class="table-box c-table" style="left:590px; top:828px; width:740px;">
+    <div class="table-title">APP LAN: 192.168.2.0/24</div>
+    <div class="table-content" style="grid-template-columns: 1fr 1fr 1fr; column-gap: 18px;">
+      <div>
+        <div class="row"><b>LB1</b><span>192.168.2.1 / 1.2.2.1</span></div>
+        <div class="row"><b>LB2</b><span>192.168.2.2 / 1.2.2.2</span></div>
+        <div class="row"><b>WEB1</b><span>192.168.2.3 / 1.2.2.3</span></div>
+      </div>
+      <div>
+        <div class="row"><b>WEB2</b><span>192.168.2.4 / 1.2.2.4</span></div>
+        <div class="row"><b>NFS1</b><span>192.168.2.5 / 내부 전용</span></div>
+        <div class="row"><b>NFS2</b><span>192.168.2.6 / 내부 전용</span></div>
+      </div>
+      <div>
+        <div class="row"><b>Cache</b><span>192.168.2.7 / 내부 전용</span></div>
+        <div class="row"><b>C-R GW</b><span>192.168.2.254</span></div>
+        <div class="row"><b>정책</b><span>WEB 직접 접근 차단, Monitor 예외</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B devices -->
+  <div class="label" style="left:1410px; top:344px;">B-R</div>
+  <div class="device router orange" style="left:1410px; top:384px;"><span class="rtext">B-R</span></div>
+  <div class="label" style="left:1580px; top:352px;">Switch-B</div>
+  <div class="device switch orange" style="left:1558px; top:390px;"><div class="ports"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+
+  <div class="device server" style="left:1762px; top:228px;"><div class="device-name" style="left:54px; top:18px; transform:none; width:96px; text-align:left;">DB1</div></div>
+  <div class="device server" style="left:1762px; top:375px;"><div class="device-name" style="left:54px; top:18px; transform:none; width:96px; text-align:left;">DB2</div></div>
+  <div class="device server" style="left:1762px; top:465px;"><div class="device-name" style="left:54px; top:18px; transform:none; width:96px; text-align:left;">Log</div></div>
+  <div class="device server" style="left:1762px; top:555px;"><div class="device-name" style="left:54px; top:18px; transform:none; width:110px; text-align:left;">Monitor</div></div>
+
+  <div class="table-box b-table" style="left:1410px; top:668px; width:448px;">
+    <div class="table-title">DATA / MGMT LAN: 192.168.3.0/24</div>
+    <div class="table-content">
+      <div class="row"><b>DB1</b><span>192.168.3.1 / NAT 1.2.3.1</span></div>
+      <div class="row"><b>DB2</b><span>192.168.3.2 / NAT 1.2.3.2</span></div>
+      <div class="row"><b>Log</b><span>192.168.3.3 / NAT 1.2.3.3</span></div>
+      <div class="row"><b>Monitor</b><span>192.168.3.4 / PAT 1.2.123.3</span></div>
+      <div class="row"><b>B-R GW</b><span>192.168.3.254</span></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <b>IP 구분</b><br>
+    - <code>192.168.33.x</code>: 실제 학원망 PC IP, UDP Tunnel endpoint 용도<br>
+    - <code>192.168.1/2/3.0</code>: GNS3 내부 각 Zone 사설 LAN<br>
+    - <code>1.2.1/2/3.0</code>: NAT로 보이는 서비스 공인 역할 IP 대역
+  </div>
+
+  <div class="policy-card">
+    <h3>ACL 정책 요약</h3>
+    일반 접근은 LB만 허용, WEB 직접 접근은 차단<br>
+    WEB -> DB/Log 허용, DB/Log 응답 허용<br>
+    Monitor -> WEB1/WEB2 직접 점검 예외 허용
+  </div>
+</div>
+</body>
+</html>
