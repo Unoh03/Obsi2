@@ -135,4 +135,5 @@ show ip nat statistics
 ping 1.2.123.2
 ping 1.2.123.3
 ping 1.2.2.1
-ping 1.2.3.1 ! 실패해야 정상!
+! [NEGATIVE TEST] B-R ACL 정책상 실패해야 정상
+ping 1.2.3.1
