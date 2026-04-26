@@ -1,0 +1,177 @@
+라우터 검증 체크리스트
+
+목적
+- A-R, B-R, C-R 설정 이후 DHCP, NAT, ACL, 라우팅이 의도대로 동작하는지 확인한다.
+- 라우터 자체 ping만으로 판단하지 않고, 실제 출발지 장비 기준으로 테스트한다.
+
+
+1. A Client 검증
+
+실행 위치:
+- A LAN의 DHCP 클라이언트
+- 예상 IP 범위: 192.168.1.10 ~ 192.168.1.29
+
+확인 명령:
+ip addr
+ip route
+cat /etc/resolv.conf
+
+예상 결과:
+- IP: 192.168.1.10 ~ 192.168.1.29 중 하나
+- Gateway: 192.168.1.254
+- DNS: 192.168.1.2, 192.168.1.3
+
+통신 테스트:
+ping 192.168.1.254
+ping 192.168.1.2
+ping 192.168.1.3
+curl -I http://1.2.2.1
+curl -I http://1.2.2.2
+curl -I --connect-timeout 3 http://1.2.2.3
+curl -I --connect-timeout 3 http://1.2.2.4
+ping -c 3 1.2.3.1
+
+예상 결과:
+- Gateway, DNS, LB 접근은 성공해야 한다.
+- WEB1/WEB2 직접 접근은 실패해야 정상이다.
+- DB 직접 접근은 실패해야 정상이다.
+
+
+2. WEB1 / WEB2 검증
+
+실행 위치:
+- WEB1: 192.168.2.3
+- WEB2: 192.168.2.4
+
+확인 명령:
+ip addr
+ip route
+ping 192.168.2.254
+
+DB / Log 통신 테스트:
+ping -c 3 1.2.3.1
+ping -c 3 1.2.3.2
+ping -c 3 1.2.3.3
+nc -vz 1.2.3.1 3306
+
+예상 결과:
+- C-R Gateway 접근은 성공해야 한다.
+- DB1, DB2, Log 접근은 성공해야 한다.
+- MariaDB 사용 시 DB 포트 3306 연결은 성공해야 한다.
+
+
+3. Monitor 검증
+
+실행 위치:
+- Monitor 서버: 192.168.3.4
+
+확인 명령:
+ip addr
+ip route
+ping 192.168.3.254
+
+WEB / LB 모니터링 테스트:
+curl -I --connect-timeout 3 http://1.2.2.1
+curl -I --connect-timeout 3 http://1.2.2.2
+curl -I --connect-timeout 3 http://1.2.2.3
+curl -I --connect-timeout 3 http://1.2.2.4
+
+DB / Log 내부 통신 테스트:
+ping -c 3 192.168.3.1
+ping -c 3 192.168.3.2
+ping -c 3 192.168.3.3
+
+예상 결과:
+- B-R Gateway 접근은 성공해야 한다.
+- LB1, LB2 접근은 성공해야 한다.
+- WEB1, WEB2 직접 모니터링은 성공해야 한다.
+- DB/Log는 같은 B LAN 내부 통신이므로 성공해야 한다.
+
+
+4. A-R 확인 명령
+
+실행 위치:
+- A-R 라우터
+
+show ip interface brief
+show ip route
+show access-lists
+show running-config | include ip nat
+show ip nat translations
+show ip nat statistics
+
+확인 포인트:
+- f0/0: 192.168.1.254, ip nat inside
+- f0/1: 1.2.123.1, ip nat outside
+- DNS Static NAT: 192.168.1.2 -> 1.2.1.2, 192.168.1.3 -> 1.2.1.3
+- Client PAT 대상: 192.168.1.10 ~ 192.168.1.29
+
+
+5. B-R 확인 명령
+
+실행 위치:
+- B-R 라우터
+
+show ip interface brief
+show ip route
+show access-lists B_ZONE_IN
+show running-config | include ip nat
+show ip nat translations
+show ip nat statistics
+
+확인 포인트:
+- f0/0: 192.168.3.254, ip nat inside
+- f0/1: 1.2.123.3, ip nat outside
+- DB/Log Static NAT: 192.168.3.1~3 -> 1.2.3.1~3
+- Monitor PAT: 192.168.3.4 -> 1.2.123.3
+- WEB1/WEB2에서 DB/Log로 접근한 permit hit count 증가
+- A Client에서 DB로 직접 접근한 deny hit count 증가
+
+
+6. C-R 확인 명령
+
+실행 위치:
+- C-R 라우터
+
+show ip interface brief
+show ip route
+show access-lists C_ZONE_IN
+show running-config | include ip nat
+show ip nat translations
+show ip nat statistics
+
+확인 포인트:
+- f0/0: 192.168.2.254, ip nat inside
+- f0/1: 1.2.123.2, ip nat outside
+- LB/WEB Static NAT: 192.168.2.1~4 -> 1.2.2.1~4
+- LB HTTP permit hit count 증가
+- WEB 직접 접근 deny hit count 증가
+- DB/Log에서 WEB으로 돌아오는 응답 permit hit count 증가
+- Monitor에서 WEB1/WEB2로 접근하는 permit hit count 증가
+
+
+7. 실패해야 정상인 테스트
+
+A Client에서 실행:
+curl -I --connect-timeout 3 http://1.2.2.3
+curl -I --connect-timeout 3 http://1.2.2.4
+ping -c 3 1.2.3.1
+
+예상 결과:
+- A Client에서 WEB1/WEB2 직접 접근은 실패해야 정상이다.
+- A Client에서 DB 직접 접근은 실패해야 정상이다.
+
+라우터에서 주의할 점:
+- C-R에서 1.2.3.1로 ping하는 테스트는 WEB 서버가 DB로 통신하는 상황을 대표하지 않는다.
+- WEB -> DB/Log 검증은 반드시 WEB1 또는 WEB2에서 실행해야 한다.
+
+
+8. 전체 성공 기준
+
+- A Client는 DHCP로 IP, Gateway, DNS를 정상 수신한다.
+- A Client는 LB에는 접근 가능하지만 WEB/DB에는 직접 접근하지 못한다.
+- WEB1/WEB2는 DB/Log와 통신 가능하다.
+- DB/Log의 WEB 응답은 C-R ACL에서 허용된다.
+- Monitor는 WEB1/WEB2를 직접 모니터링할 수 있다.
+- Monitor는 외부에서 직접 접근되지 않는다.
+- 라우터의 NAT translation과 ACL hit count가 테스트 결과와 일치한다.
