@@ -34,9 +34,23 @@
               "icon": "lucide-file",
               "title": "IP 설정 표"
             }
+          },
+          {
+            "id": "8e0100a452a7a7b3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "26. 4. 22 팀플/IP 설정 표.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "IP 설정 표"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -241,8 +255,13 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "8e0100a452a7a7b3",
   "lastOpenFiles": [
+    "26. 4. 22 팀플/토폴로지 및 IP 설정.png",
+    "26. 4. 22 팀플/IP 설정 표.md",
+    "26. 4. 22 팀플/(구)토폴로지.png",
+    "26. 4. 22 팀플/ChatGPT Image 2026년 4월 24일 오전 09_57_06.png",
+    "26. 4. 22 팀플/오늘 할 일.md",
     "26. 4. 22 팀플/쉘 스크립트/미확인 852200.crdownload",
     "26. 4. 22 팀플/쉘 스크립트/미확인 275882.crdownload",
     "26. 4. 22 팀플/쉘 스크립트/B-R.ios",
@@ -253,16 +272,10 @@
     "26. 4. 22 팀플/쉘 스크립트/미확인 31012.crdownload",
     "26. 4. 22 팀플/미확인 905774.crdownload",
     "26. 4. 22 팀플/preview.html",
-    "26. 4. 22 팀플/미확인 130705.crdownload",
     "네트워크/CISCO.md",
-    "26. 4. 22 팀플/IP 설정 표.md",
     "26. 4. 22 팀플/설정 체크.md",
-    "26. 4. 22 팀플/토폴로지 및 IP 설정.png",
-    "26. 4. 22 팀플/오늘 할 일.md",
-    "26. 4. 22 팀플/ChatGPT Image 2026년 4월 24일 오전 09_57_06.png",
     "네트워크/GNS3.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
-    "26. 4. 22 팀플/토폴로지.png",
     "26. 4. 22 팀플/계획.md",
     "기초 개념/HTML.md",
     "스프링 툴/자바.md",
