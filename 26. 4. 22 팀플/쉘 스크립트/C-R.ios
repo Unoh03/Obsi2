@@ -83,7 +83,24 @@ ip nat inside source static 192.168.2.4 1.2.2.4
 ! =====================================================
 ip route 1.2.1.0 255.255.255.0 1.2.123.1
 ip route 1.2.3.0 255.255.255.0 1.2.123.3
+! =====================================================
+! 6. ACL - C 영역 접근 제어
+! A-R에서 C-R로 직접 접근 차단
+! =====================================================
+ip access-list extended C_ZONE_IN
+ remark === Allow public access to LB only ===
+ permit tcp any host 1.2.2.1 eq 80
+ permit tcp any host 1.2.2.2 eq 80
+ remark === Allow WEB to DB/Log communication path if needed ===
+ permit ip host 1.2.2.3 any
+ permit ip host 1.2.2.4 any
+ deny ip any host 1.2.2.3 log
+ deny ip any host 1.2.2.4 log
+ permit ip any any
+exit
 
+interface fastethernet 0/1
+ ip access-group C_ZONE_IN in
 ! =====================================================
 ! 6. 저장
 ! =====================================================
