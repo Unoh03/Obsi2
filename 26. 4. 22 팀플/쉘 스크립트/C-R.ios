@@ -98,6 +98,9 @@ ip access-list extended C_ZONE_IN
  permit ip host 1.2.3.1 host 1.2.2.4
  permit ip host 1.2.3.2 host 1.2.2.4
  permit ip host 1.2.3.3 host 1.2.2.4
+ remark === Allow Monitor to check WEB servers directly ===
+ permit ip host 1.2.123.3 host 1.2.2.3
+ permit ip host 1.2.123.3 host 1.2.2.4
  deny ip any host 1.2.2.3 log
  deny ip any host 1.2.2.4 log
  permit ip any any
