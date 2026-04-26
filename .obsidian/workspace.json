@@ -50,7 +50,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -255,8 +255,9 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "3a9018f8e32b55f3",
+  "active": "8e0100a452a7a7b3",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
     "26. 4. 22 팀플/preview(ver.Codex).html",
     "네트워크/CISCO.md",
     "26. 4. 22 팀플/IP 설정 표.md",
@@ -274,7 +275,6 @@
     "26. 4. 22 팀플/쉘 스크립트/A-R.ios",
     "26. 4. 22 팀플/쉘 스크립트/미확인 31012.crdownload",
     "26. 4. 22 팀플/미확인 905774.crdownload",
-    "26. 4. 22 팀플/preview.html",
     "네트워크/GNS3.md",
     "리눅스(우분투)/마지막 총정리 문제.md",
     "26. 4. 22 팀플/계획.md",
@@ -299,7 +299,6 @@
     "네트워크관리사.md",
     "템플릿/오답노트 템플릿.md",
     "자바/자바.md",
-    "리눅스(우분투)/우분투.md",
     "제미니.md",
     "conflict-files-obsidian-git.md",
     "특수 기호.md",
