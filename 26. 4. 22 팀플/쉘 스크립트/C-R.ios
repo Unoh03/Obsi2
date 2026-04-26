@@ -91,9 +91,13 @@ ip access-list extended C_ZONE_IN
  remark === Allow public access to LB only ===
  permit tcp any host 1.2.2.1 eq 80
  permit tcp any host 1.2.2.2 eq 80
- remark === Allow WEB to DB/Log communication path if needed ===
- permit ip host 1.2.2.3 any
- permit ip host 1.2.2.4 any
+ remark === Allow B services to respond to WEB servers ===
+ permit ip host 1.2.3.1 host 1.2.2.3
+ permit ip host 1.2.3.2 host 1.2.2.3
+ permit ip host 1.2.3.3 host 1.2.2.3
+ permit ip host 1.2.3.1 host 1.2.2.4
+ permit ip host 1.2.3.2 host 1.2.2.4
+ permit ip host 1.2.3.3 host 1.2.2.4
  deny ip any host 1.2.2.3 log
  deny ip any host 1.2.2.4 log
  permit ip any any
