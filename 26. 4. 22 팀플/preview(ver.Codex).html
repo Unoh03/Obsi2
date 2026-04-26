@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2조 NAT 포함 네트워크 토폴로지 - ver.Codex</title>
+<style>
+  :root {
+    --ink: #172033;
+    --muted: #596275;
+    --line: #d7dce5;
+    --paper: #ffffff;
+    --soft: #f5f7fb;
+    --a: #dbeafe;
+    --c: #dcfce7;
+    --b: #ffedd5;
+    --t: #ede9fe;
+    --warn: #fff7ed;
+    --warn-line: #fb923c;
+    --ok: #ecfdf5;
+    --ok-line: #10b981;
+    --bad: #fef2f2;
+    --bad-line: #ef4444;
+    --code: #eef2f7;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--paper);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+    line-height: 1.65;
+  }
+
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 28px 56px;
+  }
+
+  header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: 30px;
+    letter-spacing: 0;
+  }
+
+  h2 {
+    margin: 38px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--line);
+    font-size: 22px;
+  }
+
+  h3 {
+    margin: 24px 0 8px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 8px 0 12px;
+  }
+
+  code {
+    background: var(--code);
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.94em;
+  }
+
+  .meta {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0 26px;
+  }
+
+  .summary-item {
+    border: 1px solid var(--line);
+    background: var(--soft);
+    border-radius: 8px;
+    padding: 12px 14px;
+    min-height: 92px;
+  }
+
+  .summary-item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+
+  .summary-item span {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .box {
+    border: 1px solid var(--line);
+    background: var(--soft);
+    border-radius: 8px;
+    padding: 13px 15px;
+    margin: 14px 0;
+  }
+
+  .box.ok {
+    background: var(--ok);
+    border-color: var(--ok-line);
+  }
+
+  .box.warn {
+    background: var(--warn);
+    border-color: var(--warn-line);
+  }
+
+  .box.bad {
+    background: var(--bad);
+    border-color: var(--bad-line);
+  }
+
+  .topology {
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    white-space: pre;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 22px;
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    border: 1px solid var(--line);
+    padding: 9px 10px;
+    vertical-align: top;
+  }
+
+  th {
+    background: #f8fafc;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .section-a th {
+    background: var(--a);
+  }
+
+  .section-c th {
+    background: var(--c);
+  }
+
+  .section-b th {
+    background: var(--b);
+  }
+
+  .section-t th {
+    background: var(--t);
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .small {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  ul {
+    margin-top: 6px;
+  }
+
+  li {
+    margin: 4px 0;
+  }
+
+  @media print {
+    body {
+      background: #ffffff;
+    }
+
+    main {
+      max-width: none;
+      padding: 18mm;
+    }
+
+    h2 {
+      break-after: avoid;
+    }
+
+    table,
+    .box,
+    .topology {
+      break-inside: avoid;
+    }
+  }
+
+  @media (max-width: 860px) {
+    main {
+      padding: 20px 16px 42px;
+    }
+
+    .summary {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .summary {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>2조 NAT 포함 네트워크 토폴로지</h1>
+    <p class="meta">ver.Codex | 기준 파일: <code>A-R.ios</code>, <code>B-R.ios</code>, <code>C-R.ios</code></p>
+    <p>
+      이 문서는 라우터 IOS 설정을 기준으로 토폴로지, NAT, 라우팅, 접근 제어를 보고서/발표용으로 정리한 것이다.
+      실제 동작 판단은 HTML 원본이 아니라 <code>.ios</code> 설정을 우선한다.
+    </p>
+  </header>
+
+  <section class="summary" aria-label="핵심 요약">
+    <div class="summary-item">
+      <strong>Transit LAN</strong>
+      <code>1.2.123.0/24</code>
+      <span>A-R, C-R, B-R이 같은 Transit-SW 구간을 공유한다.</span>
+    </div>
+    <div class="summary-item">
+      <strong>NAT 방향</strong>
+      <code>LAN = inside</code><br>
+      <code>Transit = outside</code>
+      <span>내부 사설 IP를 Transit 쪽 서비스 IP로 변환한다.</span>
+    </div>
+    <div class="summary-item">
+      <strong>DHCP</strong>
+      <code>A-R</code>이 직접 제공
+      <span>별도 DHCP 서버 <code>192.168.1.2</code>는 IOS에서 확인되지 않는다.</span>
+    </div>
+    <div class="summary-item">
+      <strong>Monitor</strong>
+      Static NAT 없음
+      <span><code>192.168.3.4</code>는 outbound PAT로 <code>1.2.123.3</code>을 사용한다.</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>전체 구조</h2>
+    <p>
+      세 라우터는 각자의 내부 LAN을 가지고 있고, 바깥쪽 인터페이스는 모두 <code>1.2.123.0/24</code> Transit LAN에 연결된다.
+      내부망끼리는 직접 <code>192.168.x.0/24</code>로 통신하지 않고, 각 라우터의 NAT 주소 대역인 <code>1.2.1.0/24</code>,
+      <code>1.2.2.0/24</code>, <code>1.2.3.0/24</code>를 통해 접근하도록 구성되어 있다.
+    </p>
+
+    <div class="topology">[A LAN / EDGE-DNS-DHCP]              [Transit-SW / 1.2.123.0/24]              [B LAN / DATA-MGMT]
+192.168.1.0/24                              |                                  192.168.3.0/24
+Client, DNS1, DNS2                          |                                  DB1, DB2, Log, Monitor
+       |                                     |                                           |
+     A-R f0/1: 1.2.123.1 -------------------+------------------- B-R f0/1: 1.2.123.3
+     A-R f0/0: 192.168.1.254                |                   B-R f0/0: 192.168.3.254
+                                             |
+                                             |
+                              C-R f0/1: 1.2.123.2
+                              C-R f0/0: 192.168.2.254
+                                             |
+                                  [C APP LAN / 192.168.2.0/24]
+                                  LB1, LB2, WEB1, WEB2, NFS, Cache</div>
+
+    <div class="box warn">
+      <strong>주의:</strong> 기존 HTML에는 A/B 연결 방식이 <code>UDP Tunnel</code>로 표현되어 있었다.
+      그러나 세 개의 <code>.ios</code> 파일 안에는 <code>interface tunnel</code> 같은 터널 설정이 없다.
+      따라서 라우터 설정 기준으로는 세 라우터가 같은 Transit LAN에 붙은 구조까지만 확정할 수 있다.
+    </div>
+  </section>
+
+  <section>
+    <h2>라우터 인터페이스</h2>
+    <table class="section-t">
+      <tr>
+        <th>Router</th>
+        <th>Inside 인터페이스</th>
+        <th>Outside 인터페이스</th>
+        <th>역할</th>
+      </tr>
+      <tr>
+        <td class="nowrap"><strong>A-R</strong></td>
+        <td><code>f0/0</code> = <code>192.168.1.254/24</code><br><code>ip nat inside</code></td>
+        <td><code>f0/1</code> = <code>1.2.123.1/24</code><br><code>ip nat outside</code></td>
+        <td>A LAN 게이트웨이, DNS Static NAT, Client DHCP/PAT</td>
+      </tr>
+      <tr>
+        <td class="nowrap"><strong>C-R</strong></td>
+        <td><code>f0/0</code> = <code>192.168.2.254/24</code><br><code>ip nat inside</code></td>
+        <td><code>f0/1</code> = <code>1.2.123.2/24</code><br><code>ip nat outside</code></td>
+        <td>APP LAN 게이트웨이, LB/WEB Static NAT</td>
+      </tr>
+      <tr>
+        <td class="nowrap"><strong>B-R</strong></td>
+        <td><code>f0/0</code> = <code>192.168.3.254/24</code><br><code>ip nat inside</code></td>
+        <td><code>f0/1</code> = <code>1.2.123.3/24</code><br><code>ip nat outside</code></td>
+        <td>DATA/MGMT LAN 게이트웨이, DB/Log Static NAT, Monitor PAT, ACL 적용</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>A 구역: EDGE-DNS-DHCP</h2>
+    <table class="section-a">
+      <tr>
+        <th>대상</th>
+        <th>사설 IP</th>
+        <th>외부에서 보이는 IP</th>
+        <th>IOS 기준 역할</th>
+      </tr>
+      <tr>
+        <td>Client Pool</td>
+        <td><code>192.168.1.10~192.168.1.29</code></td>
+        <td><code>1.2.123.1</code> PAT</td>
+        <td>A-R <code>f0/1</code> 주소를 사용해 overload PAT</td>
+      </tr>
+      <tr>
+        <td>DNS1</td>
+        <td><code>192.168.1.3</code></td>
+        <td><code>1.2.1.3</code></td>
+        <td>Static NAT</td>
+      </tr>
+      <tr>
+        <td>DNS2</td>
+        <td><code>192.168.1.4</code></td>
+        <td><code>1.2.1.4</code></td>
+        <td>Static NAT</td>
+      </tr>
+      <tr>
+        <td>A-R Gateway</td>
+        <td><code>192.168.1.254</code></td>
+        <td><code>1.2.123.1</code></td>
+        <td>LAN 기본 게이트웨이 및 Transit 인터페이스</td>
+      </tr>
+    </table>
+
+    <div class="box ok">
+      <strong>DHCP 정리:</strong> <code>A-R.ios</code>에는 <code>ip dhcp pool A_LAN</code>이 있으므로,
+      현재 설정 기준 DHCP는 A-R이 직접 제공한다. 별도 DHCP 서버 <code>192.168.1.2</code>는 이 IOS 설정에서는 확인되지 않는다.
+    </div>
+  </section>
+
+  <section>
+    <h2>C 구역: APP</h2>
+    <table class="section-c">
+      <tr>
+        <th>대상</th>
+        <th>사설 IP</th>
+        <th>외부에서 보이는 IP</th>
+        <th>NAT 방식</th>
+      </tr>
+      <tr>
+        <td>LB1</td>
+        <td><code>192.168.2.1</code></td>
+        <td><code>1.2.2.1</code></td>
+        <td>Static NAT</td>
+      </tr>
+      <tr>
+        <td>LB2</td>
+        <td><code>192.168.2.2</code></td>
+        <td><code>1.2.2.2</code></td>
+        <td>Static NAT</td>
+      </tr>
+      <tr>
+        <td>WEB1</td>
+        <td><code>192.168.2.3</code></td>
+        <td><code>1.2.2.3</code></td>
+        <td>Static NAT</td>
+      </tr>
+      <tr>
+        <td>WEB2</td>
+        <td><code>192.168.2.4</code></td>
+        <td><code>1.2.2.4</code></td>
+        <td>Static NAT</td>
+      </tr>
+      <tr>
+        <td>NFS1</td>
+        <td><code>192.168.2.5</code></td>
+        <td>-</td>
+        <td>공개 NAT 없음</td>
+      </tr>
+      <tr>
+        <td>NFS2</td>
+        <td><code>192.168.2.6</code></td>
+        <td>-</td>
+        <td>공개 NAT 없음</td>
+      </tr>
+      <tr>
+        <td>Cache</td>
+        <td><code>192.168.2.7</code></td>
+        <td>-</td>
+        <td>공개 NAT 없음</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>B 구역: DATA/MGMT</h2>
+    <table class="section-b">
+      <tr>
+        <th>대상</th>
+        <th>사설 IP</th>
+        <th>외부에서 보이는 IP</th>
+        <th>NAT/접근 방식</th>
+      </tr>
+      <tr>
+        <td>DB1</td>
+        <td><code>192.168.3.1</code></td>
+        <td><code>1.2.3.1</code></td>
+        <td>Static NAT, WEB1/WEB2에서 접근 허용</td>
+      </tr>
+      <tr>
+        <td>DB2</td>
+        <td><code>192.168.3.2</code></td>
+        <td><code>1.2.3.2</code></td>
+        <td>Static NAT, WEB1/WEB2에서 접근 허용</td>
+      </tr>
+      <tr>
+        <td>Log</td>
+        <td><code>192.168.3.3</code></td>
+        <td><code>1.2.3.3</code></td>
+        <td>Static NAT, WEB1/WEB2에서 접근 허용</td>
+      </tr>
+      <tr>
+        <td>Monitor</td>
+        <td><code>192.168.3.4</code></td>
+        <td><code>1.2.123.3</code> PAT outbound</td>
+        <td>Static NAT 없음. 외부에서 <code>1.2.3.4</code>로 접근하는 구조가 아니다.</td>
+      </tr>
+    </table>
+
+    <div class="box bad">
+      <strong>중요 수정점:</strong> Monitor의 <code>1.2.3.4</code> Static NAT는 IOS에 없다.
+      <code>B-R.ios</code>는 Monitor를 Pull 방식 내부 장비로 보고, 외부 접속용 Static NAT를 만들지 않는다.
+    </div>
+  </section>
+
+  <section>
+    <h2>NAT 매핑 전체 표</h2>
+    <table>
+      <tr>
+        <th>구역</th>
+        <th>대상</th>
+        <th>Inside Local</th>
+        <th>Inside Global / PAT 주소</th>
+        <th>방식</th>
+      </tr>
+      <tr><td>A</td><td>Client Pool</td><td><code>192.168.1.10~29</code></td><td><code>1.2.123.1</code></td><td>PAT overload</td></tr>
+      <tr><td>A</td><td>DNS1</td><td><code>192.168.1.3</code></td><td><code>1.2.1.3</code></td><td>Static NAT</td></tr>
+      <tr><td>A</td><td>DNS2</td><td><code>192.168.1.4</code></td><td><code>1.2.1.4</code></td><td>Static NAT</td></tr>
+      <tr><td>C</td><td>LB1</td><td><code>192.168.2.1</code></td><td><code>1.2.2.1</code></td><td>Static NAT</td></tr>
+      <tr><td>C</td><td>LB2</td><td><code>192.168.2.2</code></td><td><code>1.2.2.2</code></td><td>Static NAT</td></tr>
+      <tr><td>C</td><td>WEB1</td><td><code>192.168.2.3</code></td><td><code>1.2.2.3</code></td><td>Static NAT</td></tr>
+      <tr><td>C</td><td>WEB2</td><td><code>192.168.2.4</code></td><td><code>1.2.2.4</code></td><td>Static NAT</td></tr>
+      <tr><td>C</td><td>NFS1</td><td><code>192.168.2.5</code></td><td>-</td><td>공개 NAT 없음</td></tr>
+      <tr><td>C</td><td>NFS2</td><td><code>192.168.2.6</code></td><td>-</td><td>공개 NAT 없음</td></tr>
+      <tr><td>C</td><td>Cache</td><td><code>192.168.2.7</code></td><td>-</td><td>공개 NAT 없음</td></tr>
+      <tr><td>B</td><td>DB1</td><td><code>192.168.3.1</code></td><td><code>1.2.3.1</code></td><td>Static NAT</td></tr>
+      <tr><td>B</td><td>DB2</td><td><code>192.168.3.2</code></td><td><code>1.2.3.2</code></td><td>Static NAT</td></tr>
+      <tr><td>B</td><td>Log</td><td><code>192.168.3.3</code></td><td><code>1.2.3.3</code></td><td>Static NAT</td></tr>
+      <tr><td>B</td><td>Monitor</td><td><code>192.168.3.4</code></td><td><code>1.2.123.3</code></td><td>Outbound PAT only</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>라우팅 요약</h2>
+    <table class="section-t">
+      <tr>
+        <th>Router</th>
+        <th>직접 연결망</th>
+        <th>Static Route</th>
+      </tr>
+      <tr>
+        <td>A-R</td>
+        <td><code>192.168.1.0/24</code>, <code>1.2.123.0/24</code></td>
+        <td><code>1.2.2.0/24 -> 1.2.123.2</code><br><code>1.2.3.0/24 -> 1.2.123.3</code></td>
+      </tr>
+      <tr>
+        <td>C-R</td>
+        <td><code>192.168.2.0/24</code>, <code>1.2.123.0/24</code></td>
+        <td><code>1.2.1.0/24 -> 1.2.123.1</code><br><code>1.2.3.0/24 -> 1.2.123.3</code></td>
+      </tr>
+      <tr>
+        <td>B-R</td>
+        <td><code>192.168.3.0/24</code>, <code>1.2.123.0/24</code></td>
+        <td><code>1.2.1.0/24 -> 1.2.123.1</code><br><code>1.2.2.0/24 -> 1.2.123.2</code></td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>B-R 접근 제어 정책</h2>
+    <p>
+      <code>B-R.ios</code>에는 <code>B_ZONE_IN</code> ACL이 <code>f0/1</code> inbound 방향에 적용되어 있다.
+      목적은 B 구역의 DB/Log 공개 NAT 주소에 대해 WEB 서버만 접근하게 제한하는 것이다.
+    </p>
+    <table class="section-b">
+      <tr>
+        <th>정책</th>
+        <th>허용/차단</th>
+        <th>의미</th>
+      </tr>
+      <tr>
+        <td><code>1.2.2.3</code>, <code>1.2.2.4</code> -> <code>1.2.3.1</code></td>
+        <td>허용</td>
+        <td>WEB1/WEB2에서 DB1 접근</td>
+      </tr>
+      <tr>
+        <td><code>1.2.2.3</code>, <code>1.2.2.4</code> -> <code>1.2.3.2</code></td>
+        <td>허용</td>
+        <td>WEB1/WEB2에서 DB2 접근</td>
+      </tr>
+      <tr>
+        <td><code>1.2.2.3</code>, <code>1.2.2.4</code> -> <code>1.2.3.3</code></td>
+        <td>허용</td>
+        <td>WEB1/WEB2에서 Log 접근</td>
+      </tr>
+      <tr>
+        <td><code>any</code> -> <code>1.2.3.0/24</code></td>
+        <td>차단 후 로그</td>
+        <td>허용된 WEB 트래픽 외의 B 공개 서비스 대역 직접 접근 차단</td>
+      </tr>
+      <tr>
+        <td><code>any</code> -> 그 외 목적지</td>
+        <td>허용</td>
+        <td>B 서비스 대역 외 일반 트래픽은 통과</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>발표용 핵심 문장</h2>
+    <ul>
+      <li>이 토폴로지는 A, C, B 세 구역을 Transit LAN <code>1.2.123.0/24</code>로 연결한다.</li>
+      <li>각 구역의 실제 서버 IP는 <code>192.168.x.0/24</code> 사설망에 있고, 외부 접근은 NAT 주소 <code>1.2.x.0/24</code>를 사용한다.</li>
+      <li>A-R은 클라이언트 DHCP와 DNS Static NAT를 담당한다.</li>
+      <li>C-R은 LB/WEB 서비스를 Static NAT로 공개하고, NFS/Cache는 공개 NAT 없이 내부 전용으로 둔다.</li>
+      <li>B-R은 DB/Log를 Static NAT로 공개하지만, ACL로 WEB1/WEB2의 접근만 허용한다.</li>
+      <li>Monitor는 외부에서 접속받는 서버가 아니라, 내부에서 밖으로 조회하는 Pull 방식 장비로 보고 Static NAT를 만들지 않는다.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>원본 preview.html 대비 수정된 해석</h2>
+    <table>
+      <tr>
+        <th>항목</th>
+        <th>원본 preview.html 표현</th>
+        <th>IOS 기준 수정</th>
+      </tr>
+      <tr>
+        <td>Monitor</td>
+        <td><code>192.168.3.4 -> 1.2.3.4</code>처럼 보임</td>
+        <td><code>1.2.3.4</code> Static NAT 없음. <code>1.2.123.3</code> outbound PAT만 사용</td>
+      </tr>
+      <tr>
+        <td>DHCP</td>
+        <td>별도 DHCP 서버 <code>192.168.1.2</code>처럼 표시</td>
+        <td><code>A-R</code>의 <code>ip dhcp pool A_LAN</code>이 DHCP 제공</td>
+      </tr>
+      <tr>
+        <td>WEB1/WEB2</td>
+        <td>Static NAT 또는 내부 전용</td>
+        <td>둘 다 Static NAT 확정</td>
+      </tr>
+      <tr>
+        <td>Log</td>
+        <td>Static NAT 또는 내부 전용</td>
+        <td>Static NAT 확정</td>
+      </tr>
+      <tr>
+        <td>UDP Tunnel</td>
+        <td>A/B 연결 방식으로 표시</td>
+        <td>IOS 안에는 터널 설정 없음. 외부 실습 환경 설명일 수 있으나 라우터 설정으로는 미확정</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>검증 명령 예시</h2>
+    <p>라우터에 설정을 넣은 뒤에는 아래 명령으로 인터페이스, 라우팅, NAT, ACL을 확인한다.</p>
+    <div class="topology">show ip interface brief
+show ip route
+show running-config | include ip nat
+show ip nat translations
+show ip nat statistics
+show access-lists
+show access-lists B_ZONE_IN</div>
+  </section>
+</main>
+</body>
+</html>
