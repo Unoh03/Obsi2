@@ -29,9 +29,9 @@ sudo tee /etc/bind/db.example.com > /dev/null <<EOF
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      ns.example.com.
-ns      IN      A       2.2.2.2
-@       IN      A       3.3.3.3
-www     IN      A       3.3.3.3
+ns      IN      A       1.2.1.2
+@       IN      A       1.2.2.1
+www     IN      A       1.2.2.1
 EOF
 
 sudo ufw allow 53
