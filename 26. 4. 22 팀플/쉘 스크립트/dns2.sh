@@ -14,11 +14,9 @@ EOF
 
 sudo tee /etc/bind/named.conf.local > /dev/null <<EOF
 zone "zzaphub.com" {
-    type master;
-    file "/etc/bind/db.zzaphub.com";
-    allow-transfer { 192.168.1.3; };
-    also-notify { 192.168.1.3; };
-    notify yes;
+    type slave;
+    masters { 192.168.1.2; };
+    file "/var/cache/bind/db.zzaphub.com";
 };
 EOF
 
