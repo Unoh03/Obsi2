@@ -12,23 +12,23 @@ options {
 EOF
 
 sudo tee /etc/bind/named.conf.local > /dev/null <<EOF
-zone "example.com" {
+zone "zzaphub.com" {
     type master;
-    file "/etc/bind/db.example.com";
+    file "/etc/bind/db.zzaphub.com";
 };
 EOF
 
-
-sudo tee /etc/bind/db.example.com > /dev/null <<EOF
+ 
+sudo tee /etc/bind/db.zzaphub.com > /dev/null <<EOF
 \$TTL    604800
-@       IN      SOA     ns.example.com. root.example.com. (
+@       IN      SOA     ns.zzaphub.com. root.zzaphub.com. (
                               2         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      ns.example.com.
+@       IN      NS      ns.zzaphub.com.
 ns      IN      A       1.2.1.2
 @       IN      A       1.2.2.1
 www     IN      A       1.2.2.1
@@ -36,6 +36,6 @@ EOF
 
 sudo ufw allow 53
 sudo named-checkconf
-sudo named-checkzone example.com /etc/bind/db.example.com
+sudo named-checkzone zzaphub.com /etc/bind/db.zzaphub.com
 sudo systemctl restart named
 sudo systemctl enable named
