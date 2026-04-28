@@ -5,7 +5,7 @@ network:
     ens33:
       dhcp4: true
       dhcp6: false
-    routes:
+      routes:
         - to: default
           via: 192.168.33.1
     ens37:
