@@ -26,7 +26,7 @@ EOF
 sudo tee /etc/bind/db.zzaphub.com > /dev/null <<EOF
 \$TTL 300
 @       IN      SOA     ns1.zzaphub.com. admin.zzaphub.com. (
-                        2026042701 ; Serial
+                        2026042801 ; Serial
                         300        ; Refresh
                         60         ; Retry
                         604800     ; Expire
@@ -38,8 +38,8 @@ sudo tee /etc/bind/db.zzaphub.com > /dev/null <<EOF
 ns1     IN      A       1.2.1.2
 ns2     IN      A       1.2.1.3
 
-@       IN      A       1.2.2.1
-www     IN      A       1.2.2.1
+@       IN      A       1.2.2.10
+www     IN      A       1.2.2.10
 
 
 EOF

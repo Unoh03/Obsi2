@@ -19,6 +19,7 @@
 ! - f0/1 = ip nat outside
 ! - LB1: 192.168.2.1 -> 1.2.2.1 Static NAT
 ! - LB2: 192.168.2.2 -> 1.2.2.2 Static NAT
+! - LB VIP: 192.168.2.10 -> 1.2.2.10 Static NAT
 ! - WEB1: 192.168.2.3 -> 1.2.2.3 Static NAT
 ! - WEB2: 192.168.2.4 -> 1.2.2.4 Static NAT
 ! - NFS1, NFS2, Cache는 보안상 NAT 미적용
@@ -65,6 +66,7 @@ exit
 ! =====================================================
 ip nat inside source static 192.168.2.1 1.2.2.1
 ip nat inside source static 192.168.2.2 1.2.2.2
+ip nat inside source static 192.168.2.10 1.2.2.10
 ip nat inside source static 192.168.2.3 1.2.2.3
 ip nat inside source static 192.168.2.4 1.2.2.4
 
@@ -89,6 +91,7 @@ ip route 1.2.3.0 255.255.255.0 1.2.123.3
 ! =====================================================
 ip access-list extended C_ZONE_IN
  remark === Allow public access to LB only ===
+ permit tcp any host 1.2.2.10 eq 80
  permit tcp any host 1.2.2.1 eq 80
  permit tcp any host 1.2.2.2 eq 80
  remark === Allow B services to respond to WEB servers ===
