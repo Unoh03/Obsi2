@@ -94,6 +94,7 @@ ip access-list extended C_ZONE_IN
  permit tcp any host 1.2.2.10 eq 80
  permit tcp any host 1.2.2.1 eq 80
  permit tcp any host 1.2.2.2 eq 80
+ permit tcp any host 1.2.3.0 eq 80
  remark === Allow B services to respond to WEB servers ===
  permit ip host 1.2.3.1 host 1.2.2.3
  permit ip host 1.2.3.2 host 1.2.2.3
