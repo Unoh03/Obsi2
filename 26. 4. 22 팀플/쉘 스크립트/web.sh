@@ -7,7 +7,7 @@ sudo apt install -y openjdk-17-jdk
 TOMCAT_VER="10.1.54"
 
 # 미러 사이트가 아닌 영구 보존 아카이브(archive.apache.org)에서 다운로드
-wget "https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VER}/bin/apache-tomcat-${TOMCAT_VER}-fulldocs.tar.gz"
+wget "https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VER}/bin/apache-tomcat-${TOMCAT_VER}.tar.gz"
 
 # 🛡️ [보안] 쉘 접속이 불가능한(/bin/false) 톰캣 전용 계정 생성 및 권한 격리
 sudo useradd -r -m -U -d /opt/tomcat -s /bin/false tomcat
@@ -69,7 +69,7 @@ done
 echo "[SUCCESS] application.properties 파일 발견! 설정을 변경합니다."
 sudo sed -i 's|spring.datasource.username.*|spring.datasource.username=web|' $PROP_FILE
 sudo sed -i 's|spring.datasource.password.*|spring.datasource.password=123|' $PROP_FILE
-sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://4.4.4.4:3306/care|' $PROP_FILE
+sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://1.2.3.1:3306/care|' $PROP_FILE
 
 sudo mkdir --mode=777 /opt/tomcat/tomcat-10/webapps/upload
 

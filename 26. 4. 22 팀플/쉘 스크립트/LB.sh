@@ -6,9 +6,8 @@ sudo apt install nginx -y
 sudo tee /etc/nginx/conf.d/load-balancer.conf > /dev/null << 'EOF'
 
 upstream backend_nodes {
-    server 192.168.3.3:8080;
-    server 192.168.3.4:8080;
-    ip_hash;
+    server 192.168.2.3:8080;
+    server 192.168.2.4:8080;
 }
 server {
     listen 80;
@@ -28,6 +27,6 @@ EOF
 sudo rm -rf /etc/nginx/sites-enabled/default
 
 # Nginx 문법 검사 (오타 방지)
-sudo nginx -t
+sudo nginx -t || exit 1
 # Nginx 설정 적용 및 재시작
 sudo systemctl restart nginx

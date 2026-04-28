@@ -8,7 +8,8 @@ sudo mkdir -p /share_directory
 sudo chmod 777 /share_directory
 sudo chown nobody:nogroup /share_directory
 
-echo "/share_directory 192.168.3.0/24(rw,sync,no_subtree_check)" | sudo tee -a /etc/exports
+EXPORT_LINE="/share_directory 192.168.2.0/24(rw,sync,no_subtree_check)"
+grep -qxF "$EXPORT_LINE" /etc/exports || echo "$EXPORT_LINE" | sudo tee -a /etc/exports
 
 sudo systemctl restart nfs-kernel-server
 sudo exportfs -arv
