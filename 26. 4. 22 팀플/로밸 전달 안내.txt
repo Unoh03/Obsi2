@@ -1,0 +1,74 @@
+Charlie 로드밸런서 구축 안내
+
+전달 파일:
+- LB.sh
+
+목표:
+- LB1/LB2를 nginx + keepalived Active-Standby 구조로 구성합니다.
+- 서비스 VIP는 192.168.2.10 입니다.
+- 외부 공개 IP는 C-R NAT 기준 1.2.2.10 입니다.
+- WEB1 192.168.2.3:8080, WEB2 192.168.2.4:8080 으로 round-robin 분산합니다.
+
+실행 전 확인:
+- LB1 IP: 192.168.2.1/24
+- LB2 IP: 192.168.2.2/24
+- Gateway: 192.168.2.254
+- WEB1 Tomcat: 192.168.2.3:8080
+- WEB2 Tomcat: 192.168.2.4:8080
+- C-R에는 아래 NAT가 들어가 있어야 외부 1.2.2.10 접속이 됩니다.
+  ip nat inside source static 192.168.2.10 1.2.2.10
+- C-R ACL을 적용한 상태라면 C_ZONE_IN에 아래 permit도 있어야 합니다.
+  permit tcp any host 1.2.2.10 eq 80
+
+기본 실행:
+- LB1에서:
+  bash LB.sh
+
+- LB2에서:
+  bash LB.sh
+
+자동 감지가 실패할 때:
+- 먼저 인터페이스 이름을 확인합니다.
+  ip a
+
+- 예를 들어 프로젝트망 인터페이스가 ens37이면 아래처럼 실행합니다.
+
+- LB1에서:
+  IFACE=ens37 bash LB.sh MASTER
+
+- LB2에서:
+  IFACE=ens37 bash LB.sh BACKUP
+
+성공 확인:
+- LB1/LB2 둘 다:
+  sudo nginx -t
+  systemctl status nginx --no-pager
+  systemctl status keepalived --no-pager
+  curl http://192.168.2.3:8080
+  curl http://192.168.2.4:8080
+  curl http://192.168.2.10
+
+- VIP 확인:
+  ip a | grep 192.168.2.10
+
+정상 상태:
+- 192.168.2.10 VIP는 LB1 또는 LB2 중 한 곳에만 떠야 합니다.
+- 둘 다 VIP가 없으면 keepalived 문제입니다.
+- 둘 다 VIP가 있으면 split-brain 가능성이 있으니 바로 알려주세요.
+
+Failover 테스트:
+- LB1에서 nginx를 중지합니다.
+  sudo systemctl stop nginx
+
+- LB2에서 VIP가 넘어왔는지 확인합니다.
+  ip a | grep 192.168.2.10
+  curl http://192.168.2.10
+
+- 테스트 후 LB1을 복구합니다.
+  sudo systemctl start nginx
+
+주의:
+- keepalived는 같은 C Zone L2망에서 동작해야 합니다.
+- LB1/LB2가 서로 같은 VMnet 또는 같은 GNS C LAN에 있어야 합니다.
+- WEB 서버가 아직 안 떠 있으면 nginx/keepalived는 떠도 curl 결과는 실패할 수 있습니다.
+- 외부에서 http://www.zzaphub.com 이 되려면 DNS가 1.2.2.10을 가리키고, C-R NAT가 적용되어 있어야 합니다.
