@@ -20,7 +20,7 @@ set -e
 # Normal:
 #   bash 'nfs-ha(4.28.2).sh'
 #
-# Manual role override:
+# Manual role override: 
 #   IFACE=ens37 bash 'nfs-ha(4.28.2).sh' MASTER
 #   IFACE=ens37 bash 'nfs-ha(4.28.2).sh' BACKUP
 # =====================================================
@@ -179,13 +179,39 @@ sudo systemctl restart nfs-kernel-server
 sudo systemctl restart keepalived
 sudo ufw allow 2049/tcp || true
 
+# =====================================================
+# 8. Smart Polling: keepalived VIP 반영 대기
+# - keepalived는 재시작 직후 BACKUP으로 들어갔다가 MASTER로 승격될 수 있음
+# - 바로 확인하면 VIP가 아직 안 붙은 것처럼 보일 수 있으므로 잠시 대기
+# =====================================================
+echo "[INFO] keepalived가 VIP 상태를 결정할 때까지 확인합니다."
+WAIT_TIME=0
+MAX_WAIT=15
+VIP_READY="no"
+
+while [ $WAIT_TIME -lt $MAX_WAIT ]; do
+    if ip addr show dev "$IFACE" | grep -q "$VIP"; then
+        VIP_READY="yes"
+        break
+    fi
+
+    sleep 1
+    WAIT_TIME=$((WAIT_TIME + 1))
+    echo "[INFO] VIP ${VIP} 대기 중... (${WAIT_TIME}/${MAX_WAIT}초)"
+done
+
 echo "[SUCCESS] NFS HA 서버 설정이 완료되었습니다."
 echo "[INFO] Role=${ROLE}, Priority=${PRIORITY}, Interface=${IFACE}, VIP=${VIP}"
 
-if ip addr show dev "$IFACE" | grep -q "$VIP"; then
+if [ "$VIP_READY" = "yes" ]; then
     echo "[INFO] 이 노드가 현재 NFS VIP ${VIP}를 가지고 있습니다."
 else
-    echo "[INFO] 이 노드에는 현재 NFS VIP ${VIP}가 없습니다. BACKUP 노드라면 정상일 수 있습니다."
+    if [ "$ROLE" = "MASTER" ]; then
+        echo "[WARN] MASTER 역할인데도 NFS VIP ${VIP}가 아직 보이지 않습니다."
+        echo "[WARN] keepalived 상태와 같은 VRRP 그룹의 다른 NFS 노드를 확인하세요."
+    else
+        echo "[INFO] 이 노드에는 현재 NFS VIP ${VIP}가 없습니다. BACKUP 노드라면 정상일 수 있습니다."
+    fi
 fi
 
 echo "[INFO] 확인 명령:"
