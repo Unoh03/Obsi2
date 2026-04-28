@@ -68,7 +68,7 @@ done
 # 4. application.properties 자동 수정 및 재시작
 echo "[SUCCESS] application.properties 파일 발견! 설정을 변경합니다."
 sudo sed -i 's|spring.datasource.username.*|spring.datasource.username=web|' $PROP_FILE
-sudo sed -i 's|spring.datasource.password.*|spring.datasource.password=123|' $PROP_FILE
+sudo sed -i 's|spring.datasource.password.*|spring.datasource.password=7898|' $PROP_FILE
 sudo sed -i 's|spring.datasource.url.*|spring.datasource.url=jdbc:mariadb://1.2.3.1:3306/care|' $PROP_FILE
 
 sudo mkdir --mode=777 /opt/tomcat/tomcat-10/webapps/upload

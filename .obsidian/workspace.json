@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "리눅스(우분투)/우분투.md",
+                "file": "네트워크/CISCO.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "우분투"
+              "title": "CISCO"
             }
           }
         ],
@@ -244,6 +244,7 @@
   },
   "active": "3a9018f8e32b55f3",
   "lastOpenFiles": [
+    "리눅스(우분투)/우분투.md",
     "26. 4. 22 팀플/프로젝트 안내서.md",
     "26. 4. 22 팀플/로밸 전달 안내.txt",
     "26. 4. 22 팀플/쉘 스크립트/dns1.sh",
@@ -254,7 +255,6 @@
     "26. 4. 22 팀플/쉘 스크립트/dns2.sh",
     "26. 4. 22 팀플/쉘 스크립트/dns copy.sh",
     "26. 4. 22 팀플/IP 설정 표.md",
-    "리눅스(우분투)/우분투.md",
     "26. 4. 22 팀플/상세 IP NAT ACL 기준표_(4.27).html",
     "26. 4. 22 팀플/토폴로지 및 IP 설정_(4.27).png",
     "26. 4. 22 팀플/토폴로지 및 IP 설정_(4.27).html",
