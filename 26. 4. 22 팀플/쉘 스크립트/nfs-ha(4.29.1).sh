@@ -1,0 +1,313 @@
+#!/bin/bash
+set -euo pipefail
+
+# =====================================================
+# Charlie C Zone NFS HA Server Setup (4.29.1)
+# - NFS1: 192.168.2.5
+# - NFS2: 192.168.2.6
+# - NFS VIP: 192.168.2.50
+# - Share path: /share_directory
+# - Allowed clients: 192.168.2.0/24
+#
+# Keep from 4.28.2:
+# - NFS export for 192.168.2.0/24
+# - keepalived VIP failover
+# - NFS service health check
+# - UFW rules for NFS and VRRP
+#
+# Changed in 4.29.1:
+# - Add rsync-based automatic sync.
+# - Only the node that currently owns the VIP syncs to the peer.
+# - Sync runs every minute through cron.
+# - Sync is conservative: no --delete by default, and --update avoids
+#   overwriting newer files on the peer.
+#
+# Important:
+# - This is not block-level replication.
+# - This does not solve split-brain.
+# - SSH key login is required for unattended cron sync.
+# - If exact mirror deletion is needed, run a manual rsync --delete only
+#   after confirming the correct source direction.
+#
+# Normal:
+#   bash 'nfs-ha(4.29.1).sh'
+#
+# Manual role override:
+#   IFACE=ens37 bash 'nfs-ha(4.29.1).sh' MASTER
+#   IFACE=ens37 bash 'nfs-ha(4.29.1).sh' BACKUP
+# =====================================================
+
+NFS1_IP="192.168.2.5"
+NFS2_IP="192.168.2.6"
+NFS1_USER="${NFS1_USER:-nfs1}"
+NFS2_USER="${NFS2_USER:-nfs2}"
+VIP="192.168.2.50"
+VRID="50"
+AUTH_PASS="nfs-ha"
+SHARE_DIR="/share_directory"
+EXPORT_NET="192.168.2.0/24"
+EXPORT_LINE="${SHARE_DIR} ${EXPORT_NET}(rw,sync,no_subtree_check)"
+
+SYNC_SCRIPT="/usr/local/bin/nfs_ha_sync.sh"
+SYNC_LOG="/var/log/nfs-ha-sync.log"
+CRON_FILE="/etc/cron.d/nfs-ha-sync"
+LOCK_FILE="/tmp/nfs-ha-sync.lock"
+
+echo "[INFO] NFS HA server setup started."
+echo "[INFO] VIP=${VIP}, NFS1=${NFS1_IP}, NFS2=${NFS2_IP}, Share=${SHARE_DIR}"
+
+# =====================================================
+# 1. Detect interface, local IP, role, and sync peer
+# =====================================================
+echo "[STEP 1/9] Checking interface, local role, and sync peer."
+
+ROLE="${1:-}"
+PRIORITY="${2:-}"
+IFACE="${IFACE:-}"
+
+if [ -z "$IFACE" ]; then
+    IFACE="$(ip -o -4 addr show | awk '$4 ~ /^192\.168\.2\./ {print $2; exit}')"
+fi
+
+if [ -z "$IFACE" ]; then
+    echo "[ERROR] Could not find an interface with a 192.168.2.0/24 address."
+    echo "        Example: IFACE=ens37 bash 'nfs-ha(4.29.1).sh' MASTER"
+    exit 1
+fi
+
+LOCAL_IP="$(ip -o -4 addr show dev "$IFACE" | awk '{print $4}' | cut -d/ -f1 | grep -E '^192\.168\.2\.(5|6)$' | head -n 1 || true)"
+
+case "$LOCAL_IP" in
+    "$NFS1_IP")
+        DEFAULT_ROLE="MASTER"
+        DEFAULT_PRIORITY="150"
+        LOCAL_SYNC_USER="$NFS1_USER"
+        PEER_IP="$NFS2_IP"
+        PEER_SYNC_USER="$NFS2_USER"
+        ;;
+    "$NFS2_IP")
+        DEFAULT_ROLE="BACKUP"
+        DEFAULT_PRIORITY="100"
+        LOCAL_SYNC_USER="$NFS2_USER"
+        PEER_IP="$NFS1_IP"
+        PEER_SYNC_USER="$NFS1_USER"
+        ;;
+    *)
+        echo "[ERROR] Current IP does not match NFS1 or NFS2."
+        echo "        Expected ${NFS1_IP} or ${NFS2_IP} on ${IFACE}."
+        exit 1
+        ;;
+esac
+
+ROLE="${ROLE:-$DEFAULT_ROLE}"
+PRIORITY="${PRIORITY:-$DEFAULT_PRIORITY}"
+ROLE="$(echo "$ROLE" | tr '[:lower:]' '[:upper:]')"
+
+case "$ROLE" in
+    MASTER|BACKUP)
+        ;;
+    *)
+        echo "[ERROR] ROLE must be MASTER or BACKUP."
+        exit 1
+        ;;
+esac
+
+if ! id "$LOCAL_SYNC_USER" >/dev/null 2>&1; then
+    echo "[ERROR] Local sync user '${LOCAL_SYNC_USER}' does not exist."
+    echo "        Create the user or override NFS1_USER/NFS2_USER before running."
+    exit 1
+fi
+
+echo "[INFO] Interface=${IFACE}, Local_IP=${LOCAL_IP}, Role=${ROLE}, Priority=${PRIORITY}"
+echo "[INFO] Sync direction when VIP is local: ${LOCAL_SYNC_USER}@${LOCAL_IP} -> ${PEER_SYNC_USER}@${PEER_IP}"
+
+# =====================================================
+# 2. Install required packages
+# =====================================================
+echo "[STEP 2/9] Installing NFS, keepalived, rsync, SSH, and cron packages."
+sudo apt update
+sudo apt install -y nfs-kernel-server keepalived rsync openssh-client openssh-server cron
+
+sudo systemctl enable ssh cron || true
+sudo systemctl restart ssh || true
+
+# =====================================================
+# 3. Prepare shared directory
+# =====================================================
+echo "[STEP 3/9] Preparing NFS shared directory."
+sudo mkdir -p "$SHARE_DIR"
+sudo chown nobody:nogroup "$SHARE_DIR"
+sudo chmod 777 "$SHARE_DIR"
+
+# =====================================================
+# 4. Register NFS export
+# =====================================================
+echo "[STEP 4/9] Registering NFS export."
+sudo sed -i "\|^${SHARE_DIR}[[:space:]]|d" /etc/exports
+echo "$EXPORT_LINE" | sudo tee -a /etc/exports > /dev/null
+sudo exportfs -arv
+
+# =====================================================
+# 5. Create keepalived health check script
+# =====================================================
+echo "[STEP 5/9] Creating keepalived health check script."
+sudo tee /usr/local/bin/check_nfs.sh > /dev/null << 'EOF'
+#!/bin/sh
+systemctl is-active --quiet nfs-kernel-server
+EOF
+sudo chmod 755 /usr/local/bin/check_nfs.sh
+
+# =====================================================
+# 6. Create automatic sync script
+# - Run by cron as the local NFS user.
+# - Does nothing unless this node owns the VIP.
+# - Requires SSH key login to the peer user.
+# =====================================================
+echo "[STEP 6/9] Creating NFS sync script."
+
+LOCAL_HOME="$(getent passwd "$LOCAL_SYNC_USER" | cut -d: -f6)"
+sudo -u "$LOCAL_SYNC_USER" mkdir -p "${LOCAL_HOME}/.ssh"
+sudo chmod 700 "${LOCAL_HOME}/.ssh"
+
+if [ ! -f "${LOCAL_HOME}/.ssh/id_ed25519" ]; then
+    echo "[INFO] Creating SSH key for ${LOCAL_SYNC_USER}."
+    sudo -u "$LOCAL_SYNC_USER" ssh-keygen -t ed25519 -N "" -f "${LOCAL_HOME}/.ssh/id_ed25519"
+fi
+
+sudo touch "$SYNC_LOG"
+sudo chmod 666 "$SYNC_LOG"
+
+sudo tee "$SYNC_SCRIPT" > /dev/null << EOF
+#!/bin/bash
+set -u
+
+VIP="${VIP}"
+IFACE="${IFACE}"
+SHARE_DIR="${SHARE_DIR}"
+PEER="${PEER_SYNC_USER}@${PEER_IP}"
+SYNC_LOG="${SYNC_LOG}"
+LOCK_FILE="${LOCK_FILE}"
+
+log() {
+    echo "\$(date -Is) \$*" >> "\$SYNC_LOG"
+}
+
+if ! ip addr show dev "\$IFACE" | grep -q "\$VIP"; then
+    exit 0
+fi
+
+if ! systemctl is-active --quiet nfs-kernel-server; then
+    log "skip: nfs-kernel-server is not active"
+    exit 0
+fi
+
+if ! ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 "\$PEER" "test -d \"\$SHARE_DIR\""; then
+    log "skip: SSH key login or remote share is not ready for \$PEER:\$SHARE_DIR"
+    exit 0
+fi
+
+if ! flock -n "\$LOCK_FILE" rsync -rltv --update --no-owner --no-group --no-perms --omit-dir-times \\
+    "\${SHARE_DIR}/" "\${PEER}:\${SHARE_DIR}/" >> "\$SYNC_LOG" 2>&1; then
+    log "warn: sync failed or previous sync is still running"
+fi
+EOF
+
+sudo chmod 755 "$SYNC_SCRIPT"
+
+# =====================================================
+# 7. Configure cron automation
+# =====================================================
+echo "[STEP 7/9] Registering cron job for automatic sync."
+sudo tee "$CRON_FILE" > /dev/null << EOF
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+* * * * * ${LOCAL_SYNC_USER} ${SYNC_SCRIPT}
+EOF
+sudo chmod 644 "$CRON_FILE"
+sudo systemctl restart cron || true
+
+# =====================================================
+# 8. Configure keepalived VIP
+# =====================================================
+echo "[STEP 8/9] Writing keepalived configuration."
+sudo tee /etc/keepalived/keepalived.conf > /dev/null << EOF
+global_defs {
+    router_id NFS_${ROLE}
+    enable_script_security
+    script_user root
+}
+
+vrrp_script chk_nfs {
+    script "/usr/local/bin/check_nfs.sh"
+    interval 2
+    fall 2
+    rise 2
+}
+
+vrrp_instance VI_NFS {
+    state ${ROLE}
+    interface ${IFACE}
+    virtual_router_id ${VRID}
+    priority ${PRIORITY}
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass ${AUTH_PASS}
+    }
+    virtual_ipaddress {
+        ${VIP}/24
+    }
+    track_script {
+        chk_nfs
+    }
+}
+EOF
+
+# =====================================================
+# 9. Restart services and show verification commands
+# =====================================================
+echo "[STEP 9/9] Restarting NFS, keepalived, and cron."
+sudo systemctl enable nfs-kernel-server keepalived cron
+sudo systemctl restart nfs-kernel-server
+sudo systemctl restart keepalived
+sudo systemctl restart cron || true
+sudo ufw allow 2049/tcp || true
+sudo ufw allow 22/tcp || true
+sudo ufw allow in on "$IFACE" from "$EXPORT_NET" to 224.0.0.18 comment 'keepalived multicast' || true
+
+echo "[INFO] Waiting for keepalived to settle."
+WAIT_TIME=0
+MAX_WAIT=15
+VIP_READY="no"
+
+while [ "$WAIT_TIME" -lt "$MAX_WAIT" ]; do
+    if ip addr show dev "$IFACE" | grep -q "$VIP"; then
+        VIP_READY="yes"
+        break
+    fi
+
+    sleep 1
+    WAIT_TIME=$((WAIT_TIME + 1))
+    echo "[INFO] Waiting for VIP ${VIP}... (${WAIT_TIME}/${MAX_WAIT}s)"
+done
+
+if [ "$VIP_READY" = "yes" ]; then
+    echo "[INFO] This node currently owns NFS VIP ${VIP}."
+    echo "[INFO] Running one immediate sync attempt."
+    sudo -u "$LOCAL_SYNC_USER" "$SYNC_SCRIPT" || true
+else
+    echo "[INFO] This node does not currently own NFS VIP ${VIP}. Sync cron will stay idle here."
+fi
+
+echo "[SUCCESS] NFS HA server setup completed."
+echo "[INFO] SSH key setup required for unattended sync:"
+echo "       sudo -u ${LOCAL_SYNC_USER} ssh-copy-id ${PEER_SYNC_USER}@${PEER_IP}"
+echo "[INFO] Manual immediate sync:"
+echo "       sudo -u ${LOCAL_SYNC_USER} ${SYNC_SCRIPT}"
+echo "[INFO] Verification commands:"
+echo "       ip a | grep ${VIP}"
+echo "       sudo exportfs -v"
+echo "       systemctl status nfs-kernel-server --no-pager"
+echo "       systemctl status keepalived --no-pager"
+echo "       systemctl status cron --no-pager"
+echo "       tail -n 50 ${SYNC_LOG}"

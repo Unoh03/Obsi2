@@ -241,8 +241,10 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "01cbdc931a4355bb",
+  "active": "3a9018f8e32b55f3",
   "lastOpenFiles": [
+    "26. 4. 22 팀플/쉘 스크립트/web-nfs(4.29.1).sh",
+    "26. 4. 22 팀플/쉘 스크립트/nfs-ha(4.29.1).sh",
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/webapp/META-INF/maven/com.care/boot/pom.xml",
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/webapp/META-INF/maven/com.care/boot/pom.properties",
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/member/MemberService.java",
@@ -252,8 +254,6 @@
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/member/IMemberMapper.java",
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/board/BoardService.java",
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/board/BoardMapper.java",
-    "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/board/BoardDTO.java",
-    "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/board/BoardController.java",
     "네트워크/CISCO.md",
     "리눅스(우분투)/우분투.md",
     "26. 4. 22 팀플/프로젝트 안내서.md",
