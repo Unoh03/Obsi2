@@ -20,8 +20,9 @@ BACKUP_BASE="/opt/tomcat"
 EXPECTED_SOURCE="${NFS_VIP}:${REMOTE_SHARE}"
 
 # Keep nofail only in fstab so boot is not blocked if NFS is down.
-FSTAB_OPTIONS="defaults,_netdev,nofail,hard,vers=4,timeo=600,retrans=2"
-RUNTIME_OPTIONS="rw,hard,vers=4,timeo=600,retrans=2"
+# Do not force vers=4 here; let the client and server negotiate like the known-good script did.
+FSTAB_OPTIONS="defaults,_netdev,nofail,soft,timeo=100"
+RUNTIME_OPTIONS="rw,soft,timeo=100"
 FSTAB_LINE="${EXPECTED_SOURCE} ${MOUNT_DIR} nfs ${FSTAB_OPTIONS} 0 0"
 
 echo "[INFO] WEB NFS HA client setup started."
@@ -32,14 +33,7 @@ current_mount_source() {
 }
 
 is_expected_source() {
-    case "$1" in
-        "$EXPECTED_SOURCE"|"$EXPECTED_SOURCE/")
-            return 0
-            ;;
-        *)
-            return 1
-            ;;
-    esac
+    [ "$1" = "$EXPECTED_SOURCE" ] || [ "$1" = "$EXPECTED_SOURCE/" ]
 }
 
 print_mount_status() {
@@ -47,6 +41,17 @@ print_mount_status() {
     findmnt --target "$MOUNT_DIR" || true
     df -h | grep "$MOUNT_DIR" || true
     mount | grep "$MOUNT_DIR" || true
+}
+
+print_mount_debug() {
+    echo "[DEBUG] fstab entries for this mount point:"
+    grep -n "$MOUNT_DIR" /etc/fstab || true
+    echo "[DEBUG] findmnt:"
+    findmnt --target "$MOUNT_DIR" || true
+    echo "[DEBUG] mount output:"
+    mount | grep -E "$NFS_VIP|$REMOTE_SHARE|$MOUNT_DIR" || true
+    echo "[DEBUG] /proc/mounts:"
+    grep -E "$NFS_VIP|$REMOTE_SHARE|$MOUNT_DIR" /proc/mounts || true
 }
 
 # =====================================================
@@ -115,10 +120,17 @@ sudo systemctl daemon-reload
 # =====================================================
 echo "[STEP 6/7] Checking NFS export and applying mount."
 showmount -e "$NFS_VIP" || echo "[WARN] showmount failed. Trying direct NFS mount anyway."
-sudo mount -t nfs -o "$RUNTIME_OPTIONS" "$EXPECTED_SOURCE" "$MOUNT_DIR"
+if sudo mount -v -t nfs -o "$RUNTIME_OPTIONS" "$EXPECTED_SOURCE" "$MOUNT_DIR"; then
+    echo "[INFO] Direct NFS mount command completed."
+else
+    echo "[ERROR] Direct NFS mount command failed."
+    print_mount_debug
+    exit 1
+fi
 
 if ! mountpoint -q "$MOUNT_DIR"; then
     echo "[ERROR] ${MOUNT_DIR} is not mounted after direct mount."
+    print_mount_debug
     exit 1
 fi
 
@@ -127,6 +139,7 @@ if ! is_expected_source "$CURRENT_SOURCE"; then
     echo "[ERROR] ${MOUNT_DIR} mounted from unexpected source after mount."
     echo "[ERROR] Current source: ${CURRENT_SOURCE:-unknown}"
     echo "[ERROR] Expected source: ${EXPECTED_SOURCE}"
+    print_mount_debug
     exit 1
 fi
 
