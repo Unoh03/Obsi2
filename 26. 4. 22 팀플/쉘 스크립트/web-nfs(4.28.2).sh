@@ -4,63 +4,98 @@ set -e
 # =====================================================
 # WEB NFS HA Client Setup
 # - NFS VIP: 192.168.2.50
+# - Remote share: /share_directory
 # - Mount point: /opt/tomcat/tomcat-10/webapps/upload
 #
-# WEB1/WEB2 should mount the VIP only.
-# Do not mount 192.168.2.5 or 192.168.2.6 directly in HA mode.
-#
-# Normal:
-#   bash 'web-nfs(4.28.2).sh'
-#
-# Override VIP:
-#   bash 'web-nfs(4.28.2).sh' 192.168.2.50
+# Existing local upload files are preserved before mount:
+# - Backup path: /opt/tomcat/upload-local-backup-YYYYmmdd-HHMMSS
+# - After NFS mount succeeds, backup files are copied to NFS.
+# - Existing NFS files are not overwritten.
 # =====================================================
 
 NFS_VIP="${1:-192.168.2.50}"
 REMOTE_SHARE="/share_directory"
 MOUNT_DIR="/opt/tomcat/tomcat-10/webapps/upload"
+BACKUP_BASE="/opt/tomcat"
 FSTAB_LINE="${NFS_VIP}:${REMOTE_SHARE} ${MOUNT_DIR} nfs defaults,_netdev,nofail,hard,vers=4,timeo=600,retrans=2 0 0"
 
-echo "[INFO] WEB NFS HA 클라이언트 설정을 시작합니다."
+echo "[INFO] WEB NFS HA client setup started."
 echo "[INFO] NFS_VIP=${NFS_VIP}, MOUNT_DIR=${MOUNT_DIR}"
 
 # =====================================================
-# 1. 패키지 설치
+# 1. Install NFS client package
 # =====================================================
-echo "[STEP 1/5] nfs-common을 설치합니다."
+echo "[STEP 1/6] Installing nfs-common."
 sudo apt update
 sudo apt install -y nfs-common
 
 # =====================================================
-# 2. Tomcat upload mount point 생성
+# 2. Prepare mount point and detect already-mounted state
 # =====================================================
-echo "[STEP 2/5] upload mount point를 준비합니다."
+echo "[STEP 2/6] Preparing upload mount point."
 sudo mkdir -p "$MOUNT_DIR"
 
+if mountpoint -q "$MOUNT_DIR"; then
+    echo "[INFO] ${MOUNT_DIR} is already mounted. Skipping backup and remount."
+    echo "[INFO] Current mount status:"
+    df -h | grep "$MOUNT_DIR"
+    mount | grep "$MOUNT_DIR"
+    echo "[SUCCESS] WEB NFS HA client setup is already applied."
+    exit 0
+fi
+
 # =====================================================
-# 3. 기존 upload NFS mount 설정 정리 후 /etc/fstab 등록
-# - HA 모드에서는 NFS1/NFS2 개별 IP가 아니라 VIP만 등록
+# 3. Backup existing local upload files before NFS mount
 # =====================================================
-echo "[STEP 3/5] /etc/fstab에 NFS VIP mount 설정을 등록합니다."
+echo "[STEP 3/6] Checking existing local upload files."
+BACKUP_DIR=""
+
+if [ -n "$(sudo find "$MOUNT_DIR" -mindepth 1 -print -quit)" ]; then
+    BACKUP_DIR="${BACKUP_BASE}/upload-local-backup-$(date +%Y%m%d-%H%M%S)"
+    echo "[INFO] Existing local files found. Backing up to ${BACKUP_DIR}."
+    sudo mkdir -p "$BACKUP_DIR"
+    sudo cp -a "${MOUNT_DIR}/." "$BACKUP_DIR/"
+else
+    echo "[INFO] No existing local upload files found."
+fi
+
+# =====================================================
+# 4. Register NFS VIP mount in /etc/fstab
+# - HA mode must mount the VIP only, not NFS1/NFS2 directly.
+# =====================================================
+echo "[STEP 4/6] Registering NFS VIP mount in /etc/fstab."
 sudo sed -i "\| ${MOUNT_DIR} nfs |d" /etc/fstab
 echo "$FSTAB_LINE" | sudo tee -a /etc/fstab > /dev/null
 
 # =====================================================
-# 4. NFS export 확인 및 mount 적용
+# 5. Apply mount and copy preserved files to NFS
 # =====================================================
-echo "[STEP 4/5] NFS VIP export를 확인하고 mount를 적용합니다."
+echo "[STEP 5/6] Checking NFS export and applying mount."
 showmount -e "$NFS_VIP" || true
 sudo mount -a
 sudo systemctl daemon-reload
 
-# =====================================================
-# 5. mount 결과 확인
-# =====================================================
-echo "[STEP 5/5] mount 결과를 확인합니다."
-df -h | grep "$MOUNT_DIR"
+if ! mountpoint -q "$MOUNT_DIR"; then
+    echo "[ERROR] ${MOUNT_DIR} is not mounted after mount -a."
+    exit 1
+fi
 
-echo "[SUCCESS] WEB NFS HA 클라이언트 설정이 완료되었습니다."
-echo "[INFO] 확인 명령:"
+if [ -n "$BACKUP_DIR" ]; then
+    echo "[INFO] Copying backup files to NFS without overwriting existing files."
+    sudo cp -an "${BACKUP_DIR}/." "$MOUNT_DIR/"
+    echo "[INFO] Local backup remains at ${BACKUP_DIR}."
+fi
+
+# =====================================================
+# 6. Verify mount result
+# =====================================================
+echo "[STEP 6/6] Verifying mount result."
+df -h | grep "$MOUNT_DIR"
+mount | grep "$MOUNT_DIR"
+
+echo "[SUCCESS] WEB NFS HA client setup completed."
+echo "[INFO] Check commands:"
 echo "       df -h | grep ${MOUNT_DIR}"
 echo "       mount | grep ${MOUNT_DIR}"
+echo "       ls -la ${BACKUP_BASE}/upload-local-backup-*"
 echo "       touch ${MOUNT_DIR}/nfs-ha-test-\$(hostname)"
