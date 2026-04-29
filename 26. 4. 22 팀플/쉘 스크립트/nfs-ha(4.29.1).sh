@@ -52,6 +52,7 @@ SYNC_LOG="/var/log/nfs-ha-sync.log"
 CRON_FILE="/etc/cron.d/nfs-ha-sync"
 LOCK_FILE="/tmp/nfs-ha-sync.lock"
 DELETE_OPT="${SYNC_DELETE_OPT:---delete-delay}"
+DISK_WARN_PERCENT="${DISK_WARN_PERCENT:-85}"
 
 echo "[INFO] NFS HA server setup started."
 echo "[INFO] VIP=${VIP}, NFS1=${NFS1_IP}, NFS2=${NFS2_IP}, Share=${SHARE_DIR}"
@@ -228,6 +229,38 @@ sync_ready() {
         "${PEER_SYNC_USER}@${PEER_IP}" "test -d '${SHARE_DIR}' -a -w '${SHARE_DIR}'"
 }
 
+print_disk_status() {
+    DISK_USAGE="$(df -P "$SHARE_DIR" 2>/dev/null | awk 'NR == 2 {gsub("%", "", $5); print $5}' || true)"
+    echo "[INFO] Disk usage for ${SHARE_DIR}:"
+    df -h "$SHARE_DIR" || true
+
+    if [ -n "$DISK_USAGE" ] && [ "$DISK_USAGE" -ge "$DISK_WARN_PERCENT" ]; then
+        echo "[WARN] ${SHARE_DIR} filesystem usage is ${DISK_USAGE}%."
+        echo "[WARN] Upload and rsync can fail when this filesystem becomes full."
+    fi
+}
+
+print_ufw_status() {
+    echo "[INFO] UFW status relevant to NFS/VRRP/SSH:"
+    if command -v ufw >/dev/null 2>&1; then
+        sudo ufw status verbose || true
+    else
+        echo "[INFO] ufw command not found."
+    fi
+}
+
+print_sync_log_status() {
+    echo "[INFO] Recent sync log:"
+    if [ -s "$SYNC_LOG" ]; then
+        tail -n 30 "$SYNC_LOG" || true
+        if tail -n 50 "$SYNC_LOG" | grep -Eiq 'warn:|skip:|error|failed|denied|timeout'; then
+            echo "[WARN] Recent sync log contains warnings or failures. Check ${SYNC_LOG}."
+        fi
+    else
+        echo "[INFO] ${SYNC_LOG} has no entries yet."
+    fi
+}
+
 # =====================================================
 # 7. Configure cron automation
 # =====================================================
@@ -289,6 +322,7 @@ sudo systemctl restart cron || true
 sudo ufw allow 2049/tcp || true
 sudo ufw allow 22/tcp || true
 sudo ufw allow in on "$IFACE" from "$EXPORT_NET" to 224.0.0.18 comment 'keepalived multicast' || true
+print_ufw_status
 
 echo "[INFO] Waiting for keepalived to settle."
 WAIT_TIME=0
@@ -328,6 +362,9 @@ else
     fi
 fi
 
+print_disk_status
+print_sync_log_status
+
 echo "[SUCCESS] NFS HA server setup completed."
 echo "[INFO] keepalived uses nopreempt. If this node recovers after failover, it will not automatically steal VIP back."
 echo "[INFO] SSH key setup required for unattended sync:"
@@ -341,3 +378,9 @@ echo "       systemctl status nfs-kernel-server --no-pager"
 echo "       systemctl status keepalived --no-pager"
 echo "       systemctl status cron --no-pager"
 echo "       tail -n 50 ${SYNC_LOG}"
+echo "       df -h ${SHARE_DIR}"
+echo "       sudo ufw status verbose"
+echo "[INFO] Split-brain suspicion checks:"
+echo "       ip a | grep ${VIP}"
+echo "       journalctl -u keepalived -n 80 --no-pager"
+echo "       ping -c 3 ${PEER_IP}"
