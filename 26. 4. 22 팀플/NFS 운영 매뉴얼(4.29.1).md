@@ -85,6 +85,37 @@ cat /share_directory/test-*.txt
 tail -n 50 /var/log/nfs-ha-sync.log
 ```
 
+## 삭제 동기화 운영
+
+`nfs-ha(4.29.1).sh`는 기본값으로 삭제 동기화를 하지 않는다.
+
+즉, WEB에서 파일을 삭제해도 반대편 NFS에는 같은 파일이 남아 있을 수 있다.
+
+이렇게 하는 이유는 장애 직후 오래된 NFS가 VIP를 가져간 상태에서 자동 rsync가 실행되면, 아직 반대편에만 남아 있던 최신 파일을 삭제할 수 있기 때문이다.
+
+삭제까지 자동으로 미러링해야 한다고 팀에서 결정한 경우에만 양쪽 NFS에서 아래처럼 다시 설정한다.
+
+```bash
+SYNC_DELETE_OPT="--delete-delay" bash 'nfs-ha(4.29.1).sh'
+```
+
+삭제 동기화를 켜기 전에는 현재 VIP를 가진 NFS가 최신 원본인지 먼저 확인한다.
+
+```bash
+ip a | grep 192.168.2.50
+ls -la /share_directory
+tail -n 50 /var/log/nfs-ha-sync.log
+```
+
+방향이 헷갈리거나 장애 직후라면 삭제 동기화를 켜지 않는다.
+
+반대편에 남은 파일을 꼭 지워야 하면 파일명을 직접 확인한 뒤 수동으로 삭제한다.
+
+```bash
+ssh nfs2@192.168.2.6 "ls -la /share_directory"
+ssh nfs2@192.168.2.6 "rm -f /share_directory/삭제할파일명"
+```
+
 ## 장애조치 확인
 
 현재 VIP 소유자 확인:
@@ -211,8 +242,9 @@ sudo rm -f /share_directory/test-*.txt
 
 - 이 구성은 진짜 무손실 HA가 아니다.
 - cron 기반 rsync라 장애 직전 파일은 반대편에 없을 수 있다.
+- 기본값에서는 삭제 동기화를 하지 않으므로 삭제된 파일이 반대편 NFS에 남을 수 있다.
 - split-brain은 스크립트만으로 완전히 막을 수 없다.
 - 같은 파일명을 WEB1/WEB2가 동시에 쓰면 충돌할 수 있다.
 - 업로드 중 장애가 나면 부분 파일이나 0바이트 파일이 남을 수 있다.
-- `--delete-delay`는 삭제 파일을 미러링하지만, 잘못된 노드가 원본이 되면 반대편 파일을 지울 수 있다.
+- `SYNC_DELETE_OPT="--delete-delay"`를 켜면 삭제 파일도 미러링되지만, 잘못된 노드가 원본이 되면 반대편 파일을 지울 수 있다.
 - `nopreempt` 때문에 NFS2가 VIP를 계속 들고 있어도 장애가 아니다.

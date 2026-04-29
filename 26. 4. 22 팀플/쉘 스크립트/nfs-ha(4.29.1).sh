@@ -19,10 +19,14 @@ set -euo pipefail
 # - Add rsync-based automatic sync.
 # - Only the node that currently owns the VIP syncs to the peer.
 # - Sync runs every minute through cron.
-# - Sync mirrors deletes with --delete-delay because WEB upload deletion
-#   should not be resurrected after failover.
+# - Delete mirroring is disabled by default to avoid deleting files from
+#   the recovering node after failover.
+# - If delete mirroring is intentionally required, set
+#   SYNC_DELETE_OPT="--delete-delay" when running this script.
 #
 # Important:
+# - Convenience-first mode creates the local sync user if it is missing.
+# - Lab mode keeps the broad 192.168.2.0/24 export and chmod 777 share.
 # - This is not block-level replication.
 # - This does not solve split-brain.
 # - SSH key login is required for unattended cron sync.
@@ -51,7 +55,7 @@ SYNC_SCRIPT="/usr/local/bin/nfs_ha_sync.sh"
 SYNC_LOG="/var/log/nfs-ha-sync.log"
 CRON_FILE="/etc/cron.d/nfs-ha-sync"
 LOCK_FILE="/tmp/nfs-ha-sync.lock"
-DELETE_OPT="${SYNC_DELETE_OPT:---delete-delay}"
+DELETE_OPT="${SYNC_DELETE_OPT:-}"
 DISK_WARN_PERCENT="${DISK_WARN_PERCENT:-85}"
 
 echo "[INFO] NFS HA server setup started."
@@ -113,15 +117,25 @@ case "$ROLE" in
         ;;
 esac
 
-if ! id "$LOCAL_SYNC_USER" >/dev/null 2>&1; then
-    echo "[ERROR] Local sync user '${LOCAL_SYNC_USER}' does not exist."
-    echo "        Create the user or override NFS1_USER/NFS2_USER before running."
-    exit 1
-fi
+ensure_local_sync_user() {
+    if id "$LOCAL_SYNC_USER" >/dev/null 2>&1; then
+        return
+    fi
+
+    echo "[INFO] Local sync user '${LOCAL_SYNC_USER}' does not exist. Creating it for convenience mode."
+    sudo useradd -m -s /bin/bash "$LOCAL_SYNC_USER"
+}
+
+ensure_local_sync_user
 
 echo "[INFO] Interface=${IFACE}, Local_IP=${LOCAL_IP}, Role=${ROLE}, Priority=${PRIORITY}"
 echo "[INFO] Sync direction when VIP is local: ${LOCAL_SYNC_USER}@${LOCAL_IP} -> ${PEER_SYNC_USER}@${PEER_IP}"
-echo "[INFO] Sync delete policy: ${DELETE_OPT}"
+echo "[INFO] Convenience mode keeps export ${EXPORT_NET} and chmod 777 on ${SHARE_DIR}."
+if [ -n "$DELETE_OPT" ]; then
+    echo "[INFO] Sync delete policy: ${DELETE_OPT}"
+else
+    echo "[INFO] Sync delete policy: disabled by default. Set SYNC_DELETE_OPT='--delete-delay' only after manual validation."
+fi
 
 # =====================================================
 # 2. Install required packages

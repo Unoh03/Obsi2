@@ -13,22 +13,27 @@ set -euo pipefail
 # - Backup files are copied to NFS without overwriting existing files.
 # - Duplicate or wrong-source mounts are detected.
 #
+# Convenience-first mode:
+# - Install both NFS client tools and lsof for mount troubleshooting.
+# - Use NFSv4/TCP by default so the server only needs 2049/tcp open.
+#
 # Not changed here:
 # - NFS1/NFS2 data sync is server-side work.
 # - Automatic sync is configured by nfs-ha(4.29.1).sh.
 # =====================================================
 
 NFS_VIP="${1:-192.168.2.50}"
+NFS_VERSION="${NFS_VERSION:-4}"
 REMOTE_SHARE="/share_directory"
 MOUNT_DIR="/opt/tomcat/tomcat-10/webapps/upload"
 BACKUP_BASE="/opt/tomcat"
 EXPECTED_SOURCE="${NFS_VIP}:${REMOTE_SHARE}"
 
 # Keep nofail only in fstab so boot is not blocked if NFS is down.
-# Do not force vers=4 here; let the client and server negotiate like the known-good script did.
+# Convenience mode uses NFSv4/TCP to match the simple 2049/tcp firewall rule.
 # x-systemd options shorten boot/shutdown waits while keeping NFS writes hard-mounted.
-FSTAB_OPTIONS="defaults,_netdev,nofail,hard,timeo=50,retrans=2,x-systemd.automount,x-systemd.idle-timeout=30s,x-systemd.device-timeout=5s,x-systemd.mount-timeout=10s"
-RUNTIME_OPTIONS="rw,hard,timeo=50,retrans=2"
+FSTAB_OPTIONS="defaults,_netdev,nofail,vers=${NFS_VERSION},proto=tcp,hard,timeo=50,retrans=2,x-systemd.automount,x-systemd.idle-timeout=30s,x-systemd.device-timeout=5s,x-systemd.mount-timeout=10s"
+RUNTIME_OPTIONS="rw,vers=${NFS_VERSION},proto=tcp,hard,timeo=50,retrans=2"
 FSTAB_LINE="${EXPECTED_SOURCE} ${MOUNT_DIR} nfs ${FSTAB_OPTIONS} 0 0"
 
 echo "[INFO] WEB NFS HA client setup started."
@@ -91,9 +96,9 @@ remount_current_mount() {
 # =====================================================
 # 1. Install NFS client package
 # =====================================================
-echo "[STEP 1/7] Installing nfs-common."
+echo "[STEP 1/7] Installing nfs-common and lsof."
 sudo apt update
-sudo apt install -y nfs-common
+sudo apt install -y nfs-common lsof
 
 # =====================================================
 # 2. Prepare mount point
@@ -163,7 +168,11 @@ register_fstab
 # - Direct mount shows the real NFS error if the mount fails.
 # =====================================================
 echo "[STEP 6/7] Checking NFS export and applying mount."
-showmount -e "$NFS_VIP" || echo "[WARN] showmount failed. Trying direct NFS mount anyway."
+if [[ "$NFS_VERSION" = 4* ]]; then
+    echo "[INFO] NFSv${NFS_VERSION}/TCP mode: skipping showmount because it is NFSv3/rpcbind oriented."
+else
+    showmount -e "$NFS_VIP" || echo "[WARN] showmount failed. Trying direct NFS mount anyway."
+fi
 if timeout 20s sudo mount -v -t nfs -o "$RUNTIME_OPTIONS" "$EXPECTED_SOURCE" "$MOUNT_DIR"; then
     echo "[INFO] Direct NFS mount command completed."
 else
@@ -214,7 +223,7 @@ echo "[INFO] Check commands:"
 echo "       df -h | grep ${MOUNT_DIR}"
 echo "       mount | grep ${MOUNT_DIR}"
 echo "       ls -la ${BACKUP_BASE}/upload-local-backup-*"
-echo "       touch ${MOUNT_DIR}/nfs-ha-test-\$(hostname)"
+echo "       touch ${MOUNT_DIR}/nfs-ha-review-\$(hostname)-\$(date +%Y%m%d-%H%M%S)"
 echo "[INFO] If stale file handle or shutdown delay occurs:"
 echo "       findmnt --target ${MOUNT_DIR}"
 echo "       sudo lsof +f -- ${MOUNT_DIR}"
