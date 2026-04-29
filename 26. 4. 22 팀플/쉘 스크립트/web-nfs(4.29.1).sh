@@ -26,8 +26,9 @@ EXPECTED_SOURCE="${NFS_VIP}:${REMOTE_SHARE}"
 
 # Keep nofail only in fstab so boot is not blocked if NFS is down.
 # Do not force vers=4 here; let the client and server negotiate like the known-good script did.
-FSTAB_OPTIONS="defaults,_netdev,nofail,soft,timeo=100"
-RUNTIME_OPTIONS="rw,soft,timeo=100"
+# x-systemd.mount-timeout shortens shutdown/reboot waits when the NFS mount cannot stop cleanly.
+FSTAB_OPTIONS="defaults,_netdev,nofail,soft,timeo=50,retrans=1,x-systemd.device-timeout=5s,x-systemd.mount-timeout=10s"
+RUNTIME_OPTIONS="rw,soft,timeo=50,retrans=1"
 FSTAB_LINE="${EXPECTED_SOURCE} ${MOUNT_DIR} nfs ${FSTAB_OPTIONS} 0 0"
 
 echo "[INFO] WEB NFS HA client setup started."
