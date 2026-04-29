@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # =====================================================
 # WEB NFS HA Client Setup
@@ -18,49 +18,78 @@ REMOTE_SHARE="/share_directory"
 MOUNT_DIR="/opt/tomcat/tomcat-10/webapps/upload"
 BACKUP_BASE="/opt/tomcat"
 EXPECTED_SOURCE="${NFS_VIP}:${REMOTE_SHARE}"
-FSTAB_LINE="${NFS_VIP}:${REMOTE_SHARE} ${MOUNT_DIR} nfs defaults,_netdev,nofail,hard,vers=4,timeo=600,retrans=2 0 0"
+
+# Keep nofail only in fstab so boot is not blocked if NFS is down.
+FSTAB_OPTIONS="defaults,_netdev,nofail,hard,vers=4,timeo=600,retrans=2"
+RUNTIME_OPTIONS="rw,hard,vers=4,timeo=600,retrans=2"
+FSTAB_LINE="${EXPECTED_SOURCE} ${MOUNT_DIR} nfs ${FSTAB_OPTIONS} 0 0"
 
 echo "[INFO] WEB NFS HA client setup started."
-echo "[INFO] NFS_VIP=${NFS_VIP}, MOUNT_DIR=${MOUNT_DIR}"
+echo "[INFO] Source=${EXPECTED_SOURCE}, Mount=${MOUNT_DIR}"
+
+current_mount_source() {
+    findmnt -n -o SOURCE --target "$MOUNT_DIR" 2>/dev/null || true
+}
+
+is_expected_source() {
+    case "$1" in
+        "$EXPECTED_SOURCE"|"$EXPECTED_SOURCE/")
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+print_mount_status() {
+    echo "[INFO] Mount status:"
+    findmnt --target "$MOUNT_DIR" || true
+    df -h | grep "$MOUNT_DIR" || true
+    mount | grep "$MOUNT_DIR" || true
+}
 
 # =====================================================
 # 1. Install NFS client package
 # =====================================================
-echo "[STEP 1/6] Installing nfs-common."
+echo "[STEP 1/7] Installing nfs-common."
 sudo apt update
 sudo apt install -y nfs-common
 
 # =====================================================
-# 2. Prepare mount point and detect already-mounted state
+# 2. Prepare mount point
 # =====================================================
-echo "[STEP 2/6] Preparing upload mount point."
+echo "[STEP 2/7] Preparing upload mount point."
 sudo mkdir -p "$MOUNT_DIR"
 
+# =====================================================
+# 3. Stop if the mount point is already mounted incorrectly
+# =====================================================
+echo "[STEP 3/7] Checking current mount state."
 if mountpoint -q "$MOUNT_DIR"; then
-    CURRENT_SOURCE="$(findmnt -n -o SOURCE --target "$MOUNT_DIR" || true)"
-    if [ "$CURRENT_SOURCE" != "$EXPECTED_SOURCE" ]; then
-        echo "[ERROR] ${MOUNT_DIR} is already mounted from an unexpected source."
-        echo "[ERROR] Current source: ${CURRENT_SOURCE:-unknown}"
-        echo "[ERROR] Expected source: ${EXPECTED_SOURCE}"
-        echo "[ERROR] Unmount it manually after checking data, then run this script again."
-        exit 1
+    CURRENT_SOURCE="$(current_mount_source)"
+
+    if is_expected_source "$CURRENT_SOURCE"; then
+        echo "[INFO] ${MOUNT_DIR} is already mounted from ${CURRENT_SOURCE}."
+        print_mount_status
+        echo "[SUCCESS] WEB NFS HA client setup is already applied."
+        exit 0
     fi
 
-    echo "[INFO] ${MOUNT_DIR} is already mounted from ${EXPECTED_SOURCE}. Skipping backup and remount."
-    echo "[INFO] Current mount status:"
-    df -h | grep "$MOUNT_DIR"
-    mount | grep "$MOUNT_DIR"
-    echo "[SUCCESS] WEB NFS HA client setup is already applied."
-    exit 0
+    echo "[ERROR] ${MOUNT_DIR} is already mounted from an unexpected source."
+    echo "[ERROR] Current source: ${CURRENT_SOURCE:-unknown}"
+    echo "[ERROR] Expected source: ${EXPECTED_SOURCE}"
+    echo "[ERROR] Unmount it manually after checking data, then run this script again."
+    exit 1
 fi
 
 # =====================================================
-# 3. Backup existing local upload files before NFS mount
+# 4. Backup existing local upload files before NFS mount
 # =====================================================
-echo "[STEP 3/6] Checking existing local upload files."
+echo "[STEP 4/7] Checking existing local upload files."
 BACKUP_DIR=""
 
-if [ -n "$(sudo find "$MOUNT_DIR" -mindepth 1 -print -quit)" ]; then
+if sudo find "$MOUNT_DIR" -mindepth 1 -print -quit | grep -q .; then
     BACKUP_DIR="${BACKUP_BASE}/upload-local-backup-$(date +%Y%m%d-%H%M%S)"
     echo "[INFO] Existing local files found. Backing up to ${BACKUP_DIR}."
     sudo mkdir -p "$BACKUP_DIR"
@@ -70,23 +99,34 @@ else
 fi
 
 # =====================================================
-# 4. Register NFS VIP mount in /etc/fstab
+# 5. Register NFS VIP mount in /etc/fstab
+# - Remove any previous mount rule for this mount point.
 # - HA mode must mount the VIP only, not NFS1/NFS2 directly.
 # =====================================================
-echo "[STEP 4/6] Registering NFS VIP mount in /etc/fstab."
-sudo sed -i "\| ${MOUNT_DIR} nfs |d" /etc/fstab
+echo "[STEP 5/7] Registering NFS VIP mount in /etc/fstab."
+sudo sed -i "\|[[:space:]]${MOUNT_DIR}[[:space:]]|d" /etc/fstab
 echo "$FSTAB_LINE" | sudo tee -a /etc/fstab > /dev/null
+sudo systemctl daemon-reload
 
 # =====================================================
-# 5. Apply mount and copy preserved files to NFS
+# 6. Apply NFS mount directly
+# - Do not rely on mount -a for the first mount.
+# - Direct mount shows the real NFS error if the mount fails.
 # =====================================================
-echo "[STEP 5/6] Checking NFS export and applying mount."
-showmount -e "$NFS_VIP" || true
-sudo systemctl daemon-reload
-sudo mount "$MOUNT_DIR"
+echo "[STEP 6/7] Checking NFS export and applying mount."
+showmount -e "$NFS_VIP" || echo "[WARN] showmount failed. Trying direct NFS mount anyway."
+sudo mount -t nfs -o "$RUNTIME_OPTIONS" "$EXPECTED_SOURCE" "$MOUNT_DIR"
 
 if ! mountpoint -q "$MOUNT_DIR"; then
-    echo "[ERROR] ${MOUNT_DIR} is not mounted after mount."
+    echo "[ERROR] ${MOUNT_DIR} is not mounted after direct mount."
+    exit 1
+fi
+
+CURRENT_SOURCE="$(current_mount_source)"
+if ! is_expected_source "$CURRENT_SOURCE"; then
+    echo "[ERROR] ${MOUNT_DIR} mounted from unexpected source after mount."
+    echo "[ERROR] Current source: ${CURRENT_SOURCE:-unknown}"
+    echo "[ERROR] Expected source: ${EXPECTED_SOURCE}"
     exit 1
 fi
 
@@ -97,11 +137,10 @@ if [ -n "$BACKUP_DIR" ]; then
 fi
 
 # =====================================================
-# 6. Verify mount result
+# 7. Verify mount result
 # =====================================================
-echo "[STEP 6/6] Verifying mount result."
-df -h | grep "$MOUNT_DIR"
-mount | grep "$MOUNT_DIR"
+echo "[STEP 7/7] Verifying mount result."
+print_mount_status
 
 echo "[SUCCESS] WEB NFS HA client setup completed."
 echo "[INFO] Check commands:"
