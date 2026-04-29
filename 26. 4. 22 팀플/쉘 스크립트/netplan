@@ -9,7 +9,10 @@ network:
       dhcp4: false
       dhcp6: false
       addresses:
-        - 192.168.2.5/24
+        - 192.168.2.1/24
+      routes:
+        - to: default
+          via: 192.168.2.254
       nameservers:
         addresses:
           - 1.2.1.2
@@ -19,52 +22,22 @@ sudo chmod 600 /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
 
 
+---
 
-NFS 이중화용 스크립트입니다.
 
-1. NFS 서버에서 실행
-- NFS1: 192.168.2.5
-- NFS2: 192.168.2.6
-- 두 서버 모두에서 nfs-ha(4.28.2).sh 실행
+sudo tee /etc/netplan/50-cloud-init.yaml > /dev/null << EOF
+network:
+  version: 2
+  ethernets:
+    ens33:
+      dhcp4: true
+      dhcp6: false
+    ens37:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - 192.168.2.3/24
+EOF
 
-실행:
-sudo chmod 777 'nfs-ha(4.28.2).sh'
-bash 'nfs-ha(4.28.2).sh'
-
-정상 확인:
-ip a | grep 192.168.2.50
-sudo exportfs -v
-systemctl status nfs-kernel-server --no-pager
-systemctl status keepalived --no-pager
-
-주의:
-192.168.2.50은 NFS VIP입니다.
-정상 상태에서는 NFS1/NFS2 중 한 대에만 192.168.2.50이 붙어야 합니다.
-
-2. WEB 서버에서 실행
-- WEB1: 192.168.2.3
-- WEB2: 192.168.2.4
-- 두 서버 모두에서 web-nfs(4.28.2).sh 실행
-
-실행:
-sudo chmod 777 'web-nfs(4.28.2).sh'
-bash 'web-nfs(4.28.2).sh'
-
-정상 확인:
-df -h | grep /opt/tomcat/tomcat-10/webapps/upload
-mount | grep /opt/tomcat/tomcat-10/webapps/upload
-touch /opt/tomcat/tomcat-10/webapps/upload/test-$(hostname)
-
-NFS 서버에서 확인:
-ls -la /share_directory
-
-중요:
-web-nfs 스크립트는 기존 WEB의 upload 폴더에 파일이 있으면 먼저 /opt/tomcat/upload-local-backup-날짜 로 백업한 뒤, NFS mount 후 NFS 디렉터리로 복사합니다.
-기존 NFS 파일은 덮어쓰지 않습니다.
-
-실행 순서:
-1) NFS1에서 nfs-ha 실행
-2) NFS2에서 nfs-ha 실행
-3) WEB1에서 web-nfs 실행
-4) WEB2에서 web-nfs 실행
-5) WEB에서 touch 테스트 후 NFS 서버의 /share_directory에서 파일 확인
+sudo chmod 600 /etc/netplan/50-cloud-init.yaml
+sudo netplan apply
