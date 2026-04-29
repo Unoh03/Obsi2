@@ -19,15 +19,14 @@ set -euo pipefail
 # - Add rsync-based automatic sync.
 # - Only the node that currently owns the VIP syncs to the peer.
 # - Sync runs every minute through cron.
-# - Sync is conservative: no --delete by default, and --update avoids
-#   overwriting newer files on the peer.
+# - Sync mirrors deletes with --delete-delay because WEB upload deletion
+#   should not be resurrected after failover.
 #
 # Important:
 # - This is not block-level replication.
 # - This does not solve split-brain.
 # - SSH key login is required for unattended cron sync.
-# - If exact mirror deletion is needed, run a manual rsync --delete only
-#   after confirming the correct source direction.
+# - keepalived uses nopreempt, so automatic failback is intentionally disabled.
 #
 # Normal:
 #   bash 'nfs-ha(4.29.1).sh'
@@ -52,6 +51,7 @@ SYNC_SCRIPT="/usr/local/bin/nfs_ha_sync.sh"
 SYNC_LOG="/var/log/nfs-ha-sync.log"
 CRON_FILE="/etc/cron.d/nfs-ha-sync"
 LOCK_FILE="/tmp/nfs-ha-sync.lock"
+DELETE_OPT="${SYNC_DELETE_OPT:---delete-delay}"
 
 echo "[INFO] NFS HA server setup started."
 echo "[INFO] VIP=${VIP}, NFS1=${NFS1_IP}, NFS2=${NFS2_IP}, Share=${SHARE_DIR}"
@@ -120,6 +120,7 @@ fi
 
 echo "[INFO] Interface=${IFACE}, Local_IP=${LOCAL_IP}, Role=${ROLE}, Priority=${PRIORITY}"
 echo "[INFO] Sync direction when VIP is local: ${LOCAL_SYNC_USER}@${LOCAL_IP} -> ${PEER_SYNC_USER}@${PEER_IP}"
+echo "[INFO] Sync delete policy: ${DELETE_OPT}"
 
 # =====================================================
 # 2. Install required packages
@@ -153,7 +154,14 @@ sudo exportfs -arv
 echo "[STEP 5/9] Creating keepalived health check script."
 sudo tee /usr/local/bin/check_nfs.sh > /dev/null << 'EOF'
 #!/bin/sh
+SHARE_DIR="/share_directory"
+
 systemctl is-active --quiet nfs-kernel-server
+test -d "$SHARE_DIR" || exit 1
+test -w "$SHARE_DIR" || exit 1
+touch "$SHARE_DIR/.nfs-healthcheck" || exit 1
+rm -f "$SHARE_DIR/.nfs-healthcheck" || exit 1
+exportfs -v | awk -v dir="$SHARE_DIR" '$1 == dir {found=1} END {exit !found}' || exit 1
 EOF
 sudo chmod 755 /usr/local/bin/check_nfs.sh
 
@@ -187,6 +195,7 @@ SHARE_DIR="${SHARE_DIR}"
 PEER="${PEER_SYNC_USER}@${PEER_IP}"
 SYNC_LOG="${SYNC_LOG}"
 LOCK_FILE="${LOCK_FILE}"
+DELETE_OPT="${DELETE_OPT}"
 
 log() {
     echo "\$(date -Is) \$*" >> "\$SYNC_LOG"
@@ -206,13 +215,18 @@ if ! ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=
     exit 0
 fi
 
-if ! flock -n "\$LOCK_FILE" rsync -rltv --update --no-owner --no-group --no-perms --omit-dir-times \\
+if ! flock -n "\$LOCK_FILE" rsync -rltv \$DELETE_OPT --no-owner --no-group --no-perms --omit-dir-times \\
     "\${SHARE_DIR}/" "\${PEER}:\${SHARE_DIR}/" >> "\$SYNC_LOG" 2>&1; then
     log "warn: sync failed or previous sync is still running"
 fi
 EOF
 
 sudo chmod 755 "$SYNC_SCRIPT"
+
+sync_ready() {
+    sudo -u "$LOCAL_SYNC_USER" ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 \
+        "${PEER_SYNC_USER}@${PEER_IP}" "test -d '${SHARE_DIR}' -a -w '${SHARE_DIR}'"
+}
 
 # =====================================================
 # 7. Configure cron automation
@@ -245,11 +259,12 @@ vrrp_script chk_nfs {
 }
 
 vrrp_instance VI_NFS {
-    state ${ROLE}
+    state BACKUP
     interface ${IFACE}
     virtual_router_id ${VRID}
     priority ${PRIORITY}
     advert_int 1
+    nopreempt
     authentication {
         auth_type PASS
         auth_pass ${AUTH_PASS}
@@ -293,13 +308,28 @@ done
 
 if [ "$VIP_READY" = "yes" ]; then
     echo "[INFO] This node currently owns NFS VIP ${VIP}."
-    echo "[INFO] Running one immediate sync attempt."
-    sudo -u "$LOCAL_SYNC_USER" "$SYNC_SCRIPT" || true
+    if sync_ready; then
+        echo "[INFO] Automatic sync SSH key login is ready."
+        echo "[INFO] Running one immediate sync attempt."
+        sudo -u "$LOCAL_SYNC_USER" "$SYNC_SCRIPT" || true
+    else
+        echo "[WARN] Automatic sync is NOT ready."
+        echo "[WARN] Run this on the current node, then retry manual sync:"
+        echo "       sudo -u ${LOCAL_SYNC_USER} ssh-copy-id ${PEER_SYNC_USER}@${PEER_IP}"
+    fi
 else
     echo "[INFO] This node does not currently own NFS VIP ${VIP}. Sync cron will stay idle here."
+    if sync_ready; then
+        echo "[INFO] Automatic sync SSH key login is ready for future VIP ownership."
+    else
+        echo "[WARN] Automatic sync is NOT ready for future VIP ownership."
+        echo "[WARN] Run this on this node:"
+        echo "       sudo -u ${LOCAL_SYNC_USER} ssh-copy-id ${PEER_SYNC_USER}@${PEER_IP}"
+    fi
 fi
 
 echo "[SUCCESS] NFS HA server setup completed."
+echo "[INFO] keepalived uses nopreempt. If this node recovers after failover, it will not automatically steal VIP back."
 echo "[INFO] SSH key setup required for unattended sync:"
 echo "       sudo -u ${LOCAL_SYNC_USER} ssh-copy-id ${PEER_SYNC_USER}@${PEER_IP}"
 echo "[INFO] Manual immediate sync:"

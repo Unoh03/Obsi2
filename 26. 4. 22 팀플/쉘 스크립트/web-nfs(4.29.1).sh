@@ -26,9 +26,9 @@ EXPECTED_SOURCE="${NFS_VIP}:${REMOTE_SHARE}"
 
 # Keep nofail only in fstab so boot is not blocked if NFS is down.
 # Do not force vers=4 here; let the client and server negotiate like the known-good script did.
-# x-systemd.mount-timeout shortens shutdown/reboot waits when the NFS mount cannot stop cleanly.
-FSTAB_OPTIONS="defaults,_netdev,nofail,soft,timeo=50,retrans=1,x-systemd.device-timeout=5s,x-systemd.mount-timeout=10s"
-RUNTIME_OPTIONS="rw,soft,timeo=50,retrans=1"
+# x-systemd options shorten boot/shutdown waits while keeping NFS writes hard-mounted.
+FSTAB_OPTIONS="defaults,_netdev,nofail,hard,timeo=50,retrans=2,x-systemd.automount,x-systemd.idle-timeout=30s,x-systemd.device-timeout=5s,x-systemd.mount-timeout=10s"
+RUNTIME_OPTIONS="rw,hard,timeo=50,retrans=2"
 FSTAB_LINE="${EXPECTED_SOURCE} ${MOUNT_DIR} nfs ${FSTAB_OPTIONS} 0 0"
 
 echo "[INFO] WEB NFS HA client setup started."
@@ -72,6 +72,22 @@ print_mount_debug() {
     grep -E "$NFS_VIP|$REMOTE_SHARE|$MOUNT_DIR" /proc/mounts || true
 }
 
+register_fstab() {
+    echo "[INFO] Registering NFS VIP mount in /etc/fstab."
+    sudo sed -i "\|[[:space:]]${MOUNT_DIR}[[:space:]]|d" /etc/fstab
+    echo "$FSTAB_LINE" | sudo tee -a /etc/fstab > /dev/null
+    sudo systemctl daemon-reload
+}
+
+remount_current_mount() {
+    echo "[INFO] Remounting current NFS mount with updated runtime options."
+    if timeout 20s sudo mount -o "remount,${RUNTIME_OPTIONS}" "$MOUNT_DIR"; then
+        echo "[INFO] Remount completed."
+    else
+        echo "[WARN] Remount failed or timed out. fstab is updated, but runtime options may apply after reboot/remount."
+    fi
+}
+
 # =====================================================
 # 1. Install NFS client package
 # =====================================================
@@ -104,8 +120,10 @@ if is_mounted; then
 
     if is_expected_source "$CURRENT_SOURCE"; then
         echo "[INFO] ${MOUNT_DIR} is already mounted from ${CURRENT_SOURCE}."
+        register_fstab
+        remount_current_mount
         print_mount_status
-        echo "[SUCCESS] WEB NFS HA client setup is already applied."
+        echo "[SUCCESS] WEB NFS HA client setup is already applied and fstab is updated."
         exit 0
     fi
 
@@ -137,9 +155,7 @@ fi
 # - HA mode must mount the VIP only, not NFS1/NFS2 directly.
 # =====================================================
 echo "[STEP 5/7] Registering NFS VIP mount in /etc/fstab."
-sudo sed -i "\|[[:space:]]${MOUNT_DIR}[[:space:]]|d" /etc/fstab
-echo "$FSTAB_LINE" | sudo tee -a /etc/fstab > /dev/null
-sudo systemctl daemon-reload
+register_fstab
 
 # =====================================================
 # 6. Apply NFS mount directly
@@ -148,7 +164,7 @@ sudo systemctl daemon-reload
 # =====================================================
 echo "[STEP 6/7] Checking NFS export and applying mount."
 showmount -e "$NFS_VIP" || echo "[WARN] showmount failed. Trying direct NFS mount anyway."
-if sudo mount -v -t nfs -o "$RUNTIME_OPTIONS" "$EXPECTED_SOURCE" "$MOUNT_DIR"; then
+if timeout 20s sudo mount -v -t nfs -o "$RUNTIME_OPTIONS" "$EXPECTED_SOURCE" "$MOUNT_DIR"; then
     echo "[INFO] Direct NFS mount command completed."
 else
     echo "[ERROR] Direct NFS mount command failed."
