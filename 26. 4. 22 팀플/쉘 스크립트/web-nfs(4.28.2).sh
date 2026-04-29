@@ -28,8 +28,20 @@ FSTAB_LINE="${EXPECTED_SOURCE} ${MOUNT_DIR} nfs ${FSTAB_OPTIONS} 0 0"
 echo "[INFO] WEB NFS HA client setup started."
 echo "[INFO] Source=${EXPECTED_SOURCE}, Mount=${MOUNT_DIR}"
 
+mount_sources() {
+    findmnt -n -o SOURCE --target "$MOUNT_DIR" 2>/dev/null | sed '/^[[:space:]]*$/d' || true
+}
+
+mount_source_count() {
+    mount_sources | wc -l
+}
+
 current_mount_source() {
-    findmnt -n -o SOURCE --target "$MOUNT_DIR" 2>/dev/null || true
+    mount_sources | head -n 1
+}
+
+is_mounted() {
+    [ "$(mount_source_count)" -gt 0 ]
 }
 
 is_expected_source() {
@@ -71,7 +83,17 @@ sudo mkdir -p "$MOUNT_DIR"
 # 3. Stop if the mount point is already mounted incorrectly
 # =====================================================
 echo "[STEP 3/7] Checking current mount state."
-if mountpoint -q "$MOUNT_DIR"; then
+if is_mounted; then
+    MOUNT_COUNT="$(mount_source_count)"
+    if [ "$MOUNT_COUNT" -gt 1 ]; then
+        echo "[ERROR] ${MOUNT_DIR} is mounted multiple times."
+        echo "[ERROR] Unmount it until no mount remains, then run this script again:"
+        echo "        sudo umount ${MOUNT_DIR}"
+        echo "        sudo umount ${MOUNT_DIR}"
+        print_mount_debug
+        exit 1
+    fi
+
     CURRENT_SOURCE="$(current_mount_source)"
 
     if is_expected_source "$CURRENT_SOURCE"; then
@@ -128,8 +150,18 @@ else
     exit 1
 fi
 
-if ! mountpoint -q "$MOUNT_DIR"; then
+if ! is_mounted; then
     echo "[ERROR] ${MOUNT_DIR} is not mounted after direct mount."
+    print_mount_debug
+    exit 1
+fi
+
+MOUNT_COUNT="$(mount_source_count)"
+if [ "$MOUNT_COUNT" -gt 1 ]; then
+    echo "[ERROR] ${MOUNT_DIR} is mounted multiple times after direct mount."
+    echo "[ERROR] Unmount it until no mount remains, then run this script again:"
+    echo "        sudo umount ${MOUNT_DIR}"
+    echo "        sudo umount ${MOUNT_DIR}"
     print_mount_debug
     exit 1
 fi
