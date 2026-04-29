@@ -178,6 +178,7 @@ sudo systemctl enable nfs-kernel-server keepalived
 sudo systemctl restart nfs-kernel-server
 sudo systemctl restart keepalived
 sudo ufw allow 2049/tcp || true
+sudo ufw allow in on "$IFACE" from "$EXPORT_NET" to 224.0.0.18 comment 'keepalived multicast' || true
 
 # =====================================================
 # 8. Smart Polling: keepalived VIP 반영 대기

@@ -17,6 +17,7 @@ NFS_VIP="${1:-192.168.2.50}"
 REMOTE_SHARE="/share_directory"
 MOUNT_DIR="/opt/tomcat/tomcat-10/webapps/upload"
 BACKUP_BASE="/opt/tomcat"
+EXPECTED_SOURCE="${NFS_VIP}:${REMOTE_SHARE}"
 FSTAB_LINE="${NFS_VIP}:${REMOTE_SHARE} ${MOUNT_DIR} nfs defaults,_netdev,nofail,hard,vers=4,timeo=600,retrans=2 0 0"
 
 echo "[INFO] WEB NFS HA client setup started."
@@ -36,7 +37,16 @@ echo "[STEP 2/6] Preparing upload mount point."
 sudo mkdir -p "$MOUNT_DIR"
 
 if mountpoint -q "$MOUNT_DIR"; then
-    echo "[INFO] ${MOUNT_DIR} is already mounted. Skipping backup and remount."
+    CURRENT_SOURCE="$(findmnt -n -o SOURCE --target "$MOUNT_DIR" || true)"
+    if [ "$CURRENT_SOURCE" != "$EXPECTED_SOURCE" ]; then
+        echo "[ERROR] ${MOUNT_DIR} is already mounted from an unexpected source."
+        echo "[ERROR] Current source: ${CURRENT_SOURCE:-unknown}"
+        echo "[ERROR] Expected source: ${EXPECTED_SOURCE}"
+        echo "[ERROR] Unmount it manually after checking data, then run this script again."
+        exit 1
+    fi
+
+    echo "[INFO] ${MOUNT_DIR} is already mounted from ${EXPECTED_SOURCE}. Skipping backup and remount."
     echo "[INFO] Current mount status:"
     df -h | grep "$MOUNT_DIR"
     mount | grep "$MOUNT_DIR"
@@ -81,8 +91,8 @@ if ! mountpoint -q "$MOUNT_DIR"; then
 fi
 
 if [ -n "$BACKUP_DIR" ]; then
-    echo "[INFO] Copying backup files to NFS without overwriting existing files."
-    sudo cp -an "${BACKUP_DIR}/." "$MOUNT_DIR/"
+    echo "[INFO] Copying backup files to NFS without overwriting existing files or preserving ownership."
+    sudo cp -rn "${BACKUP_DIR}/." "$MOUNT_DIR/"
     echo "[INFO] Local backup remains at ${BACKUP_DIR}."
 fi
 
