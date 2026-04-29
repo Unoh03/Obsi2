@@ -82,11 +82,11 @@ echo "$FSTAB_LINE" | sudo tee -a /etc/fstab > /dev/null
 # =====================================================
 echo "[STEP 5/6] Checking NFS export and applying mount."
 showmount -e "$NFS_VIP" || true
-sudo mount -a
 sudo systemctl daemon-reload
+sudo mount "$MOUNT_DIR"
 
 if ! mountpoint -q "$MOUNT_DIR"; then
-    echo "[ERROR] ${MOUNT_DIR} is not mounted after mount -a."
+    echo "[ERROR] ${MOUNT_DIR} is not mounted after mount."
     exit 1
 fi
 
