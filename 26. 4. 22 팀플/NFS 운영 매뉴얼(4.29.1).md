@@ -1,21 +1,48 @@
 # NFS 운영 매뉴얼(4.29.1)
 
-## 목적
+이 문서는 Charlie C Zone의 NFS HA 구성을 처음 하는 사람이 순서대로 따라 할 수 있게 정리한 절차서다.
 
-이 문서는 Charlie C Zone의 NFS HA 운영 절차를 정리한다.
+## 1. 전체 구조
 
 - NFS1: `192.168.2.5`
 - NFS2: `192.168.2.6`
 - NFS VIP: `192.168.2.50`
-- 공유 디렉터리: `/share_directory`
+- NFS 공유 디렉터리: `/share_directory`
 - WEB mount 위치: `/opt/tomcat/tomcat-10/webapps/upload`
+- 서버 스크립트: `nfs-ha(4.29.1).sh`
+- WEB 스크립트: `web-nfs(4.29.1).sh`
 
-`nfs-ha(4.29.1).sh`는 keepalived VIP 장애조치와 rsync 자동 동기화를 설정한다.  
-`web-nfs(4.29.1).sh`는 WEB 서버가 NFS VIP만 mount하도록 설정한다.
+NFS 서버는 `keepalived`로 VIP를 옮긴다. WEB 서버는 NFS1/NFS2의 실제 IP가 아니라 VIP인 `192.168.2.50`만 mount한다.
 
-## 정상 상태 확인
+이 버전은 편의 우선 모드다.
 
-NFS1/NFS2에서 확인:
+- `nfs1` 또는 `nfs2` 계정이 없으면 서버 스크립트가 자동 생성한다.
+- NFS export 범위는 `192.168.2.0/24`로 넓게 둔다.
+- `/share_directory` 권한은 실습 편의를 위해 `777`로 둔다.
+- WEB mount는 NFSv4/TCP를 기본으로 사용한다.
+- 자동 rsync는 켜지만, 자동 삭제 동기화는 기본으로 끈다.
+
+## 2. 실행 순서
+
+반드시 이 순서로 실행한다.
+
+1. NFS1에서 서버 스크립트 실행
+2. NFS2에서 서버 스크립트 실행
+3. NFS1/NFS2 사이 SSH key 등록
+4. WEB1에서 WEB mount 스크립트 실행
+5. WEB2에서 WEB mount 스크립트 실행
+6. mount와 파일 동기화 확인
+
+## 3. NFS1에서 실행
+
+NFS1 서버에서 실행한다.
+
+```bash
+cd '스크립트가 있는 디렉터리'
+bash 'nfs-ha(4.29.1).sh'
+```
+
+정상적으로 끝나면 다음을 확인한다.
 
 ```bash
 ip a | grep 192.168.2.50
@@ -24,76 +51,124 @@ systemctl status keepalived --no-pager
 systemctl status cron --no-pager
 sudo exportfs -v
 df -h /share_directory
-tail -n 50 /var/log/nfs-ha-sync.log
 ```
 
-WEB1/WEB2에서 확인:
+NFS1이 정상 MASTER이면 `ip a | grep 192.168.2.50`에서 VIP가 보일 수 있다.
+
+## 4. NFS2에서 실행
+
+NFS2 서버에서 실행한다.
 
 ```bash
-findmnt --target /opt/tomcat/tomcat-10/webapps/upload
-df -h | grep /opt/tomcat/tomcat-10/webapps/upload
+cd '스크립트가 있는 디렉터리'
+bash 'nfs-ha(4.29.1).sh'
 ```
 
-정상이라면 WEB mount source는 `192.168.2.50:/share_directory`여야 한다.
+정상적으로 끝나면 다음을 확인한다.
 
-## SSH Key 동기화 설정
+```bash
+ip a | grep 192.168.2.50
+systemctl status nfs-kernel-server --no-pager
+systemctl status keepalived --no-pager
+systemctl status cron --no-pager
+sudo exportfs -v
+df -h /share_directory
+```
 
-자동 rsync는 SSH key 로그인이 되어 있어야 동작한다. NFS1과 NFS2 양쪽에서 한 번씩 설정한다.
+NFS2는 BACKUP이므로 평상시에는 VIP가 안 보일 수 있다. 이것은 정상이다.
 
-NFS1에서:
+## 5. SSH Key 동기화 설정
+
+서버 스크립트는 `nfs1` 또는 `nfs2` 계정과 SSH key 파일을 만들지만, 상대 서버에 public key를 등록하는 `ssh-copy-id`는 직접 한 번 실행해야 한다.
+
+이 작업을 하지 않으면 NFS mount는 될 수 있지만 자동 rsync 동기화는 동작하지 않는다. `/var/log/nfs-ha-sync.log`에 `skip: SSH key login` 같은 로그가 남을 수 있다.
+
+NFS1에서 실행한다.
 
 ```bash
 sudo -u nfs1 ssh-copy-id nfs2@192.168.2.6
 sudo -u nfs1 ssh -o BatchMode=yes nfs2@192.168.2.6 "test -d /share_directory -a -w /share_directory"
 ```
 
-NFS2에서:
+NFS2에서 실행한다.
 
 ```bash
 sudo -u nfs2 ssh-copy-id nfs1@192.168.2.5
 sudo -u nfs2 ssh -o BatchMode=yes nfs1@192.168.2.5 "test -d /share_directory -a -w /share_directory"
 ```
 
-비밀번호를 물어보지 않고 명령이 끝나야 자동 동기화가 준비된 것이다.
+확인 명령에서 비밀번호를 물어보지 않고 바로 끝나야 자동 동기화가 준비된 것이다.
 
-## 파일 동기화 확인
+## 6. WEB1/WEB2에서 실행
 
-WEB에서 테스트 파일 생성:
+WEB1과 WEB2 각각에서 실행한다.
 
 ```bash
-echo "nfs test from $(hostname) at $(date)" | sudo tee /opt/tomcat/tomcat-10/webapps/upload/test-$(hostname).txt
+cd '스크립트가 있는 디렉터리'
+bash 'web-nfs(4.29.1).sh'
 ```
 
-VIP를 가진 NFS에서 즉시 수동 동기화:
+이 스크립트는 다음 일을 한다.
+
+- `nfs-common`과 `lsof`를 설치한다.
+- `/opt/tomcat/tomcat-10/webapps/upload`를 만든다.
+- 기존 local upload 파일이 있으면 `/opt/tomcat/upload-local-backup-날짜`에 백업한다.
+- `/etc/fstab`에 `192.168.2.50:/share_directory` mount를 등록한다.
+- NFSv4/TCP 옵션으로 직접 mount한다.
+
+WEB에서 정상 확인:
+
+```bash
+findmnt --target /opt/tomcat/tomcat-10/webapps/upload
+df -h | grep /opt/tomcat/tomcat-10/webapps/upload
+mount | grep /opt/tomcat/tomcat-10/webapps/upload
+```
+
+정상이라면 mount source가 `192.168.2.50:/share_directory`로 보여야 한다.
+
+## 7. 파일 생성과 동기화 확인
+
+WEB1 또는 WEB2에서 테스트 파일을 만든다.
+
+```bash
+echo "nfs test from $(hostname) at $(date)" | sudo tee /opt/tomcat/tomcat-10/webapps/upload/nfs-ha-review-$(hostname)-$(date +%Y%m%d-%H%M%S).txt
+```
+
+VIP를 가진 NFS를 확인한다.
 
 ```bash
 ip a | grep 192.168.2.50
+```
+
+VIP가 NFS1에 있으면 NFS1에서 수동 동기화를 실행한다.
+
+```bash
 sudo -u nfs1 /usr/local/bin/nfs_ha_sync.sh
 ```
 
-VIP가 NFS2에 있으면:
+VIP가 NFS2에 있으면 NFS2에서 수동 동기화를 실행한다.
 
 ```bash
 sudo -u nfs2 /usr/local/bin/nfs_ha_sync.sh
 ```
 
-양쪽 NFS에서 확인:
+양쪽 NFS에서 파일과 로그를 확인한다.
 
 ```bash
 ls -la /share_directory
-cat /share_directory/test-*.txt
+cat /share_directory/nfs-ha-review-*.txt
 tail -n 50 /var/log/nfs-ha-sync.log
 ```
 
-## 삭제 동기화 운영
+cron도 1분마다 같은 sync script를 실행한다. 수동 sync가 되면 cron sync도 보통 동작한다.
 
-`nfs-ha(4.29.1).sh`는 기본값으로 삭제 동기화를 하지 않는다.
+## 8. 삭제 동기화 운영
 
-즉, WEB에서 파일을 삭제해도 반대편 NFS에는 같은 파일이 남아 있을 수 있다.
+기본값에서는 삭제 동기화를 하지 않는다.
 
-이렇게 하는 이유는 장애 직후 오래된 NFS가 VIP를 가져간 상태에서 자동 rsync가 실행되면, 아직 반대편에만 남아 있던 최신 파일을 삭제할 수 있기 때문이다.
+즉, WEB에서 파일을 삭제해도 반대편 NFS에는 같은 파일이 남아 있을 수 있다. 이 선택은 장애 직후 오래된 NFS가 VIP를 가져갔을 때 정상 파일을 반대편에서 지워버리는 사고를 막기 위한 것이다.
 
-삭제까지 자동으로 미러링해야 한다고 팀에서 결정한 경우에만 양쪽 NFS에서 아래처럼 다시 설정한다.
+삭제까지 자동으로 미러링해야 한다고 팀에서 결정한 경우에만 NFS1과 NFS2 양쪽에서 아래처럼 서버 스크립트를 다시 실행한다.
 
 ```bash
 SYNC_DELETE_OPT="--delete-delay" bash 'nfs-ha(4.29.1).sh'
@@ -116,62 +191,66 @@ ssh nfs2@192.168.2.6 "ls -la /share_directory"
 ssh nfs2@192.168.2.6 "rm -f /share_directory/삭제할파일명"
 ```
 
-## 장애조치 확인
+NFS1에서 삭제할 때는 주소를 `192.168.2.5`로 바꾼다.
 
-현재 VIP 소유자 확인:
+## 9. 장애조치 확인
+
+현재 VIP 소유자를 확인한다.
 
 ```bash
 ip a | grep 192.168.2.50
 ```
 
-VIP를 가진 NFS에서 keepalived 중지:
+VIP를 가진 NFS에서 keepalived를 중지한다.
 
 ```bash
 sudo systemctl stop keepalived
 ```
 
-반대편 NFS에서 VIP가 이동했는지 확인:
+반대편 NFS에서 VIP가 이동했는지 확인한다.
 
 ```bash
 ip a | grep 192.168.2.50
 systemctl status keepalived --no-pager
 ```
 
-WEB에서 mount와 파일 접근 확인:
+WEB에서 mount와 파일 접근을 확인한다.
 
 ```bash
 findmnt --target /opt/tomcat/tomcat-10/webapps/upload
 ls -la /opt/tomcat/tomcat-10/webapps/upload
 ```
 
-## 수동 Failback 절차
+테스트가 끝나면 중지했던 keepalived를 다시 시작한다.
 
-`nopreempt`를 사용하므로 NFS1이 복구되어도 VIP를 자동으로 가져오지 않는다. 이것은 정상 동작이다.
+```bash
+sudo systemctl start keepalived
+```
 
-수동으로 NFS1에 VIP를 되돌리고 싶으면 먼저 현재 VIP 보유 노드에서 동기화를 확인한다.
+`nopreempt`를 사용하므로 원래 NFS1이 복구되어도 VIP를 자동으로 다시 가져오지 않을 수 있다. 이것은 정상 동작이다.
+
+## 10. 수동 Failback
+
+NFS1로 VIP를 되돌리고 싶으면 먼저 현재 VIP를 가진 노드가 최신 원본인지 확인한다.
 
 ```bash
 ip a | grep 192.168.2.50
-sudo -u nfs2 /usr/local/bin/nfs_ha_sync.sh
+ls -la /share_directory
 tail -n 50 /var/log/nfs-ha-sync.log
 ```
 
-NFS1/NFS2의 파일이 맞는지 확인:
+필요하면 현재 VIP 노드에서 수동 sync를 실행한다.
 
 ```bash
-ls -la /share_directory
+sudo -u nfs1 /usr/local/bin/nfs_ha_sync.sh
+sudo -u nfs2 /usr/local/bin/nfs_ha_sync.sh
 ```
 
-그 다음 현재 VIP를 가진 노드의 keepalived를 잠시 중지하거나, 점검 시간에 양쪽 keepalived를 순서대로 재시작한다.
+둘 중 VIP를 가진 쪽의 명령만 실제 동기화한다. VIP가 없는 쪽에서 실행하면 sync script는 조용히 종료한다.
 
-```bash
-sudo systemctl restart keepalived
-ip a | grep 192.168.2.50
-```
+방향이 헷갈리면 failback을 하지 않는다.
 
-방향이 헷갈리면 수동 failback을 하지 않는다.
-
-## Split-Brain 의심 시 대처
+## 11. Split-Brain 의심 시 대처
 
 양쪽 NFS에서 모두 VIP가 보이면 split-brain이다.
 
@@ -183,7 +262,7 @@ ping -c 3 192.168.2.6
 sudo ufw status verbose
 ```
 
-대처:
+대처 순서:
 
 1. WEB 접근을 잠시 멈춘다.
 2. 두 NFS 중 최신 파일이 있는 쪽을 정한다.
@@ -198,7 +277,7 @@ sudo systemctl stop keepalived
 
 Split-brain 상태에서 rsync 방향을 틀리면 파일이 삭제될 수 있다.
 
-## Stale File Handle 또는 Mount 문제
+## 12. Mount 문제 처리
 
 WEB에서 `Stale file handle`, upload 접근 멈춤, 종료 지연이 보이면 먼저 상태를 확인한다.
 
@@ -217,28 +296,71 @@ sudo mount /opt/tomcat/tomcat-10/webapps/upload
 sudo systemctl start tomcat
 ```
 
-umount가 busy면 잡고 있는 프로세스를 확인한다.
+`umount`가 busy면 잡고 있는 프로세스를 확인한다.
 
 ```bash
 sudo lsof +f -- /opt/tomcat/tomcat-10/webapps/upload
 ```
 
-## 디스크 부족
+## 13. 디스크 부족
 
-NFS 서버에서 확인:
+NFS 서버에서 확인한다.
 
 ```bash
 df -h /share_directory
 du -sh /share_directory
 ```
 
-디스크가 가득 차면 upload, rsync, health check가 모두 실패할 수 있다. 불필요한 테스트 파일부터 삭제한다.
+디스크가 가득 차면 upload, rsync, health check가 모두 실패할 수 있다. 테스트 파일만 삭제한다.
 
 ```bash
-sudo rm -f /share_directory/test-*.txt
+sudo rm -f /share_directory/nfs-ha-review-*.txt
 ```
 
-## 한계와 주의사항
+## 14. 자주 보는 문제
+
+### WEB mount 실패
+
+NFS 서버에서 확인:
+
+```bash
+systemctl status nfs-kernel-server --no-pager
+sudo exportfs -v
+sudo ufw status verbose
+```
+
+WEB 서버에서 확인:
+
+```bash
+ping -c 3 192.168.2.50
+findmnt --target /opt/tomcat/tomcat-10/webapps/upload
+```
+
+### 자동 rsync 실패
+
+로그를 확인한다.
+
+```bash
+tail -n 50 /var/log/nfs-ha-sync.log
+```
+
+`skip: SSH key login`이 보이면 SSH key 등록을 다시 한다.
+
+```bash
+sudo -u nfs1 ssh-copy-id nfs2@192.168.2.6
+sudo -u nfs2 ssh-copy-id nfs1@192.168.2.5
+```
+
+### VIP가 안 붙음
+
+keepalived 로그를 확인한다.
+
+```bash
+journalctl -u keepalived -n 80 --no-pager
+sudo ufw status verbose
+```
+
+## 15. 한계와 주의사항
 
 - 이 구성은 진짜 무손실 HA가 아니다.
 - cron 기반 rsync라 장애 직전 파일은 반대편에 없을 수 있다.
