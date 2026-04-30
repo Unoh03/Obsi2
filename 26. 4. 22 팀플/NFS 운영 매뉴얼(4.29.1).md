@@ -49,6 +49,34 @@ sudo -u nfs2 ssh-copy-id nfs1@192.168.2.5
 - `nfs-ha(4.29.1).sh`는 NFS1/NFS2에 있어야 한다.
 - `web-nfs(4.29.1).sh`는 WEB1/WEB2에 있어야 한다.
 
+시간 동기화도 먼저 맞춘다. WEB/NFS1/NFS2 로그 시간이 다르면 파일 생성 시각, rsync 로그, 장애조치 시각을 비교하기 어렵다.
+
+사람이 시간을 직접 입력하지 말고 NTP 자동 동기화를 켠다. 아래 명령은 NFS1, NFS2, WEB1, WEB2에서 모두 실행한다.
+
+```bash
+timedatectl
+
+sudo timedatectl set-timezone Asia/Seoul
+sudo timedatectl set-ntp true
+
+timedatectl
+```
+
+마지막 `timedatectl` 출력에서 다음 상태를 확인한다.
+
+```text
+Time zone: Asia/Seoul
+System clock synchronized: yes
+```
+
+`System clock synchronized: no`가 계속 나오면 NTP 서비스 상태를 확인한다.
+
+```bash
+systemctl status systemd-timesyncd --no-pager
+```
+
+이 단계는 NFS mount 필수 조건은 아니지만, 운영 로그를 맞추기 위해 설치 전에 처리하는 것을 권장한다.
+
 1. NFS1에서 서버 스크립트 실행
 2. NFS2에서 서버 스크립트 실행
 3. NFS1/NFS2 사이 SSH key 등록
