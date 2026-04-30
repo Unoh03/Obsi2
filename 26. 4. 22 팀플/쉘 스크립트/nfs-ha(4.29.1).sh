@@ -362,7 +362,9 @@ if [ "$VIP_READY" = "yes" ]; then
         sudo -u "$LOCAL_SYNC_USER" "$SYNC_SCRIPT" || true
     else
         echo "[WARN] Automatic sync is NOT ready."
-        echo "[WARN] Run this on the current node, then retry manual sync:"
+        echo "[WARN] If ssh-copy-id asks for a password and fails, set the peer user's password on the peer node first:"
+        echo "       sudo passwd ${PEER_SYNC_USER}"
+        echo "[WARN] Then run this on the current node, then retry manual sync:"
         echo "       sudo -u ${LOCAL_SYNC_USER} ssh-copy-id ${PEER_SYNC_USER}@${PEER_IP}"
     fi
 else
@@ -371,7 +373,9 @@ else
         echo "[INFO] Automatic sync SSH key login is ready for future VIP ownership."
     else
         echo "[WARN] Automatic sync is NOT ready for future VIP ownership."
-        echo "[WARN] Run this on this node:"
+        echo "[WARN] If ssh-copy-id asks for a password and fails, set the peer user's password on the peer node first:"
+        echo "       sudo passwd ${PEER_SYNC_USER}"
+        echo "[WARN] Then run this on this node:"
         echo "       sudo -u ${LOCAL_SYNC_USER} ssh-copy-id ${PEER_SYNC_USER}@${PEER_IP}"
     fi
 fi
@@ -382,6 +386,7 @@ print_sync_log_status
 echo "[SUCCESS] NFS HA server setup completed."
 echo "[INFO] keepalived uses nopreempt. If this node recovers after failover, it will not automatically steal VIP back."
 echo "[INFO] SSH key setup required for unattended sync:"
+echo "       If ssh-copy-id asks for a password and fails, set it on the peer first: sudo passwd ${PEER_SYNC_USER}"
 echo "       sudo -u ${LOCAL_SYNC_USER} ssh-copy-id ${PEER_SYNC_USER}@${PEER_IP}"
 echo "[INFO] Manual immediate sync:"
 echo "       sudo -u ${LOCAL_SYNC_USER} ${SYNC_SCRIPT}"
