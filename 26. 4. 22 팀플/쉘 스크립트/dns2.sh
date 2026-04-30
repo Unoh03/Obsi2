@@ -36,8 +36,8 @@ sudo tee /etc/bind/db.zzaphub.com > /dev/null <<EOF
 ns1     IN      A       1.2.1.2
 ns2     IN      A       1.2.1.3
 
-@       IN      A       1.2.2.1
-www     IN      A       1.2.2.1
+@       IN      A       1.2.2.10
+www     IN      A       1.2.2.10
 
 
 EOF
