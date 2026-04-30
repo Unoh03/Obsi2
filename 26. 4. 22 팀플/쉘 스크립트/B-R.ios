@@ -114,9 +114,9 @@ ip access-list extended B_ZONE_IN
  permit ip host 1.2.2.4 host 1.2.3.1
  permit ip host 1.2.2.3 host 1.2.3.2
  permit ip host 1.2.2.4 host 1.2.3.2
- remark === Allow WEB servers to Log server ===
- permit ip host 1.2.2.3 host 1.2.3.3
- permit ip host 1.2.2.4 host 1.2.3.3
+ remark === Allow WEB servers to Loki on Log server ===
+ permit tcp host 1.2.2.3 host 1.2.3.3 eq 3100
+ permit tcp host 1.2.2.4 host 1.2.3.3 eq 3100
  remark === Monitor is pull-based and internal-only for inbound access ===
  remark === No Static NAT for Monitor 192.168.3.4 ===
  remark === No inbound public access to Monitor ===

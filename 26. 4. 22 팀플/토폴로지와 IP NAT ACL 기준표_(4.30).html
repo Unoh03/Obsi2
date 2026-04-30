@@ -405,7 +405,7 @@
         <table>
           <tr><th>흐름</th><th>의미</th></tr>
           <tr><td>Prometheus -> 관측 대상 <code>node_exporter</code></td><td>메트릭 Pull. 기본 포트 사용 시 대상 서버 <code>9100/tcp</code> 접근 필요</td></tr>
-          <tr><td>WEB1/WEB2 로그 agent -> Loki</td><td>로그 Push. 현재 B-R ACL 기준 WEB 공인 역할 IP에서 Log <code>1.2.3.3:3100</code> 접근 가능</td></tr>
+          <tr><td>WEB1/WEB2 로그 agent -> Loki</td><td>로그 Push. B-R ACL 기준 WEB 공인 역할 IP에서 Log <code>1.2.3.3:3100</code>만 접근 허용</td></tr>
           <tr><td>Grafana -> Prometheus</td><td>대시보드에서 메트릭 조회. 같은 Monitor 서버 내부 통신이면 외부 ACL 영향 작음</td></tr>
           <tr><td>Grafana -> Loki</td><td>대시보드에서 로그 조회. 같은 B Zone이므로 Log 사설 IP <code>192.168.3.3:3100</code> 사용 권장</td></tr>
           <tr><td>B Zone 관리자 PC -> Grafana</td><td>대시보드 접속. Monitor 사설 IP <code>192.168.3.4:3000</code> 사용, 외부 Static NAT 불필요</td></tr>
@@ -413,7 +413,7 @@
       </div>
     </div>
     <div class="note warn">
-      관측성 트래픽은 현재 팀 결정/구현 확인이 더 필요하다. 현재 ACL상 WEB1/WEB2 -> Log 흐름은 허용되어 있으나, WEB 이외 서버 로그까지 Loki로 보내려면 출발지별 ACL을 추가 검토해야 한다.
+      관측성 트래픽은 현재 팀 결정/구현 확인이 더 필요하다. 현재 ACL상 WEB1/WEB2 -> Log Loki <code>3100/tcp</code> 흐름만 허용하며, WEB 이외 서버 로그까지 Loki로 보내려면 출발지별 ACL을 추가 검토해야 한다.
     </div>
   </section>
 
@@ -428,7 +428,7 @@
         <tr><td>WEB1/WEB2 -> DB/Log</td><td>B-R ACL로 허용</td></tr>
         <tr><td>Monitor -> WEB1/WEB2</td><td>C-R ACL 예외 허용</td></tr>
         <tr><td>Monitor -> 관측 대상 exporter</td><td>Prometheus Pull. NFS 제외 대상 서버의 <code>node_exporter</code> 접근 허용 필요</td></tr>
-        <tr><td>WEB1/WEB2 -> Log Loki</td><td>로그 Push. 현재 B-R ACL상 WEB1/WEB2에서 Log <code>1.2.3.3</code> 접근 허용</td></tr>
+        <tr><td>WEB1/WEB2 -> Log Loki</td><td>로그 Push. B-R ACL상 WEB1/WEB2에서 Log <code>1.2.3.3:3100</code>만 접근 허용</td></tr>
         <tr><td>Monitor Grafana -> Log Loki</td><td>Grafana가 Loki를 데이터소스로 조회. 같은 B Zone이므로 사설 IP 접근 권장</td></tr>
         <tr><td>B Zone 관리자 PC -> Monitor Grafana</td><td>관리자 화면 접속. B Zone 내부 접근이므로 Monitor Static NAT 불필요</td></tr>
         <tr><td>외부 -> Monitor</td><td>차단, inbound Static NAT 없음</td></tr>
@@ -465,7 +465,7 @@
           <tr><th>항목</th><th>현재 결정</th></tr>
           <tr><td>LB 포트 단위 제한</td><td>초기 구축 안정성을 위해 보류</td></tr>
           <tr><td>DNS 포트 단위 ACL</td><td>DNS UDP/TCP 53 제한은 추후 보안 개선점으로 분리</td></tr>
-          <tr><td>관측성 ACL</td><td>Prometheus Pull, WEB 로그 Loki Push, Grafana 조회 흐름은 실제 포트 확인 후 ACL에 반영</td></tr>
+          <tr><td>관측성 ACL</td><td>WEB 로그 Loki Push는 <code>3100/tcp</code> 기준으로 제한. Prometheus Pull, Grafana 조회 흐름은 실제 포트 확인 후 ACL에 반영</td></tr>
           <tr><td>로그 agent</td><td>Loki로 로그를 보내는 agent 종류와 설치 대상은 담당자 확인 필요</td></tr>
           <tr><td>라우터 ping 테스트</td><td>참고용. 최종 검증은 실제 VM 흐름 기준</td></tr>
           <tr><td>Monitor inbound</td><td>차단 유지. Monitor는 Pull 방식</td></tr>
