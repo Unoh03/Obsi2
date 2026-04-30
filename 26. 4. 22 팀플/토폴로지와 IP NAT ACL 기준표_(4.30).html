@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>토폴로지와 IP NAT ACL 기준표</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #eef2f7;
+    color: #111827;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .page {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 28px 32px 40px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 18px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 34px;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+  h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+  h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+  section { margin-top: 18px; }
+  .meta {
+    margin-top: 6px;
+    color: #475569;
+    font-size: 14px;
+  }
+  .source {
+    text-align: right;
+    color: #475569;
+    font-size: 13px;
+  }
+  .topology {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+  }
+  .zone {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
+    min-height: 420px;
+  }
+  .zone-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    color: #ffffff;
+    font-weight: 800;
+  }
+  .zone-a .zone-title { background: #1d4ed8; }
+  .zone-c .zone-title { background: #15803d; }
+  .zone-b .zone-title { background: #c2410c; }
+  .zone-title small {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.92;
+  }
+  .zone-body { padding: 14px; }
+  .node-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .node {
+    min-height: 76px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    padding: 10px 11px;
+  }
+  .node.router { background: #f1f5f9; border-color: #94a3b8; }
+  .node.vip { background: #fff7ed; border-color: #fb923c; }
+  .node.internal { background: #f0fdf4; border-color: #86efac; }
+  .node-name {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 800;
+  }
+  .ip {
+    display: block;
+    color: #334155;
+    font-size: 13px;
+  }
+  .flow {
+    margin-top: 14px;
+    border: 1px dashed #94a3b8;
+    border-radius: 8px;
+    background: #f8fafc;
+    padding: 12px 14px;
+    color: #334155;
+    text-align: center;
+    font-weight: 700;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 14px;
+  }
+  .card {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 14px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    font-size: 13px;
+  }
+  th, td {
+    border: 1px solid #d7dee8;
+    padding: 8px 9px;
+    vertical-align: top;
+  }
+  th {
+    background: #f1f5f9;
+    text-align: left;
+    font-weight: 800;
+  }
+  tbody tr:nth-child(even) td { background: #fafafa; }
+  .note {
+    margin-top: 10px;
+    border-left: 4px solid #2563eb;
+    background: #eff6ff;
+    padding: 10px 12px;
+    color: #1e3a8a;
+    font-size: 13px;
+  }
+  .warn {
+    border-left-color: #f97316;
+    background: #fff7ed;
+    color: #9a3412;
+  }
+  code {
+    background: #f1f5f9;
+    border-radius: 4px;
+    padding: 1px 4px;
+    color: #0f172a;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  @media (max-width: 1080px) {
+    header { display: block; }
+    .source { margin-top: 10px; text-align: left; }
+    .topology, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <div>
+      <h1>토폴로지와 IP NAT ACL 기준표</h1>
+      <div class="meta">4.30 기준 / GNS3 분산망, NAT, VIP, UDP Tunnel, ACL, 검증 기준 통합본</div>
+    </div>
+    <div class="source">
+      기준: <code>A-R.ios</code>, <code>B-R.ios</code>, <code>C-R(4.28.1).ios</code><br>
+      <code>LB.sh</code>, <code>dns1.sh</code>, <code>dns2.sh</code>, <code>nfs-ha(4.29.1).sh</code>, <code>web-nfs(4.29.1).sh</code>
+    </div>
+  </header>
+
+  <section>
+    <h2>전체 토폴로지</h2>
+    <div class="topology">
+      <div class="zone zone-a">
+        <div class="zone-title">
+          <span>A Zone<small>EDGE / DNS / DHCP</small></span>
+          <span>192.168.1.0/24</span>
+        </div>
+        <div class="zone-body">
+          <div class="node-grid">
+            <div class="node"><span class="node-name">Client</span><span class="ip">192.168.1.10~29</span><span class="ip">PAT 1.2.123.1</span></div>
+            <div class="node"><span class="node-name">DNS1</span><span class="ip">192.168.1.2</span><span class="ip">NAT 1.2.1.2</span></div>
+            <div class="node"><span class="node-name">DNS2</span><span class="ip">192.168.1.3</span><span class="ip">NAT 1.2.1.3</span></div>
+            <div class="node router"><span class="node-name">A-R</span><span class="ip">GW 192.168.1.254</span><span class="ip">Transit 1.2.123.1</span></div>
+          </div>
+          <div class="flow">A-PC UDP <code>192.168.33.121:12357</code></div>
+        </div>
+      </div>
+
+      <div class="zone zone-c">
+        <div class="zone-title">
+          <span>C Zone<small>LB / WEB / NFS / Cache</small></span>
+          <span>192.168.2.0/24</span>
+        </div>
+        <div class="zone-body">
+          <div class="node-grid">
+            <div class="node"><span class="node-name">LB1</span><span class="ip">192.168.2.1</span><span class="ip">NAT 1.2.2.1</span></div>
+            <div class="node"><span class="node-name">LB2</span><span class="ip">192.168.2.2</span><span class="ip">NAT 1.2.2.2</span></div>
+            <div class="node vip"><span class="node-name">LB VIP</span><span class="ip">192.168.2.10</span><span class="ip">NAT 1.2.2.10</span></div>
+            <div class="node"><span class="node-name">WEB1</span><span class="ip">192.168.2.3</span><span class="ip">NAT 1.2.2.3</span></div>
+            <div class="node"><span class="node-name">WEB2</span><span class="ip">192.168.2.4</span><span class="ip">NAT 1.2.2.4</span></div>
+            <div class="node internal"><span class="node-name">NFS1</span><span class="ip">192.168.2.5</span><span class="ip">내부 전용</span></div>
+            <div class="node internal"><span class="node-name">NFS2</span><span class="ip">192.168.2.6</span><span class="ip">내부 전용</span></div>
+            <div class="node vip"><span class="node-name">NFS VIP</span><span class="ip">192.168.2.50</span><span class="ip">WEB mount source</span></div>
+            <div class="node internal"><span class="node-name">Cache</span><span class="ip">192.168.2.7</span><span class="ip">내부 전용</span></div>
+            <div class="node router"><span class="node-name">C-R</span><span class="ip">GW 192.168.2.254</span><span class="ip">Transit 1.2.123.2</span></div>
+          </div>
+          <div class="flow">C-PC UDP <code>192.168.33.129:54378</code> / <code>:15428</code></div>
+        </div>
+      </div>
+
+      <div class="zone zone-b">
+        <div class="zone-title">
+          <span>B Zone<small>DB / Log / Monitor</small></span>
+          <span>192.168.3.0/24</span>
+        </div>
+        <div class="zone-body">
+          <div class="node-grid">
+            <div class="node"><span class="node-name">DB1</span><span class="ip">192.168.3.1</span><span class="ip">NAT 1.2.3.1</span></div>
+            <div class="node"><span class="node-name">DB2</span><span class="ip">192.168.3.2</span><span class="ip">NAT 1.2.3.2</span></div>
+            <div class="node"><span class="node-name">Log</span><span class="ip">192.168.3.3</span><span class="ip">NAT 1.2.3.3</span></div>
+            <div class="node internal"><span class="node-name">Monitor</span><span class="ip">192.168.3.4</span><span class="ip">PAT 1.2.123.3</span></div>
+            <div class="node router"><span class="node-name">B-R</span><span class="ip">GW 192.168.3.254</span><span class="ip">Transit 1.2.123.3</span></div>
+          </div>
+          <div class="flow">B-PC UDP <code>192.168.33.122:37898</code></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-2">
+    <div class="card">
+      <h2>핵심 요약</h2>
+      <table>
+        <tr><th>항목</th><th>값</th><th>의미</th></tr>
+        <tr><td>LB VIP</td><td><code>192.168.2.10</code> / <code>1.2.2.10</code></td><td>사용자 HTTP 대표 진입점</td></tr>
+        <tr><td>NFS VIP</td><td><code>192.168.2.50</code></td><td>WEB upload mount source</td></tr>
+        <tr><td>DNS</td><td><code>1.2.1.2</code>, <code>1.2.1.3</code></td><td>DNS 서버 NAT</td></tr>
+        <tr><td>서비스 도메인</td><td><code>zzaphub.com</code> -> <code>1.2.2.10</code></td><td>DNS가 LB VIP를 가리킴</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Transit / UDP Tunnel</h2>
+      <table>
+        <tr><th>구분</th><th>값</th></tr>
+        <tr><td>Transit LAN</td><td><code>1.2.123.0/24</code></td></tr>
+        <tr><td>A-R / C-R / B-R</td><td><code>1.2.123.1</code> / <code>1.2.123.2</code> / <code>1.2.123.3</code></td></tr>
+        <tr><td>A-C Tunnel</td><td><code>192.168.33.121:12357</code> -> <code>192.168.33.129:54378</code></td></tr>
+        <tr><td>B-C Tunnel</td><td><code>192.168.33.122:37898</code> -> <code>192.168.33.129:15428</code></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Zone별 IP 매핑</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h3>A Zone</h3>
+        <table>
+          <tr><th>장비</th><th>사설 IP</th><th>NAT/PAT</th><th>비고</th></tr>
+          <tr><td>Client</td><td><code>192.168.1.10~29</code></td><td><code>1.2.123.1</code> PAT</td><td>A-R DHCP</td></tr>
+          <tr><td>DNS1</td><td><code>192.168.1.2</code></td><td><code>1.2.1.2</code></td><td>Primary DNS</td></tr>
+          <tr><td>DNS2</td><td><code>192.168.1.3</code></td><td><code>1.2.1.3</code></td><td>Secondary DNS</td></tr>
+          <tr><td>A-R</td><td><code>192.168.1.254</code></td><td><code>1.2.123.1</code></td><td>Gateway / Transit</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>C Zone</h3>
+        <table>
+          <tr><th>장비</th><th>사설 IP</th><th>NAT/VIP</th><th>비고</th></tr>
+          <tr><td>LB1</td><td><code>192.168.2.1</code></td><td><code>1.2.2.1</code></td><td>LB node</td></tr>
+          <tr><td>LB2</td><td><code>192.168.2.2</code></td><td><code>1.2.2.2</code></td><td>LB node</td></tr>
+          <tr><td>LB VIP</td><td><code>192.168.2.10</code></td><td><code>1.2.2.10</code></td><td>사용자 대표 진입점</td></tr>
+          <tr><td>WEB1</td><td><code>192.168.2.3</code></td><td><code>1.2.2.3</code></td><td>일반 직접 접근 차단</td></tr>
+          <tr><td>WEB2</td><td><code>192.168.2.4</code></td><td><code>1.2.2.4</code></td><td>일반 직접 접근 차단</td></tr>
+          <tr><td>NFS1</td><td><code>192.168.2.5</code></td><td>-</td><td>내부 전용</td></tr>
+          <tr><td>NFS2</td><td><code>192.168.2.6</code></td><td>-</td><td>내부 전용</td></tr>
+          <tr><td>NFS VIP</td><td><code>192.168.2.50</code></td><td>-</td><td>WEB mount source</td></tr>
+          <tr><td>Cache</td><td><code>192.168.2.7</code></td><td>-</td><td>내부 전용</td></tr>
+          <tr><td>C-R</td><td><code>192.168.2.254</code></td><td><code>1.2.123.2</code></td><td>Gateway / Transit</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>B Zone</h3>
+        <table>
+          <tr><th>장비</th><th>사설 IP</th><th>NAT/PAT</th><th>비고</th></tr>
+          <tr><td>DB1</td><td><code>192.168.3.1</code></td><td><code>1.2.3.1</code></td><td>WEB 접근 허용</td></tr>
+          <tr><td>DB2</td><td><code>192.168.3.2</code></td><td><code>1.2.3.2</code></td><td>WEB 접근 허용</td></tr>
+          <tr><td>Log</td><td><code>192.168.3.3</code></td><td><code>1.2.3.3</code></td><td>WEB 접근 허용</td></tr>
+          <tr><td>Monitor</td><td><code>192.168.3.4</code></td><td><code>1.2.123.3</code> PAT</td><td>Pull 방식</td></tr>
+          <tr><td>B-R</td><td><code>192.168.3.254</code></td><td><code>1.2.123.3</code></td><td>Gateway / Transit</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-2">
+    <div class="card">
+      <h2>NAT 기준</h2>
+      <table>
+        <tr><th>구분</th><th>이번 프로젝트 의미</th><th>예시</th></tr>
+        <tr><td><code>ip nat inside</code></td><td>사설 IP를 쓰는 서버/클라이언트 쪽</td><td><code>192.168.1/2/3.0</code> 대역</td></tr>
+        <tr><td><code>ip nat outside</code></td><td>NAT 변환된 IP가 나가는 Transit 쪽</td><td><code>1.2.123.0/24</code></td></tr>
+      </table>
+      <div class="note">DNS 서버 자체 NAT는 <code>1.2.1.2</code>, <code>1.2.1.3</code>이다. 서비스 도메인은 LB 공인 VIP <code>1.2.2.10</code>으로 간다.</div>
+    </div>
+    <div class="card">
+      <h2>라우터 NAT 방향</h2>
+      <table>
+        <tr><th>라우터</th><th>inside</th><th>outside</th></tr>
+        <tr><td>A-R</td><td><code>192.168.1.254/24</code></td><td><code>1.2.123.1/24</code></td></tr>
+        <tr><td>C-R</td><td><code>192.168.2.254/24</code></td><td><code>1.2.123.2/24</code></td></tr>
+        <tr><td>B-R</td><td><code>192.168.3.254/24</code></td><td><code>1.2.123.3/24</code></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>NAT 매핑표</h2>
+    <table>
+      <thead>
+        <tr><th>Zone</th><th>서비스</th><th>사설 IP</th><th>외부/공인 역할 IP</th><th>NAT 방식</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>A</td><td>Client Pool</td><td><code>192.168.1.10~29</code></td><td><code>1.2.123.1</code></td><td>PAT</td></tr>
+        <tr><td>A</td><td>DNS1</td><td><code>192.168.1.2</code></td><td><code>1.2.1.2</code></td><td>Static NAT</td></tr>
+        <tr><td>A</td><td>DNS2</td><td><code>192.168.1.3</code></td><td><code>1.2.1.3</code></td><td>Static NAT</td></tr>
+        <tr><td>C</td><td>LB1</td><td><code>192.168.2.1</code></td><td><code>1.2.2.1</code></td><td>Static NAT</td></tr>
+        <tr><td>C</td><td>LB2</td><td><code>192.168.2.2</code></td><td><code>1.2.2.2</code></td><td>Static NAT</td></tr>
+        <tr><td>C</td><td>LB VIP</td><td><code>192.168.2.10</code></td><td><code>1.2.2.10</code></td><td>Static NAT, 사용자 대표 진입점</td></tr>
+        <tr><td>C</td><td>WEB1</td><td><code>192.168.2.3</code></td><td><code>1.2.2.3</code></td><td>Static NAT, 일반 직접 접근 차단</td></tr>
+        <tr><td>C</td><td>WEB2</td><td><code>192.168.2.4</code></td><td><code>1.2.2.4</code></td><td>Static NAT, 일반 직접 접근 차단</td></tr>
+        <tr><td>C</td><td>NFS1/2</td><td><code>192.168.2.5</code>, <code>192.168.2.6</code></td><td>-</td><td>내부 전용</td></tr>
+        <tr><td>C</td><td>NFS VIP</td><td><code>192.168.2.50</code></td><td>-</td><td>내부 NFS VIP, NAT 없음</td></tr>
+        <tr><td>C</td><td>Cache</td><td><code>192.168.2.7</code></td><td>-</td><td>내부 전용</td></tr>
+        <tr><td>B</td><td>DB1</td><td><code>192.168.3.1</code></td><td><code>1.2.3.1</code></td><td>Static NAT</td></tr>
+        <tr><td>B</td><td>DB2</td><td><code>192.168.3.2</code></td><td><code>1.2.3.2</code></td><td>Static NAT</td></tr>
+        <tr><td>B</td><td>Log</td><td><code>192.168.3.3</code></td><td><code>1.2.3.3</code></td><td>Static NAT</td></tr>
+        <tr><td>B</td><td>Monitor</td><td><code>192.168.3.4</code></td><td><code>1.2.123.3</code></td><td>PAT only, inbound Static NAT 없음</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="grid-2">
+    <div class="card">
+      <h2>정적 라우트</h2>
+      <table>
+        <tr><th>라우터</th><th>목적지</th><th>Next hop</th></tr>
+        <tr><td>A-R</td><td><code>1.2.2.0/24</code></td><td><code>1.2.123.2</code></td></tr>
+        <tr><td>A-R</td><td><code>1.2.3.0/24</code></td><td><code>1.2.123.3</code></td></tr>
+        <tr><td>C-R</td><td><code>1.2.1.0/24</code></td><td><code>1.2.123.1</code></td></tr>
+        <tr><td>C-R</td><td><code>1.2.3.0/24</code></td><td><code>1.2.123.3</code></td></tr>
+        <tr><td>B-R</td><td><code>1.2.1.0/24</code></td><td><code>1.2.123.1</code></td></tr>
+        <tr><td>B-R</td><td><code>1.2.2.0/24</code></td><td><code>1.2.123.2</code></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>라우터별 설정 요약</h2>
+      <table>
+        <tr><th>라우터</th><th>NAT</th><th>ACL / DHCP</th></tr>
+        <tr><td>A-R</td><td>DNS1/2 Static NAT<br>Client Pool PAT</td><td>DHCP <code>192.168.1.10~29</code><br>DNS <code>192.168.1.2/3</code></td></tr>
+        <tr><td>C-R</td><td>LB1/2, LB VIP, WEB1/2 Static NAT</td><td><code>C_ZONE_IN</code><br>LB 허용, WEB 직접 차단, B 응답/Monitor 예외</td></tr>
+        <tr><td>B-R</td><td>DB1/2, Log Static NAT<br>Monitor PAT</td><td><code>B_ZONE_IN</code><br>WEB만 DB/Log 접근 허용, 그 외 B 공인 역할 IP 접근 차단</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="grid-2">
+    <div class="card">
+      <h2>ACL / 접근 정책</h2>
+      <table>
+        <tr><th>흐름</th><th>정책</th></tr>
+        <tr><td>일반 사용자 -> LB VIP</td><td>허용, 대표 진입점 <code>1.2.2.10</code></td></tr>
+        <tr><td>일반 사용자 -> LB1/LB2</td><td>현재 ACL상 HTTP 허용</td></tr>
+        <tr><td>일반 사용자 -> WEB1/WEB2 직접</td><td>C-R ACL로 차단</td></tr>
+        <tr><td>WEB1/WEB2 -> DB/Log</td><td>B-R ACL로 허용</td></tr>
+        <tr><td>Monitor -> WEB1/WEB2</td><td>C-R ACL 예외 허용</td></tr>
+        <tr><td>외부 -> Monitor</td><td>차단, inbound Static NAT 없음</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>검증 기준</h2>
+      <table>
+        <tr><th>구분</th><th>확인 내용</th></tr>
+        <tr><td>성공해야 하는 흐름</td><td>A Client -> LB VIP, WEB1/WEB2 -> DB/Log, DB/Log -> WEB 응답, Monitor -> WEB1/WEB2</td></tr>
+        <tr><td>실패해야 정상인 흐름</td><td>A Client -> WEB1/WEB2 직접, A Client -> DB/Log 직접, 외부 -> Monitor</td></tr>
+        <tr><td>라우터 확인</td><td><code>show ip route</code>, <code>show ip nat translations</code>, <code>show access-lists</code></td></tr>
+        <tr><td>DNS 확인</td><td><code>dig @192.168.1.2 zzaphub.com</code>, <code>dig @192.168.1.3 zzaphub.com</code></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>주의 / 보류 항목</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>주의</h3>
+        <div class="note warn">
+          <code>dns2.sh</code>의 A 레코드는 현재 <code>dns1.sh</code>와 같이 <code>1.2.2.10</code>을 바라본다. 다만 slave zone의 실제 서비스 파일은 <code>/var/cache/bind/db.zzaphub.com</code>이고, 스크립트가 점검하는 파일은 <code>/etc/bind/db.zzaphub.com</code>이라 두 파일 기준이 달라질 수 있다.
+        </div>
+        <div class="note warn">
+          현재 C-R ACL은 LB VIP뿐 아니라 LB1/LB2 HTTP 접근도 허용한다. “사용자는 반드시 VIP만 접근”을 엄격히 만들려면 LB1/LB2 직접 접근 허용을 나중에 줄여야 한다.
+        </div>
+      </div>
+      <div class="card">
+        <h3>보류</h3>
+        <table>
+          <tr><th>항목</th><th>현재 결정</th></tr>
+          <tr><td>LB 포트 단위 제한</td><td>초기 구축 안정성을 위해 보류</td></tr>
+          <tr><td>DNS 포트 단위 ACL</td><td>DNS UDP/TCP 53 제한은 추후 보안 개선점으로 분리</td></tr>
+          <tr><td>라우터 ping 테스트</td><td>참고용. 최종 검증은 실제 VM 흐름 기준</td></tr>
+          <tr><td>Monitor inbound</td><td>차단 유지. Monitor는 Pull 방식</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
