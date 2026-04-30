@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "26. 4. 22 팀플/NFS 운영 매뉴얼(4.29.1).md",
-                "mode": "preview",
+                "file": "26. 4. 22 팀플/시크릿 관리와 WEB 침해 대응.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "NFS 운영 매뉴얼(4.29.1)"
+              "title": "시크릿 관리와 WEB 침해 대응"
             }
           }
         ],
@@ -93,8 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "701453cb909506ae",
@@ -244,8 +243,9 @@
   },
   "active": "9e3979dc02ebae70",
   "lastOpenFiles": [
-    "이중화.md",
     "26. 4. 22 팀플/NFS 운영 매뉴얼(4.29.1).md",
+    "26. 4. 22 팀플/시크릿 관리와 WEB 침해 대응.md",
+    "이중화.md",
     "옵시디언 활용 팁/콜아웃(Callout) 총정리.md",
     "기초 개념/암호화와 해시.md",
     "26. 4. 22 팀플/쉘 스크립트/web-nfs(4.29.1).sh",
@@ -289,7 +289,6 @@
     "네트워크관리사.md",
     "템플릿/오답노트 템플릿.md",
     "자바/자바.md",
-    "제미니.md",
     "무제.canvas"
   ]
 }
