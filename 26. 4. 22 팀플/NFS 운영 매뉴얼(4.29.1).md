@@ -185,10 +185,26 @@ cron도 1분마다 같은 sync script를 실행한다. 수동 sync가 되면 cro
 
 즉, WEB에서 파일을 삭제해도 반대편 NFS에는 같은 파일이 남아 있을 수 있다. 이 선택은 장애 직후 오래된 NFS가 VIP를 가져갔을 때 정상 파일을 반대편에서 지워버리는 사고를 막기 위한 것이다.
 
-삭제까지 자동으로 미러링해야 한다고 팀에서 결정한 경우에만 NFS1과 NFS2 양쪽에서 아래처럼 서버 스크립트를 다시 실행한다.
+삭제까지 자동으로 미러링해야 한다고 팀에서 결정한 경우에만 NFS1과 NFS2 양쪽에서 아래처럼 sync script 설정만 바꾼다.
 
+이 명령은 `nfs-ha(4.29.1).sh` 전체를 다시 실행하지 않는다. 이미 만들어진 `/usr/local/bin/nfs_ha_sync.sh` 안의 `DELETE_OPT=` 한 줄만 바꾼다.
+```
+켜기
+```
 ```bash
-SYNC_DELETE_OPT="--delete-delay" bash 'nfs-ha(4.29.1).sh'
+sudo cp -a /usr/local/bin/nfs_ha_sync.sh "/usr/local/bin/nfs_ha_sync.sh.bak-$(date +%Y%m%d-%H%M%S)"
+sudo sed -i 's/^DELETE_OPT=.*/DELETE_OPT="--delete-delay"/' /usr/local/bin/nfs_ha_sync.sh
+grep '^DELETE_OPT=' /usr/local/bin/nfs_ha_sync.sh
+```
+
+삭제 동기화를 다시 끄려면 NFS1과 NFS2 양쪽에서 아래처럼 실행한다.
+```
+끄기
+```
+```bash
+sudo cp -a /usr/local/bin/nfs_ha_sync.sh "/usr/local/bin/nfs_ha_sync.sh.bak-$(date +%Y%m%d-%H%M%S)"
+sudo sed -i 's/^DELETE_OPT=.*/DELETE_OPT=""/' /usr/local/bin/nfs_ha_sync.sh
+grep '^DELETE_OPT=' /usr/local/bin/nfs_ha_sync.sh
 ```
 
 삭제 동기화를 켜기 전에는 현재 VIP를 가진 NFS가 최신 원본인지 먼저 확인한다.
@@ -399,5 +415,5 @@ sudo ufw status verbose
 - split-brain은 스크립트만으로 완전히 막을 수 없다.
 - 같은 파일명을 WEB1/WEB2가 동시에 쓰면 충돌할 수 있다.
 - 업로드 중 장애가 나면 부분 파일이나 0바이트 파일이 남을 수 있다.
-- `SYNC_DELETE_OPT="--delete-delay"`를 켜면 삭제 파일도 미러링되지만, 잘못된 노드가 원본이 되면 반대편 파일을 지울 수 있다.
+- `/usr/local/bin/nfs_ha_sync.sh`에서 `DELETE_OPT="--delete-delay"`를 켜면 삭제 파일도 미러링되지만, 잘못된 노드가 원본이 되면 반대편 파일을 지울 수 있다.
 - `nopreempt` 때문에 NFS2가 VIP를 계속 들고 있어도 장애가 아니다.
