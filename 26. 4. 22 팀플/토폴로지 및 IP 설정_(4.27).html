@@ -298,8 +298,8 @@
 <body>
 <div class="canvas">
   <h1>3-PC GNS3 분산 토폴로지</h1>
-  <div class="subtitle">현재 라우터 스크립트 기준 최종 IP / NAT / ACL 의도</div>
-  <div class="transport-note">학원망 <code>192.168.33.x</code>는 UDP Tunnel 운반망이고, GNS3 내부 Transit LAN은 <code>1.2.123.0/24</code>이다.</div>
+  <div class="subtitle">현재 라우터/이중화 스크립트 기준 최종 IP / NAT / ACL 의도</div>
+  <div class="transport-note">학원망 <code>192.168.33.x</code>는 UDP Tunnel 운반망이고, GNS3 내부 Transit LAN은 <code>1.2.123.0/24</code>이다. A-C: <code>A 12357 ↔ C 54378</code>, B-C: <code>B 37898 ↔ C 15428</code>.</div>
 
   <svg class="links" viewBox="0 0 1920 1250" aria-hidden="true">
     <defs>
@@ -337,18 +337,18 @@
     <!-- UDP tunnels / Transit -->
     <path d="M540 420 L595 420 L595 292 L848 292" stroke="#135dc7" stroke-width="4" fill="none" stroke-dasharray="12 8" marker-start="url(#dot)" marker-end="url(#dot)"/>
     <path d="M1060 292 L1318 292 L1318 420 L1380 420" stroke="#135dc7" stroke-width="4" fill="none" stroke-dasharray="12 8" marker-start="url(#dot)" marker-end="url(#dot)"/>
-    <text x="620" y="258" fill="#135dc7" font-size="22" font-weight="900">UDP Tunnel (A-C)</text>
-    <text x="1120" y="258" fill="#135dc7" font-size="22" font-weight="900">UDP Tunnel (B-C)</text>
+    <text x="620" y="258" fill="#135dc7" font-size="22" font-weight="900">UDP Tunnel (A 12357 ↔ C 54378)</text>
+    <text x="1120" y="258" fill="#135dc7" font-size="22" font-weight="900">UDP Tunnel (B 37898 ↔ C 15428)</text>
   </svg>
 
   <div class="panel panel-a">
-    <div class="tag tag-a">A-PC<small>UDP endpoint 192.168.33.121</small></div>
+    <div class="tag tag-a">A-PC<small>UDP endpoint 192.168.33.121:12357</small></div>
   </div>
   <div class="panel panel-c">
-    <div class="tag tag-c">C-PC<small>UDP endpoint 192.168.33.122</small></div>
+    <div class="tag tag-c">C-PC<small>UDP endpoint 192.168.33.122:54378 / :15428</small></div>
   </div>
   <div class="panel panel-b">
-    <div class="tag tag-b">B-PC<small>UDP endpoint 192.168.33.123</small></div>
+    <div class="tag tag-b">B-PC<small>UDP endpoint 192.168.33.123:37898</small></div>
   </div>
 
   <!-- A devices -->
@@ -404,15 +404,17 @@
       <div>
         <div class="row"><b>LB1</b><span>192.168.2.1 / 1.2.2.1</span></div>
         <div class="row"><b>LB2</b><span>192.168.2.2 / 1.2.2.2</span></div>
-        <div class="row"><b>WEB1</b><span>192.168.2.3 / 1.2.2.3</span></div>
+        <div class="row"><b>LB VIP</b><span>192.168.2.10 / 1.2.2.10</span></div>
       </div>
       <div>
+        <div class="row"><b>WEB1</b><span>192.168.2.3 / 1.2.2.3</span></div>
         <div class="row"><b>WEB2</b><span>192.168.2.4 / 1.2.2.4</span></div>
+        <div class="row"><b>Cache</b><span>192.168.2.7 / 내부 전용</span></div>
+      </div>
+      <div>
         <div class="row"><b>NFS1</b><span>192.168.2.5 / 내부 전용</span></div>
         <div class="row"><b>NFS2</b><span>192.168.2.6 / 내부 전용</span></div>
-      </div>
-      <div>
-        <div class="row"><b>Cache</b><span>192.168.2.7 / 내부 전용</span></div>
+        <div class="row"><b>NFS VIP</b><span>192.168.2.50 / 내부 NFS VIP</span></div>
         <div class="row"><b>C-R GW</b><span>192.168.2.254</span></div>
         <div class="row"><b>정책</b><span>WEB 직접 접근 차단, Monitor 예외</span></div>
       </div>
@@ -444,13 +446,15 @@
   <div class="legend">
     <b>IP 구분</b><br>
     - <code>192.168.33.x</code>: 실제 학원망 PC IP, UDP Tunnel endpoint 용도<br>
+    - UDP 포트: A-C <code>12357 ↔ 54378</code>, B-C <code>37898 ↔ 15428</code><br>
     - <code>192.168.1/2/3.0</code>: GNS3 내부 각 Zone 사설 LAN<br>
-    - <code>1.2.1/2/3.0</code>: NAT로 보이는 서비스 공인 역할 IP 대역
+    - <code>1.2.1/2/3.0</code>: NAT로 보이는 서비스 공인 역할 IP 대역<br>
+    - VIP: LB <code>192.168.2.10</code>, NFS <code>192.168.2.50</code>
   </div>
 
   <div class="policy-card">
     <h3>ACL 정책 요약</h3>
-    일반 접근은 LB만 허용, WEB 직접 접근은 차단<br>
+    일반 접근은 LB VIP(<code>1.2.2.10</code>) 중심으로 허용, WEB 직접 접근은 차단<br>
     WEB -> DB/Log 허용, DB/Log 응답 허용<br>
     Monitor -> WEB1/WEB2 직접 점검 예외 허용
   </div>
