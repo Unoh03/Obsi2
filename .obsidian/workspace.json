@@ -244,6 +244,8 @@
   },
   "active": "9e3979dc02ebae70",
   "lastOpenFiles": [
+    "26. 4. 22 팀플/상세 IP NAT ACL 기준표_(4.30).html",
+    "26. 4. 22 팀플/토폴로지 및 IP 설정_(4.30).html",
     "26. 4. 22 팀플/NFS 운영 매뉴얼(4.29.1).md",
     "26. 4. 22 팀플/시크릿 관리와 WEB 침해 대응.md",
     "이중화.md",
@@ -258,7 +260,6 @@
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/member/MemberController.java",
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/member/KakaoService.java",
     "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/member/IMemberMapper.java",
-    "26. 4. 22 팀플/짭허브/zzaphub/src/main/java/com/care/boot/board/BoardService.java",
     "네트워크/CISCO.md",
     "리눅스(우분투)/우분투.md",
     "26. 4. 22 팀플/프로젝트 안내서.md",
@@ -289,7 +290,6 @@
     "HTML/자바.md",
     "네트워크관리사.md",
     "템플릿/오답노트 템플릿.md",
-    "자바/자바.md",
     "무제.canvas"
   ]
 }
