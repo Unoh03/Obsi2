@@ -122,6 +122,11 @@
     grid-template-columns: 1fr 1fr;
     gap: 14px;
   }
+  .zone-tables {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 14px;
+  }
   .card {
     border: 1px solid #cbd5e1;
     border-radius: 8px;
@@ -169,7 +174,7 @@
   @media (max-width: 1000px) {
     header { display: block; }
     .source { margin-top: 10px; text-align: left; }
-    .topology, .matrix { grid-template-columns: 1fr; }
+    .topology, .matrix, .zone-tables { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -223,7 +228,7 @@
             <div class="node internal"><span class="node-name">Cache</span><span class="ip">192.168.2.7</span><span class="ip">내부 전용</span></div>
             <div class="node router"><span class="node-name">C-R</span><span class="ip">GW 192.168.2.254</span><span class="ip">Transit 1.2.123.2</span></div>
           </div>
-          <div class="flow">C-PC UDP <code>192.168.33.122:54378</code> / <code>:15428</code></div>
+          <div class="flow">C-PC UDP <code>192.168.33.129:54378</code> / <code>:15428</code></div>
         </div>
       </div>
 
@@ -240,7 +245,7 @@
             <div class="node internal"><span class="node-name">Monitor</span><span class="ip">192.168.3.4</span><span class="ip">PAT 1.2.123.3</span></div>
             <div class="node router"><span class="node-name">B-R</span><span class="ip">GW 192.168.3.254</span><span class="ip">Transit 1.2.123.3</span></div>
           </div>
-          <div class="flow">B-PC UDP <code>192.168.33.123:37898</code></div>
+          <div class="flow">B-PC UDP <code>192.168.33.122:37898</code></div>
         </div>
       </div>
     </div>
@@ -255,8 +260,8 @@
         <tr><td>A-R</td><td><code>1.2.123.1</code></td></tr>
         <tr><td>C-R</td><td><code>1.2.123.2</code></td></tr>
         <tr><td>B-R</td><td><code>1.2.123.3</code></td></tr>
-        <tr><td>A-C Tunnel</td><td><code>192.168.33.121:12357</code> ↔ <code>192.168.33.122:54378</code></td></tr>
-        <tr><td>B-C Tunnel</td><td><code>192.168.33.123:37898</code> ↔ <code>192.168.33.122:15428</code></td></tr>
+        <tr><td>A-C Tunnel</td><td><code>192.168.33.121:12357</code> ↔ <code>192.168.33.129:54378</code></td></tr>
+        <tr><td>B-C Tunnel</td><td><code>192.168.33.122:37898</code> ↔ <code>192.168.33.129:15428</code></td></tr>
       </table>
     </div>
 
@@ -275,32 +280,45 @@
 
   <section>
     <h2>IP 매핑 표</h2>
-    <table>
-      <thead>
-        <tr><th>Zone</th><th>장비</th><th>사설 IP</th><th>NAT/PAT 또는 VIP</th><th>비고</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>A</td><td>Client</td><td><code>192.168.1.10~29</code></td><td><code>1.2.123.1</code> PAT</td><td>A-R DHCP</td></tr>
-        <tr><td>A</td><td>DNS1</td><td><code>192.168.1.2</code></td><td><code>1.2.1.2</code></td><td>Primary DNS</td></tr>
-        <tr><td>A</td><td>DNS2</td><td><code>192.168.1.3</code></td><td><code>1.2.1.3</code></td><td>Secondary DNS</td></tr>
-        <tr><td>A</td><td>A-R</td><td><code>192.168.1.254</code></td><td><code>1.2.123.1</code></td><td>Gateway / Transit</td></tr>
-        <tr><td>C</td><td>LB1</td><td><code>192.168.2.1</code></td><td><code>1.2.2.1</code></td><td>LB node</td></tr>
-        <tr><td>C</td><td>LB2</td><td><code>192.168.2.2</code></td><td><code>1.2.2.2</code></td><td>LB node</td></tr>
-        <tr><td>C</td><td>LB VIP</td><td><code>192.168.2.10</code></td><td><code>1.2.2.10</code></td><td>사용자 대표 진입점</td></tr>
-        <tr><td>C</td><td>WEB1</td><td><code>192.168.2.3</code></td><td><code>1.2.2.3</code></td><td>일반 직접 접근 차단</td></tr>
-        <tr><td>C</td><td>WEB2</td><td><code>192.168.2.4</code></td><td><code>1.2.2.4</code></td><td>일반 직접 접근 차단</td></tr>
-        <tr><td>C</td><td>NFS1</td><td><code>192.168.2.5</code></td><td>-</td><td>내부 전용</td></tr>
-        <tr><td>C</td><td>NFS2</td><td><code>192.168.2.6</code></td><td>-</td><td>내부 전용</td></tr>
-        <tr><td>C</td><td>NFS VIP</td><td><code>192.168.2.50</code></td><td>-</td><td>WEB mount source</td></tr>
-        <tr><td>C</td><td>Cache</td><td><code>192.168.2.7</code></td><td>-</td><td>내부 전용</td></tr>
-        <tr><td>C</td><td>C-R</td><td><code>192.168.2.254</code></td><td><code>1.2.123.2</code></td><td>Gateway / Transit</td></tr>
-        <tr><td>B</td><td>DB1</td><td><code>192.168.3.1</code></td><td><code>1.2.3.1</code></td><td>WEB 접근 허용</td></tr>
-        <tr><td>B</td><td>DB2</td><td><code>192.168.3.2</code></td><td><code>1.2.3.2</code></td><td>WEB 접근 허용</td></tr>
-        <tr><td>B</td><td>Log</td><td><code>192.168.3.3</code></td><td><code>1.2.3.3</code></td><td>WEB 접근 허용</td></tr>
-        <tr><td>B</td><td>Monitor</td><td><code>192.168.3.4</code></td><td><code>1.2.123.3</code> PAT</td><td>Pull 방식, inbound Static NAT 없음</td></tr>
-        <tr><td>B</td><td>B-R</td><td><code>192.168.3.254</code></td><td><code>1.2.123.3</code></td><td>Gateway / Transit</td></tr>
-      </tbody>
-    </table>
+    <div class="zone-tables">
+      <div class="card">
+        <h2>A Zone</h2>
+        <table>
+          <tr><th>장비</th><th>사설 IP</th><th>NAT/PAT</th><th>비고</th></tr>
+          <tr><td>Client</td><td><code>192.168.1.10~29</code></td><td><code>1.2.123.1</code> PAT</td><td>A-R DHCP</td></tr>
+          <tr><td>DNS1</td><td><code>192.168.1.2</code></td><td><code>1.2.1.2</code></td><td>Primary DNS</td></tr>
+          <tr><td>DNS2</td><td><code>192.168.1.3</code></td><td><code>1.2.1.3</code></td><td>Secondary DNS</td></tr>
+          <tr><td>A-R</td><td><code>192.168.1.254</code></td><td><code>1.2.123.1</code></td><td>Gateway / Transit</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2>C Zone</h2>
+        <table>
+          <tr><th>장비</th><th>사설 IP</th><th>NAT/VIP</th><th>비고</th></tr>
+          <tr><td>LB1</td><td><code>192.168.2.1</code></td><td><code>1.2.2.1</code></td><td>LB node</td></tr>
+          <tr><td>LB2</td><td><code>192.168.2.2</code></td><td><code>1.2.2.2</code></td><td>LB node</td></tr>
+          <tr><td>LB VIP</td><td><code>192.168.2.10</code></td><td><code>1.2.2.10</code></td><td>사용자 대표 진입점</td></tr>
+          <tr><td>WEB1</td><td><code>192.168.2.3</code></td><td><code>1.2.2.3</code></td><td>일반 직접 접근 차단</td></tr>
+          <tr><td>WEB2</td><td><code>192.168.2.4</code></td><td><code>1.2.2.4</code></td><td>일반 직접 접근 차단</td></tr>
+          <tr><td>NFS1</td><td><code>192.168.2.5</code></td><td>-</td><td>내부 전용</td></tr>
+          <tr><td>NFS2</td><td><code>192.168.2.6</code></td><td>-</td><td>내부 전용</td></tr>
+          <tr><td>NFS VIP</td><td><code>192.168.2.50</code></td><td>-</td><td>WEB mount source</td></tr>
+          <tr><td>Cache</td><td><code>192.168.2.7</code></td><td>-</td><td>내부 전용</td></tr>
+          <tr><td>C-R</td><td><code>192.168.2.254</code></td><td><code>1.2.123.2</code></td><td>Gateway / Transit</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h2>B Zone</h2>
+        <table>
+          <tr><th>장비</th><th>사설 IP</th><th>NAT/PAT</th><th>비고</th></tr>
+          <tr><td>DB1</td><td><code>192.168.3.1</code></td><td><code>1.2.3.1</code></td><td>WEB 접근 허용</td></tr>
+          <tr><td>DB2</td><td><code>192.168.3.2</code></td><td><code>1.2.3.2</code></td><td>WEB 접근 허용</td></tr>
+          <tr><td>Log</td><td><code>192.168.3.3</code></td><td><code>1.2.3.3</code></td><td>WEB 접근 허용</td></tr>
+          <tr><td>Monitor</td><td><code>192.168.3.4</code></td><td><code>1.2.123.3</code> PAT</td><td>Pull 방식</td></tr>
+          <tr><td>B-R</td><td><code>192.168.3.254</code></td><td><code>1.2.123.3</code></td><td>Gateway / Transit</td></tr>
+        </table>
+      </div>
+    </div>
   </section>
 
   <section class="matrix">
@@ -318,7 +336,7 @@
     <div class="card">
       <h2>주의 사항</h2>
       <div class="note warn">
-        <code>dns2.sh</code>는 slave zone을 <code>/var/cache/bind/db.zzaphub.com</code>으로 받도록 설정한다. 다만 같은 스크립트 안의 점검용 로컬 zone 템플릿에는 구버전 LB1 주소 <code>1.2.2.1</code>이 남아 있다. 서비스 A 레코드 기준은 <code>dns1.sh</code>의 <code>1.2.2.10</code>이다.
+        <code>dns2.sh</code>의 A 레코드는 현재 <code>dns1.sh</code>와 같이 <code>1.2.2.10</code>을 바라본다. 다만 slave zone의 실제 서비스 파일은 <code>/var/cache/bind/db.zzaphub.com</code>이고, 스크립트가 점검하는 파일은 <code>/etc/bind/db.zzaphub.com</code>이라 두 파일 기준이 달라질 수 있다.
       </div>
     </div>
   </section>
