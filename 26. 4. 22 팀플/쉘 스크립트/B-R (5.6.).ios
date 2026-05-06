@@ -94,7 +94,7 @@ ip route 1.2.2.0 255.255.255.0 1.2.123.2
 ! 적용 위치: f0/1 inbound
 !
 ! 정책:
-! - LB1/LB2/LB VIP/WEB1/WEB2 -> DB1/DB2/Log 넓게 허용
+! - C APP 공인 역할 대역 -> B DB/Log 역할 대역 넓게 허용
 ! - 초기 구축/관측성 안정화 단계라 포트 단위 제한보다 연결 안정성 우선
 ! - Monitor(192.168.3.4)는 Pull 방식
 ! - Monitor outbound 트래픽은 ACL 20 + PAT로 처리
@@ -109,22 +109,9 @@ ip route 1.2.2.0 255.255.255.0 1.2.123.2
 ! - 테스트 중 필요한 서비스가 막히면 permit 라인을 추가해야 함
 ! =====================================================
 ip access-list extended B_ZONE_IN
- remark === Allow C APP public nodes to B services for DB/log/monitoring stability ===
- permit ip host 1.2.2.1 host 1.2.3.1
- permit ip host 1.2.2.1 host 1.2.3.2
- permit ip host 1.2.2.1 host 1.2.3.3
- permit ip host 1.2.2.2 host 1.2.3.1
- permit ip host 1.2.2.2 host 1.2.3.2
- permit ip host 1.2.2.2 host 1.2.3.3
- permit ip host 1.2.2.10 host 1.2.3.1
- permit ip host 1.2.2.10 host 1.2.3.2
- permit ip host 1.2.2.10 host 1.2.3.3
- permit ip host 1.2.2.3 host 1.2.3.1
- permit ip host 1.2.2.3 host 1.2.3.2
- permit ip host 1.2.2.3 host 1.2.3.3
- permit ip host 1.2.2.4 host 1.2.3.1
- permit ip host 1.2.2.4 host 1.2.3.2
- permit ip host 1.2.2.4 host 1.2.3.3
+ remark === Allow C APP public range to B DB/Log range for monitoring stability ===
+ permit ip 1.2.2.0 0.0.0.7 1.2.3.0 0.0.0.3
+ permit ip host 1.2.2.10 1.2.3.0 0.0.0.3
  remark === Monitor is pull-based and internal-only for inbound access ===
  remark === No Static NAT for Monitor 192.168.3.4 ===
  remark === No inbound public access to Monitor ===
