@@ -19,6 +19,11 @@
 #   host, job_name, job label, __path__는 서버마다 다르므로 자동 추정하지 않는다.
 #   실행 중 사용자가 입력한 값으로 설정 파일을 만들고, 반영 전 미리 보여준다.
 
+sudo apt update
+sudo apt install -y prometheus-node-exporter
+sudo systemctl enable --now prometheus-node-exporter
+
+
 set -Eeuo pipefail
 IFS=$'\n\t'
 
