@@ -243,6 +243,7 @@
   },
   "active": "9e3979dc02ebae70",
   "lastOpenFiles": [
+    "26. 4. 22 팀플/쉘 스크립트/web-recover(5.6).sh",
     "26. 4. 22 팀플/Secrets Management.md",
     "26. 4. 22 팀플/쉘 스크립트/log-stack(5.6).sh",
     "26. 4. 22 팀플/시크릿 관리와 WEB 침해 대응.md",
@@ -288,7 +289,6 @@
     "기초 개념/HTML 보안 취약점 태그.md",
     "기초 개념/논리 연산자.md",
     "HTML/자바.md",
-    "네트워크관리사.md",
     "무제.canvas"
   ]
 }
