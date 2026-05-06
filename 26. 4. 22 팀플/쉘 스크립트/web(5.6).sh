@@ -15,7 +15,6 @@ IFS=$'\n\t'
 #
 # 필요한 파일:
 # - 이 스크립트와 같은 디렉터리에 boot.war 가 있어야 한다.
-# - 같은 디렉터리에 web-secure(4.30.1).sh 가 있으면 DB secret 분리를 맡긴다.
 # - 같은 디렉터리에 web-nfs(4.29.1).sh 가 있으면 NFS mount를 맡긴다.
 # - 같은 디렉터리에 promtail-client-auto(5.6).sh 가 있으면 WEB 로그 수집 설정을 맡긴다.
 #
@@ -44,16 +43,21 @@ SERVICE_NAME="${SERVICE_NAME:-tomcat.service}"
 APP_CONTEXT="${APP_CONTEXT:-boot}"
 
 WAR_SOURCE="${WAR_SOURCE:-${SCRIPT_DIR}/boot.war}"
-SECURE_SCRIPT="${SECURE_SCRIPT:-${SCRIPT_DIR}/web-secure(4.30.1).sh}"
 NFS_SCRIPT="${NFS_SCRIPT:-${SCRIPT_DIR}/web-nfs(4.29.1).sh}"
 PROMTAIL_SCRIPT="${PROMTAIL_SCRIPT:-${SCRIPT_DIR}/promtail-client-auto(5.6).sh}"
 
 ENV_FILE="${ENV_FILE:-/etc/zzaphub-db.env}"
+PROP_FILE="${PROP_FILE:-${TOMCAT_HOME}/webapps/${APP_CONTEXT}/WEB-INF/classes/application.properties}"
+WAR_FILE="${WAR_FILE:-${TOMCAT_HOME}/webapps/${APP_CONTEXT}.war}"
+DROPIN_DIR="${DROPIN_DIR:-/etc/systemd/system/${SERVICE_NAME}.d}"
+DROPIN_FILE="${DROPIN_FILE:-${DROPIN_DIR}/10-zzaphub-db-env.conf}"
 NFS_VIP="${NFS_VIP:-192.168.2.50}"
 MOUNT_DIR="${MOUNT_DIR:-${TOMCAT_HOME}/webapps/upload}"
 
 RUN_SECURE="${RUN_SECURE:-1}"
+UPDATE_WAR="${UPDATE_WAR:-1}"
 RUN_NFS="${RUN_NFS:-1}"
+NFS_REQUIRED="${NFS_REQUIRED:-0}"
 RUN_PROMTAIL="${RUN_PROMTAIL:-1}"
 PROMTAIL_REQUIRED="${PROMTAIL_REQUIRED:-0}"
 PROMTAIL_PRESET="${PROMTAIL_PRESET:-web}"
@@ -63,6 +67,10 @@ FORCE_REDEPLOY="${FORCE_REDEPLOY:-0}"
 
 BACKUP_ROOT="${BACKUP_ROOT:-/var/backups/zzaphub-web-integrated}"
 RUN_ID="$(date +%Y%m%d-%H%M%S)"
+
+EXPECTED_DB_URL='${DB_URL}'
+EXPECTED_DB_USER='${DB_USER}'
+EXPECTED_DB_PASSWORD='${DB_PASSWORD}'
 
 log() {
     echo "[INFO] $*"
@@ -117,6 +125,51 @@ contains_bad_env_chars() {
     [[ "${value}" == *$'\n'* ]] || [[ "${value}" == *"'"* ]]
 }
 
+get_property() {
+    local key="$1"
+    local file_path="$2"
+
+    awk -F= -v key="${key}" '
+        {
+            lhs=$1
+            gsub(/^[ \t]+|[ \t]+$/, "", lhs)
+            if (lhs == key) {
+                sub(/^[^=]*=/, "")
+                sub(/\r$/, "")
+                print
+                exit
+            }
+        }
+    ' "${file_path}"
+}
+
+is_placeholder() {
+    case "$1" in
+        '${DB_URL}'|'${DB_USER}'|'${DB_PASSWORD}')
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+quote_env_value() {
+    local value="$1"
+
+    if contains_bad_env_chars "${value}"; then
+        die "환경파일 값에 작은따옴표 또는 줄바꿈이 있습니다. ${ENV_FILE} 을 직접 작성하세요."
+    fi
+
+    printf "'%s'" "${value}"
+}
+
+env_has_var() {
+    local key="$1"
+
+    [ -f "${ENV_FILE}" ] && grep -Eq "^[[:space:]]*${key}=" "${ENV_FILE}"
+}
+
 env_file_has_all_db_vars() {
     [ -f "${ENV_FILE}" ] &&
     grep -Eq '^[[:space:]]*DB_URL=' "${ENV_FILE}" &&
@@ -124,7 +177,29 @@ env_file_has_all_db_vars() {
     grep -Eq '^[[:space:]]*DB_PASSWORD=' "${ENV_FILE}"
 }
 
+append_env_var_if_missing() {
+    local env_key="$1"
+    local env_value="$2"
+
+    if env_has_var "${env_key}"; then
+        log "${ENV_FILE} 에 ${env_key} 가 이미 있습니다. 값은 출력하지 않습니다."
+        return 0
+    fi
+
+    if [ -z "${env_value}" ] || is_placeholder "${env_value}"; then
+        return 1
+    fi
+
+    printf '%s=%s\n' "${env_key}" "$(quote_env_value "${env_value}")" >> "${ENV_FILE}"
+    log "${ENV_FILE} 에 ${env_key} 를 저장했습니다. 값은 출력하지 않습니다."
+}
+
 ensure_secret_env_file() {
+    local db_url="${DB_URL:-}"
+    local db_user="${DB_USER:-}"
+    local db_password="${DB_PASSWORD:-}"
+    local missing=0
+
     if env_file_has_all_db_vars; then
         log "${ENV_FILE} 가 이미 준비되어 있습니다. secret 값은 출력하지 않습니다."
         chmod 600 "${ENV_FILE}" || true
@@ -132,12 +207,10 @@ ensure_secret_env_file() {
         return 0
     fi
 
-    if [ -z "${DB_URL:-}" ] || [ -z "${DB_USER:-}" ] || [ -z "${DB_PASSWORD:-}" ]; then
-        die "${ENV_FILE} 이 없거나 DB_URL/DB_USER/DB_PASSWORD 가 부족합니다. 환경변수로 넘기거나 ${ENV_FILE} 을 먼저 작성하세요."
-    fi
-
-    if contains_bad_env_chars "${DB_URL}" || contains_bad_env_chars "${DB_USER}" || contains_bad_env_chars "${DB_PASSWORD}"; then
-        die "DB_URL/DB_USER/DB_PASSWORD 에 작은따옴표 또는 줄바꿈이 있습니다. ${ENV_FILE} 을 직접 작성하세요."
+    if [ -f "${PROP_FILE}" ]; then
+        db_url="${db_url:-$(get_property "spring.datasource.url" "${PROP_FILE}")}"
+        db_user="${db_user:-$(get_property "spring.datasource.username" "${PROP_FILE}")}"
+        db_password="${db_password:-$(get_property "spring.datasource.password" "${PROP_FILE}")}"
     fi
 
     install -d -m 755 -o root -g root "$(dirname "${ENV_FILE}")"
@@ -146,17 +219,170 @@ ensure_secret_env_file() {
         log "기존 env 파일 백업: $(backup_file_or_dir "${ENV_FILE}")"
     fi
 
-    cat > "${ENV_FILE}" <<EOF
+    if [ ! -f "${ENV_FILE}" ]; then
+        cat > "${ENV_FILE}" <<EOF
 # zzaphub DB connection secrets
 # 이 파일은 Git에 올리지 않는다.
-DB_URL='${DB_URL}'
-DB_USER='${DB_USER}'
-DB_PASSWORD='${DB_PASSWORD}'
 EOF
+    fi
+
+    append_env_var_if_missing "DB_URL" "${db_url}" || missing=1
+    append_env_var_if_missing "DB_USER" "${db_user}" || missing=1
+    append_env_var_if_missing "DB_PASSWORD" "${db_password}" || missing=1
+
     chmod 600 "${ENV_FILE}"
     chown root:root "${ENV_FILE}" 2>/dev/null || true
 
+    if [ "${missing}" -ne 0 ]; then
+        die "${ENV_FILE} 에 DB_URL, DB_USER, DB_PASSWORD 를 채울 수 없습니다. 환경변수로 넘기거나 파일을 직접 작성하세요."
+    fi
+
     log "${ENV_FILE} 을 생성했습니다. secret 값은 출력하지 않습니다."
+}
+
+set_property() {
+    local key="$1"
+    local value="$2"
+    local file_path="$3"
+    local tmp_file
+
+    tmp_file="$(mktemp)"
+
+    awk -F= -v key="${key}" -v value="${value}" '
+        BEGIN { done = 0 }
+        {
+            lhs=$1
+            gsub(/^[ \t]+|[ \t]+$/, "", lhs)
+
+            if (lhs == key) {
+                if (done == 0) {
+                    print key "=" value
+                    done = 1
+                }
+                next
+            }
+
+            print
+        }
+        END {
+            if (done == 0) {
+                print key "=" value
+            }
+        }
+    ' "${file_path}" > "${tmp_file}"
+
+    cat "${tmp_file}" > "${file_path}"
+    rm -f "${tmp_file}"
+}
+
+properties_already_secure() {
+    [ "$(get_property "spring.datasource.url" "${PROP_FILE}")" = "${EXPECTED_DB_URL}" ] &&
+    [ "$(get_property "spring.datasource.username" "${PROP_FILE}")" = "${EXPECTED_DB_USER}" ] &&
+    [ "$(get_property "spring.datasource.password" "${PROP_FILE}")" = "${EXPECTED_DB_PASSWORD}" ]
+}
+
+secure_application_properties() {
+    if properties_already_secure; then
+        log "application.properties 는 이미 환경변수 placeholder 를 사용합니다."
+        return 0
+    fi
+
+    log "application.properties 백업: $(backup_file_or_dir "${PROP_FILE}")"
+
+    set_property "spring.datasource.url" "${EXPECTED_DB_URL}" "${PROP_FILE}"
+    set_property "spring.datasource.username" "${EXPECTED_DB_USER}" "${PROP_FILE}"
+    set_property "spring.datasource.password" "${EXPECTED_DB_PASSWORD}" "${PROP_FILE}"
+
+    log "application.properties 의 DB 접속정보를 환경변수 placeholder 로 변경했습니다."
+}
+
+write_systemd_dropin() {
+    install -d -m 755 -o root -g root "${DROPIN_DIR}"
+
+    if [ -f "${DROPIN_FILE}" ] && grep -Fq "EnvironmentFile=${ENV_FILE}" "${DROPIN_FILE}"; then
+        log "systemd drop-in 이 이미 ${ENV_FILE} 을 참조합니다."
+        return 0
+    fi
+
+    if [ -f "${DROPIN_FILE}" ]; then
+        log "기존 systemd drop-in 백업: $(backup_file_or_dir "${DROPIN_FILE}")"
+    fi
+
+    cat > "${DROPIN_FILE}" <<EOF
+[Service]
+EnvironmentFile=${ENV_FILE}
+EOF
+    chmod 644 "${DROPIN_FILE}"
+
+    log "Tomcat systemd drop-in 작성: ${DROPIN_FILE}"
+}
+
+cleanup_tmp_dir() {
+    local tmp_dir="$1"
+
+    case "${tmp_dir}" in
+        /tmp/*|/var/tmp/*)
+            rm -rf -- "${tmp_dir}"
+            ;;
+        *)
+            warn "임시 디렉터리 경로가 예상 밖이라 삭제하지 않습니다: ${tmp_dir}"
+            ;;
+    esac
+}
+
+update_war_if_present() {
+    local tmp_dir
+
+    if [ "${UPDATE_WAR}" != "1" ]; then
+        warn "UPDATE_WAR=0 이므로 boot.war 내부 properties 갱신을 건너뜁니다."
+        return 0
+    fi
+
+    if [ ! -f "${WAR_FILE}" ]; then
+        warn "${WAR_FILE} 이 없습니다. 배포된 폴더만 수정했습니다."
+        return 0
+    fi
+
+    if ! command -v jar >/dev/null 2>&1; then
+        warn "jar 명령을 찾을 수 없어 ${WAR_FILE} 갱신을 건너뜁니다."
+        return 0
+    fi
+
+    log "boot.war 백업: $(backup_file_or_dir "${WAR_FILE}")"
+
+    tmp_dir="$(mktemp -d)"
+    mkdir -p "${tmp_dir}/WEB-INF/classes"
+    cp "${PROP_FILE}" "${tmp_dir}/WEB-INF/classes/application.properties"
+
+    (
+        cd "${tmp_dir}"
+        jar uf "${WAR_FILE}" WEB-INF/classes/application.properties
+    )
+
+    cleanup_tmp_dir "${tmp_dir}"
+    log "boot.war 내부 application.properties 도 placeholder 버전으로 갱신했습니다."
+}
+
+restart_tomcat_after_secure_patch() {
+    systemctl daemon-reload
+    systemctl restart "${SERVICE_NAME}"
+    log "Tomcat 재시작 완료: ${SERVICE_NAME}"
+}
+
+verify_secure_patch() {
+    local failed=0
+
+    [ "$(get_property "spring.datasource.url" "${PROP_FILE}")" = "${EXPECTED_DB_URL}" ] || failed=1
+    [ "$(get_property "spring.datasource.username" "${PROP_FILE}")" = "${EXPECTED_DB_USER}" ] || failed=1
+    [ "$(get_property "spring.datasource.password" "${PROP_FILE}")" = "${EXPECTED_DB_PASSWORD}" ] || failed=1
+    env_file_has_all_db_vars || failed=1
+    [ -f "${DROPIN_FILE}" ] && grep -Fq "EnvironmentFile=${ENV_FILE}" "${DROPIN_FILE}" || failed=1
+
+    if [ "${failed}" -ne 0 ]; then
+        die "DB secret 내장 통합 검증 실패"
+    fi
+
+    log "DB secret 분리 검증 완료"
 }
 
 install_packages() {
@@ -287,16 +513,13 @@ run_secure_patch() {
         return 0
     fi
 
-    [ -f "${SECURE_SCRIPT}" ] || die "web-secure 스크립트를 찾을 수 없습니다: ${SECURE_SCRIPT}"
-
+    [ -f "${PROP_FILE}" ] || die "${PROP_FILE} 을 찾을 수 없습니다. Tomcat이 boot.war 를 아직 풀지 않았거나 APP_CONTEXT/TOMCAT_HOME 이 다릅니다."
     ensure_secret_env_file
-
-    log "DB 접속정보 하드코딩 제거 스크립트를 실행합니다."
-    ENV_FILE="${ENV_FILE}" \
-    SERVICE_NAME="${SERVICE_NAME}" \
-    TOMCAT_HOME="${TOMCAT_HOME}" \
-    APP_CONTEXT="${APP_CONTEXT}" \
-    bash "${SECURE_SCRIPT}"
+    secure_application_properties
+    write_systemd_dropin
+    update_war_if_present
+    restart_tomcat_after_secure_patch
+    verify_secure_patch
 }
 
 run_nfs_mount() {
@@ -305,7 +528,15 @@ run_nfs_mount() {
         return 0
     fi
 
-    [ -f "${NFS_SCRIPT}" ] || die "web-nfs 스크립트를 찾을 수 없습니다: ${NFS_SCRIPT}"
+    if [ ! -f "${NFS_SCRIPT}" ]; then
+        if [ "${NFS_REQUIRED}" = "1" ]; then
+            die "web-nfs 스크립트를 찾을 수 없습니다: ${NFS_SCRIPT}"
+        fi
+
+        warn "web-nfs 스크립트를 찾을 수 없어 NFS mount를 건너뜁니다: ${NFS_SCRIPT}"
+        warn "NFS mount까지 필수로 보려면 web-nfs(4.29.1).sh를 같은 위치에 두거나 NFS_REQUIRED=1로 실행하세요."
+        return 0
+    fi
 
     log "NFS VIP upload mount 스크립트를 실행합니다."
     NFS_VERSION="${NFS_VERSION:-4}" bash "${NFS_SCRIPT}" "${NFS_VIP}"
