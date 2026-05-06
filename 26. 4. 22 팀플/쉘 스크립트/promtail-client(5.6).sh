@@ -394,6 +394,8 @@ start_service() {
 post_check() {
     echo
     echo "=== 설치 후 확인 ==="
+    echo "[INFO] 내부망 케이블을 다시 연결하고 엔터를 누르세요..."
+    read -r -p "준비되면 엔터: "
     check_loki_connection
 
     echo
