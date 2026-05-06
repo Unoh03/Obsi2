@@ -3,14 +3,14 @@ set -Eeuo pipefail
 IFS=$'\n\t'
 
 # =====================================================
-# WEB 복구/재구축 스크립트 (5.6)
+# WEB 통합 설치/재구축 스크립트 (5.6)
 #
 # 목적:
-# - WEB1/WEB2 장애 또는 신규 WEB3 투입 시, 새 WEB 서버를 빠르게 서비스 가능한 상태로 만든다.
+# - WEB1/WEB2 최초 구축 또는 신규 WEB3 투입 시, WEB 서버를 빠르게 서비스 가능한 상태로 만든다.
 # - Tomcat 설치, boot.war 배포, DB secret 분리, NFS upload mount, 기본 검증을 한 번에 수행한다.
 #
 # 실행 위치:
-# - 새로 만든 WEB 서버 또는 복구할 WEB 서버 안에서 실행한다.
+# - 새로 만든 WEB 서버 또는 재구축할 WEB 서버 안에서 실행한다.
 # - LB 서버, NFS 서버, DB 서버에서 실행하지 않는다.
 #
 # 필요한 파일:
@@ -19,15 +19,15 @@ IFS=$'\n\t'
 # - 같은 디렉터리에 web-nfs(4.29.1).sh 가 있으면 NFS mount를 맡긴다.
 #
 # 실행 예시:
-#   sudo DB_URL='jdbc:mariadb://1.2.3.1:3306/care' DB_USER='web' DB_PASSWORD='값은직접입력' bash 'web-recover(5.6).sh'
+#   sudo DB_URL='jdbc:mariadb://1.2.3.1:3306/care' DB_USER='web' DB_PASSWORD='값은직접입력' bash 'web(5.6).sh'
 #
 # 이미 /etc/zzaphub-db.env 가 준비되어 있다면:
-#   sudo bash 'web-recover(5.6).sh'
+#   sudo bash 'web(5.6).sh'
 #
 # 중요한 한계:
 # - 이 스크립트는 AWS Auto Scaling처럼 VM을 새로 생성하지 않는다.
 # - 새 서버 생성, IP 할당, LB upstream 변경은 사람이 하거나 별도 자동화가 해야 한다.
-# - 이 스크립트의 목표는 "새 WEB 서버 안의 세팅을 재현 가능하게 만드는 것"이다.
+# - 이 스크립트의 목표는 "WEB 서버 안의 표준 세팅을 재현 가능하게 만드는 것"이다.
 # =====================================================
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -53,7 +53,7 @@ RUN_NFS="${RUN_NFS:-1}"
 ALLOW_UFW="${ALLOW_UFW:-1}"
 FORCE_REDEPLOY="${FORCE_REDEPLOY:-0}"
 
-BACKUP_ROOT="${BACKUP_ROOT:-/var/backups/zzaphub-web-recover}"
+BACKUP_ROOT="${BACKUP_ROOT:-/var/backups/zzaphub-web-integrated}"
 RUN_ID="$(date +%Y%m%d-%H%M%S)"
 
 log() {
@@ -322,7 +322,7 @@ open_firewall_if_requested() {
 verify_web() {
     local local_ip
 
-    log "WEB 복구 결과를 검증합니다."
+    log "WEB 통합 설치/재구축 결과를 검증합니다."
     systemctl is-active --quiet "${SERVICE_NAME}" || die "${SERVICE_NAME} 이 active 상태가 아닙니다."
 
     if command -v ss >/dev/null 2>&1; then
@@ -336,7 +336,7 @@ verify_web() {
 
     local_ip="$(ip -o -4 addr show | awk '$4 ~ /^192\.168\.2\./ {print $4; exit}' | cut -d/ -f1 || true)"
 
-    echo "[SUCCESS] WEB 복구/재구축 스크립트가 끝났습니다."
+    echo "[SUCCESS] WEB 통합 설치/재구축 스크립트가 끝났습니다."
     echo "[INFO] 이 서버의 C Zone IP: ${local_ip:-unknown}"
     echo "[INFO] 확인 명령:"
     echo "       systemctl status ${SERVICE_NAME} --no-pager"
@@ -352,7 +352,7 @@ verify_web() {
 main() {
     require_root
 
-    log "WEB 복구/재구축 시작"
+    log "WEB 통합 설치/재구축 시작"
     log "SCRIPT_DIR=${SCRIPT_DIR}"
     log "WAR_SOURCE=${WAR_SOURCE}"
     log "TOMCAT_HOME=${TOMCAT_HOME}"
@@ -372,4 +372,3 @@ main() {
 }
 
 main "$@"
-

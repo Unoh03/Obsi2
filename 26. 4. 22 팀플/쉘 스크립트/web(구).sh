@@ -1,4 +1,6 @@
 #!/bin/bash
+# 구버전 WEB 설치 스크립트.
+# 현재 표준 통합본은 web(5.6).sh를 사용한다.
 echo "[INFO] Tomcat 웹 서버 세팅을 시작합니다..."
 
 sudo apt update
@@ -58,7 +60,7 @@ while ! sudo test -f "$PROP_FILE"; do
     sleep 1
     WAIT_TIME=$((WAIT_TIME + 1))
     echo "압축 해제 대기 중... (${WAIT_TIME}초 경과)"
-    
+
     if [ $WAIT_TIME -ge 30 ]; then
         echo "[ERROR] 30초가 지났지만 파일이 생성되지 않았습니다. 수동 확인 요망!"
         exit 1
