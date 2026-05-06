@@ -17,6 +17,7 @@ IFS=$'\n\t'
 # - 이 스크립트와 같은 디렉터리에 boot.war 가 있어야 한다.
 # - 같은 디렉터리에 web-secure(4.30.1).sh 가 있으면 DB secret 분리를 맡긴다.
 # - 같은 디렉터리에 web-nfs(4.29.1).sh 가 있으면 NFS mount를 맡긴다.
+# - 같은 디렉터리에 promtail-client-auto(5.6).sh 가 있으면 WEB 로그 수집 설정을 맡긴다.
 #
 # 실행 예시:
 #   sudo DB_URL='jdbc:mariadb://1.2.3.1:3306/care' DB_USER='web' DB_PASSWORD='값은직접입력' bash 'web(5.6).sh'
@@ -45,6 +46,7 @@ APP_CONTEXT="${APP_CONTEXT:-boot}"
 WAR_SOURCE="${WAR_SOURCE:-${SCRIPT_DIR}/boot.war}"
 SECURE_SCRIPT="${SECURE_SCRIPT:-${SCRIPT_DIR}/web-secure(4.30.1).sh}"
 NFS_SCRIPT="${NFS_SCRIPT:-${SCRIPT_DIR}/web-nfs(4.29.1).sh}"
+PROMTAIL_SCRIPT="${PROMTAIL_SCRIPT:-${SCRIPT_DIR}/promtail-client-auto(5.6).sh}"
 
 ENV_FILE="${ENV_FILE:-/etc/zzaphub-db.env}"
 NFS_VIP="${NFS_VIP:-192.168.2.50}"
@@ -52,6 +54,10 @@ MOUNT_DIR="${MOUNT_DIR:-${TOMCAT_HOME}/webapps/upload}"
 
 RUN_SECURE="${RUN_SECURE:-1}"
 RUN_NFS="${RUN_NFS:-1}"
+RUN_PROMTAIL="${RUN_PROMTAIL:-1}"
+PROMTAIL_REQUIRED="${PROMTAIL_REQUIRED:-0}"
+PROMTAIL_PRESET="${PROMTAIL_PRESET:-web}"
+PROMTAIL_HOST_LABEL="${PROMTAIL_HOST_LABEL:-}"
 ALLOW_UFW="${ALLOW_UFW:-1}"
 FORCE_REDEPLOY="${FORCE_REDEPLOY:-0}"
 
@@ -309,6 +315,40 @@ run_nfs_mount() {
     fi
 }
 
+run_promtail_client() {
+    if [ "${RUN_PROMTAIL}" != "1" ]; then
+        warn "RUN_PROMTAIL=0 이므로 Promtail 로그 수집 설정을 건너뜁니다."
+        return 0
+    fi
+
+    if [ ! -f "${PROMTAIL_SCRIPT}" ]; then
+        if [ "${PROMTAIL_REQUIRED}" = "1" ]; then
+            die "Promtail 자동 설정 스크립트를 찾을 수 없습니다: ${PROMTAIL_SCRIPT}"
+        fi
+
+        warn "Promtail 자동 설정 스크립트를 찾을 수 없어 건너뜁니다: ${PROMTAIL_SCRIPT}"
+        return 0
+    fi
+
+    log "Promtail WEB preset 설정을 실행합니다."
+
+    if PROMTAIL_PRESET="${PROMTAIL_PRESET}" \
+        HOST_LABEL="${PROMTAIL_HOST_LABEL}" \
+        ROLE_LABEL="web" \
+        TOMCAT_HOME="${TOMCAT_HOME}" \
+        LOKI_PUSH_URL="${LOKI_PUSH_URL:-http://1.2.3.3:3100/loki/api/v1/push}" \
+        bash "${PROMTAIL_SCRIPT}"; then
+        log "Promtail WEB preset 설정이 끝났습니다."
+        return 0
+    fi
+
+    if [ "${PROMTAIL_REQUIRED}" = "1" ]; then
+        die "Promtail WEB preset 설정 실패"
+    fi
+
+    warn "Promtail WEB preset 설정 실패. WEB 서비스 자체는 계속 검증합니다."
+}
+
 open_firewall_if_requested() {
     if [ "${ALLOW_UFW}" != "1" ]; then
         warn "ALLOW_UFW=0 이므로 UFW 8080/tcp 허용을 건너뜁니다."
@@ -362,6 +402,7 @@ main() {
     log "TOMCAT_HOME=${TOMCAT_HOME}"
     log "ENV_FILE=${ENV_FILE}"
     log "NFS_VIP=${NFS_VIP}"
+    log "RUN_PROMTAIL=${RUN_PROMTAIL}, PROMTAIL_PRESET=${PROMTAIL_PRESET}"
 
     install_packages
     ensure_tomcat_user
@@ -371,6 +412,7 @@ main() {
     wait_for_app_properties
     run_secure_patch
     run_nfs_mount
+    run_promtail_client
     open_firewall_if_requested
     verify_web
 }
