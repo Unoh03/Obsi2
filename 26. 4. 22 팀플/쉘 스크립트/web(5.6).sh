@@ -15,7 +15,7 @@ IFS=$'\n\t'
 #
 # 필요한 파일:
 # - 이 스크립트와 같은 디렉터리에 boot.war 가 있어야 한다.
-# - 같은 디렉터리에 web-nfs(4.29.1).sh 가 있으면 NFS mount를 맡긴다.
+# - 같은 디렉터리에 web-nfs(5.6).sh 가 있으면 NFS mount를 맡긴다.
 # - 같은 디렉터리에 promtail-client-auto(5.6).sh 가 있으면 WEB 로그 수집 설정을 맡긴다.
 #
 # 실행 예시:
@@ -43,7 +43,7 @@ SERVICE_NAME="${SERVICE_NAME:-tomcat.service}"
 APP_CONTEXT="${APP_CONTEXT:-boot}"
 
 WAR_SOURCE="${WAR_SOURCE:-${SCRIPT_DIR}/boot.war}"
-NFS_SCRIPT="${NFS_SCRIPT:-${SCRIPT_DIR}/web-nfs(4.29.1).sh}"
+NFS_SCRIPT="${NFS_SCRIPT:-${SCRIPT_DIR}/web-nfs(5.6).sh}"
 PROMTAIL_SCRIPT="${PROMTAIL_SCRIPT:-${SCRIPT_DIR}/promtail-client-auto(5.6).sh}"
 
 ENV_FILE="${ENV_FILE:-/etc/zzaphub-db.env}"
@@ -534,7 +534,7 @@ run_nfs_mount() {
         fi
 
         warn "web-nfs 스크립트를 찾을 수 없어 NFS mount를 건너뜁니다: ${NFS_SCRIPT}"
-        warn "NFS mount까지 필수로 보려면 web-nfs(4.29.1).sh를 같은 위치에 두거나 NFS_REQUIRED=1로 실행하세요."
+        warn "NFS mount까지 필수로 보려면 web-nfs(5.6).sh를 같은 위치에 두거나 NFS_REQUIRED=1로 실행하세요."
         return 0
     fi
 

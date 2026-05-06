@@ -9,8 +9,8 @@
 - NFS VIP: `192.168.2.50`
 - NFS 공유 디렉터리: `/share_directory`
 - WEB mount 위치: `/opt/tomcat/tomcat-10/webapps/upload`
-- 서버 스크립트: `nfs-ha(4.29.1).sh`
-- WEB 스크립트: `web-nfs(4.29.1).sh`
+- 서버 스크립트: `nfs-ha(5.6).sh`
+- WEB 스크립트: `web-nfs(5.6).sh`
 
 NFS 서버는 `keepalived`로 VIP를 옮긴다. WEB 서버는 NFS1/NFS2의 실제 IP가 아니라 VIP인 `192.168.2.50`만 mount한다.
 
@@ -46,8 +46,8 @@ sudo -u nfs2 ssh-copy-id nfs1@192.168.2.5
 
 - NFS1/NFS2/WEB1/WEB2에 각각 접속할 수 있어야 한다.
 - 각 서버에서 `sudo`를 사용할 수 있어야 한다.
-- `nfs-ha(4.29.1).sh`는 NFS1/NFS2에 있어야 한다.
-- `web-nfs(4.29.1).sh`는 WEB1/WEB2에 있어야 한다.
+- `nfs-ha(5.6).sh`는 NFS1/NFS2에 있어야 한다.
+- `web-nfs(5.6).sh`는 WEB1/WEB2에 있어야 한다.
 
 시간 동기화도 먼저 맞춘다. WEB/NFS1/NFS2 로그 시간이 다르면 파일 생성 시각, rsync 로그, 장애조치 시각을 비교하기 어렵다.
 
@@ -90,7 +90,7 @@ NFS1 서버에서 실행한다.
 
 ```bash
 cd '스크립트가 있는 디렉터리'
-bash 'nfs-ha(4.29.1).sh'
+bash 'nfs-ha(5.6).sh'
 ```
 
 정상적으로 끝나면 다음을 확인한다.
@@ -112,7 +112,7 @@ NFS2 서버에서 실행한다.
 
 ```bash
 cd '스크립트가 있는 디렉터리'
-bash 'nfs-ha(4.29.1).sh'
+bash 'nfs-ha(5.6).sh'
 ```
 
 정상적으로 끝나면 다음을 확인한다.
@@ -172,7 +172,7 @@ WEB1과 WEB2 각각에서 실행한다.
 
 ```bash
 cd '스크립트가 있는 디렉터리'
-bash 'web-nfs(4.29.1).sh'
+bash 'web-nfs(5.6).sh'
 ```
 
 이 스크립트는 다음 일을 한다.
@@ -237,7 +237,7 @@ cron도 1분마다 같은 sync script를 실행한다. 수동 sync가 되면 cro
 
 삭제까지 자동으로 미러링해야 한다고 팀에서 결정한 경우에만 NFS1과 NFS2 양쪽에서 아래처럼 sync script 설정만 바꾼다.
 
-이 명령은 `nfs-ha(4.29.1).sh` 전체를 다시 실행하지 않는다. 이미 만들어진 `/usr/local/bin/nfs_ha_sync.sh` 안의 `DELETE_OPT=` 한 줄만 바꾼다.
+이 명령은 `nfs-ha(5.6).sh` 전체를 다시 실행하지 않는다. 이미 만들어진 `/usr/local/bin/nfs_ha_sync.sh` 안의 `DELETE_OPT=` 한 줄만 바꾼다.
 ```
 켜기
 ```

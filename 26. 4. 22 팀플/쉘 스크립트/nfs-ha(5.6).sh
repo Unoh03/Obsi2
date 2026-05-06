@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # =====================================================
-# Charlie C Zone NFS HA 서버 설정 스크립트 (4.29.1)
+# Charlie C Zone NFS HA 서버 설정 스크립트 (5.6)
 #
 # 이 스크립트의 목적:
 # - NFS1/NFS2 두 서버에 같은 NFS 서버 구성을 만든다.
@@ -56,11 +56,11 @@ set -euo pipefail
 # - keepalived는 nopreempt를 사용하므로 장애 복구 후 원래 노드가 VIP를 자동으로 다시 가져가지 않는다.
 #
 # 일반 실행:
-#   bash 'nfs-ha(4.29.1).sh'
+#   bash 'nfs-ha(5.6).sh'
 #
 # 역할을 수동 지정해야 할 때:
-#   IFACE=ens37 bash 'nfs-ha(4.29.1).sh' MASTER
-#   IFACE=ens37 bash 'nfs-ha(4.29.1).sh' BACKUP
+#   IFACE=ens37 bash 'nfs-ha(5.6).sh' MASTER
+#   IFACE=ens37 bash 'nfs-ha(5.6).sh' BACKUP
 # =====================================================
 
 # 두 NFS 서버의 실제 IP다. 이 IP로 현재 서버가 NFS1인지 NFS2인지 판별한다.
@@ -128,7 +128,7 @@ fi
 
 if [ -z "$IFACE" ]; then
     echo "[ERROR] Could not find an interface with a 192.168.2.0/24 address."
-    echo "        Example: IFACE=ens37 bash 'nfs-ha(4.29.1).sh' MASTER"
+    echo "        Example: IFACE=ens37 bash 'nfs-ha(5.6).sh' MASTER"
     exit 1
 fi
 

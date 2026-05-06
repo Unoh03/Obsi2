@@ -67,7 +67,7 @@
 </head>
 <body>
 <h1>2조 상세 IP NAT ACL 기준표</h1>
-<p class="small">기준: 현재 <code>A-R.ios</code>, <code>B-R.ios</code>, 최신 <code>C-R(4.28.1).ios</code>, <code>LB.sh</code>, <code>dns1.sh</code>, <code>dns2.sh</code>, <code>nfs-ha(4.29.1).sh</code>, <code>web-nfs(4.29.1).sh</code>. 이 문서는 실제 설정 담당자가 IP, NAT, 정적 라우트, ACL 의도를 확인하는 상세 기준표다.</p>
+<p class="small">기준: 현재 <code>A-R.ios</code>, <code>B-R.ios</code>, 최신 <code>C-R(4.28.1).ios</code>, <code>LB.sh</code>, <code>dns1.sh</code>, <code>dns2.sh</code>, <code>nfs-ha(5.6).sh</code>, <code>web-nfs(5.6).sh</code>. 이 문서는 실제 설정 담당자가 IP, NAT, 정적 라우트, ACL 의도를 확인하는 상세 기준표다.</p>
 
 <div class="note">
 <strong>문서 역할:</strong> 한눈에 보는 그림은 <code>최종 토폴로지 및 IP 설정.html</code>을 사용한다. 이 문서는 VM별 IP/Gateway/DNS, NAT 매핑, 라우터별 설정, ACL 정책, 검증 기준을 확인하는 작업 기준표다.
@@ -177,7 +177,7 @@ VIP:
 <tr><td>C</td><td>WEB2</td><td><code>192.168.2.4/24</code></td><td><code>192.168.2.254</code></td><td><code>192.168.1.2</code>, <code>192.168.1.3</code></td><td><code>1.2.2.4</code></td><td>DB/Log 통신 및 Monitor 예외용 NAT</td></tr>
 <tr><td>C</td><td>NFS1</td><td><code>192.168.2.5/24</code></td><td><code>192.168.2.254</code></td><td><code>192.168.1.2</code>, <code>192.168.1.3</code></td><td>-</td><td>내부 전용</td></tr>
 <tr><td>C</td><td>NFS2</td><td><code>192.168.2.6/24</code></td><td><code>192.168.2.254</code></td><td><code>192.168.1.2</code>, <code>192.168.1.3</code></td><td>-</td><td>내부 전용</td></tr>
-<tr><td>C</td><td>NFS VIP</td><td><code>192.168.2.50/24</code></td><td>-</td><td>-</td><td>-</td><td><code>nfs-ha(4.29.1).sh</code> keepalived VIP, WEB mount source</td></tr>
+<tr><td>C</td><td>NFS VIP</td><td><code>192.168.2.50/24</code></td><td>-</td><td>-</td><td>-</td><td><code>nfs-ha(5.6).sh</code> keepalived VIP, WEB mount source</td></tr>
 <tr><td>C</td><td>Cache</td><td><code>192.168.2.7/24</code></td><td><code>192.168.2.254</code></td><td><code>192.168.1.2</code>, <code>192.168.1.3</code></td><td>-</td><td>Redis Cache</td></tr>
 <tr><td>B</td><td>DB1</td><td><code>192.168.3.1/24</code></td><td><code>192.168.3.254</code></td><td><code>192.168.1.2</code>, <code>192.168.1.3</code></td><td><code>1.2.3.1</code></td><td>WEB1/WEB2 접근 허용</td></tr>
 <tr><td>B</td><td>DB2</td><td><code>192.168.3.2/24</code></td><td><code>192.168.3.254</code></td><td><code>192.168.1.2</code>, <code>192.168.1.3</code></td><td><code>1.2.3.2</code></td><td>WEB1/WEB2 접근 허용</td></tr>
@@ -225,7 +225,7 @@ VIP:
 <table class="section-c">
 <tr><th>구분</th><th>VIP</th><th>외부에서 보는 IP</th><th>소유 노드</th><th>근거</th><th>용도</th></tr>
 <tr><td>LB VIP</td><td><code>192.168.2.10</code></td><td><code>1.2.2.10</code></td><td>LB1 또는 LB2</td><td><code>LB.sh</code>, <code>C-R(4.28.1).ios</code></td><td>일반 사용자 HTTP 진입점</td></tr>
-<tr><td>NFS VIP</td><td><code>192.168.2.50</code></td><td>-</td><td>NFS1 또는 NFS2</td><td><code>nfs-ha(4.29.1).sh</code>, <code>web-nfs(4.29.1).sh</code></td><td>WEB upload mount source</td></tr>
+<tr><td>NFS VIP</td><td><code>192.168.2.50</code></td><td>-</td><td>NFS1 또는 NFS2</td><td><code>nfs-ha(5.6).sh</code>, <code>web-nfs(5.6).sh</code></td><td>WEB upload mount source</td></tr>
 </table>
 
 <h2>B-PC / DATA-MGMT</h2>
