@@ -110,12 +110,20 @@ ip access-list extended B_ZONE_IN
  permit ip host 1.2.2.3 host 1.2.3.2
  permit ip host 1.2.2.4 host 1.2.3.2
  remark === DNS/LB/WEB to Log server ===
- permit ip 1.2.1.2 0.0.0.1 host 1.2.3.3
- permit ip 1.2.2.0 0.0.0.7 host 1.2.3.3
+ permit ip host 1.2.1.2 host 1.2.3.3
+ permit ip host 1.2.1.3 host 1.2.3.3
+ permit ip host 1.2.2.1 host 1.2.3.3
+ permit ip host 1.2.2.2 host 1.2.3.3
+ permit ip host 1.2.2.3 host 1.2.3.3
+ permit ip host 1.2.2.4 host 1.2.3.3
  permit ip host 1.2.2.10 host 1.2.3.3
  remark === DNS/LB/WEB responses to Monitor PAT ===
- permit ip 1.2.1.2 0.0.0.1 host 1.2.123.3
- permit ip 1.2.2.0 0.0.0.7 host 1.2.123.3
+ permit ip host 1.2.1.2 host 1.2.123.3
+ permit ip host 1.2.1.3 host 1.2.123.3
+ permit ip host 1.2.2.1 host 1.2.123.3
+ permit ip host 1.2.2.2 host 1.2.123.3
+ permit ip host 1.2.2.3 host 1.2.123.3
+ permit ip host 1.2.2.4 host 1.2.123.3
  permit ip host 1.2.2.10 host 1.2.123.3
  remark === Allow basic router transit ping test ===
  permit icmp host 1.2.123.1 host 1.2.123.3
