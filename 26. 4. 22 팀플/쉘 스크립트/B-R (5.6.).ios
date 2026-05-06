@@ -1,0 +1,169 @@
+! =====================================================
+! B-R.ios
+! 2조 / B-PC / DATA-MGMT 라우터 설정
+!
+! 기준 토폴로지:
+! - f0/0 = B DATA/MGMT LAN / DB, Log, Monitor 쪽
+! - f0/1 = Transit-SW 쪽
+!
+! B DATA/MGMT LAN:
+! - 사설망: 192.168.3.0/24
+! - B-R Gateway: 192.168.3.254/24
+!
+! Transit LAN:
+! - 1.2.123.0/24
+! - B-R Transit: 1.2.123.3/24
+!
+! NAT:
+! - f0/0 = ip nat inside
+! - f0/1 = ip nat outside
+! - DB1: 192.168.3.1 -> 1.2.3.1 Static NAT
+! - DB2: 192.168.3.2 -> 1.2.3.2 Static NAT
+! - Log: 192.168.3.3 -> 1.2.3.3 Static NAT
+! - Monitor: 192.168.3.4 is Pull 방식 / inbound Static NAT 없음
+! - Monitor outbound Pull: 192.168.3.4 -> 1.2.123.3 PAT
+!
+! ACL:
+! - Transit 쪽에서 B 공인 역할 IP(1.2.3.0/24)로 들어오는 접근 제한
+! - WEB1(1.2.2.3), WEB2(1.2.2.4)만 DB1/DB2/Log 접근 허용
+! - Monitor는 Pull 방식이므로 외부 inbound 접근 허용 없음
+! - 그 외 B 공인 역할 IP 접근 차단
+! =====================================================
+
+enable
+terminal history size 256
+configure terminal
+
+! =====================================================
+! 1. 기본 설정
+! =====================================================
+hostname B-R
+no ip domain-lookup
+
+enable secret '
+username asd secret '
+
+line console 0
+ login local
+ logging synchronous
+exit
+
+! =====================================================
+! 2. 인터페이스 설정
+! =====================================================
+interface fastethernet 0/0
+ description B_DATA_MGMT_LAN_DB_LOG_MONITOR
+ ip address 192.168.3.254 255.255.255.0
+ ip nat inside
+ no shutdown
+exit
+
+interface fastethernet 0/1
+ description TO_TRANSIT_SW
+ ip address 1.2.123.3 255.255.255.0
+ ip nat outside
+ no shutdown
+exit
+
+! =====================================================
+! 3. Static NAT - DATA/MGMT 서비스
+! Monitor는 Pull 방식이므로 inbound Static NAT를 만들지 않음
+! =====================================================
+ip nat inside source static 192.168.3.1 1.2.3.1
+ip nat inside source static 192.168.3.2 1.2.3.2
+ip nat inside source static 192.168.3.3 1.2.3.3
+
+! =====================================================
+! 4. PAT - Monitor Pull 수집용 outbound NAT
+! Monitor가 WEB/외부 공인 역할 IP를 Pull 수집할 때 사용
+! 192.168.3.4 -> B-R f0/1 주소 1.2.123.3으로 PAT
+! =====================================================
+access-list 20 permit host 192.168.3.4
+ip nat inside source list 20 interface fastethernet 0/1 overload
+
+! =====================================================
+! 5. 정적 라우트
+! A-PC EDGE/DNS 공인 역할망: 1.2.1.0/24 -> A-R
+! C-PC APP 공인 역할망:      1.2.2.0/24 -> C-R
+! =====================================================
+ip route 1.2.1.0 255.255.255.0 1.2.123.1
+ip route 1.2.2.0 255.255.255.0 1.2.123.2
+
+! =====================================================
+! 6. ACL - B 영역 접근 제어
+! 적용 위치: f0/1 inbound
+!
+! 정책:
+! - LB1/LB2/LB VIP/WEB1/WEB2 -> DB1/DB2/Log 넓게 허용
+! - 초기 구축/관측성 안정화 단계라 포트 단위 제한보다 연결 안정성 우선
+! - Monitor(192.168.3.4)는 Pull 방식
+! - Monitor outbound 트래픽은 ACL 20 + PAT로 처리
+! - Monitor 공인 IP 1.2.3.4는 만들지 않음
+! - Monitor로 들어오는 inbound permit도 만들지 않음
+! - Transit 라우터 IP로의 ICMP는 테스트 편의를 위해 허용
+! - 그 외 1.2.3.0/24 접근은 차단
+! - 나머지 트래픽은 통과
+!
+! 주의:
+! - 이 ACL은 상태 기반 방화벽이 아님
+! - 테스트 중 필요한 서비스가 막히면 permit 라인을 추가해야 함
+! =====================================================
+ip access-list extended B_ZONE_IN
+ remark === Allow C APP public nodes to B services for DB/log/monitoring stability ===
+ permit ip host 1.2.2.1 host 1.2.3.1
+ permit ip host 1.2.2.1 host 1.2.3.2
+ permit ip host 1.2.2.1 host 1.2.3.3
+ permit ip host 1.2.2.2 host 1.2.3.1
+ permit ip host 1.2.2.2 host 1.2.3.2
+ permit ip host 1.2.2.2 host 1.2.3.3
+ permit ip host 1.2.2.10 host 1.2.3.1
+ permit ip host 1.2.2.10 host 1.2.3.2
+ permit ip host 1.2.2.10 host 1.2.3.3
+ permit ip host 1.2.2.3 host 1.2.3.1
+ permit ip host 1.2.2.3 host 1.2.3.2
+ permit ip host 1.2.2.3 host 1.2.3.3
+ permit ip host 1.2.2.4 host 1.2.3.1
+ permit ip host 1.2.2.4 host 1.2.3.2
+ permit ip host 1.2.2.4 host 1.2.3.3
+ remark === Monitor is pull-based and internal-only for inbound access ===
+ remark === No Static NAT for Monitor 192.168.3.4 ===
+ remark === No inbound public access to Monitor ===
+ remark === Allow basic router transit ping test ===
+ permit icmp host 1.2.123.1 host 1.2.123.3
+ permit icmp host 1.2.123.2 host 1.2.123.3
+ remark === Deny direct access to B public service range ===
+ deny ip any 1.2.3.0 0.0.0.255 log
+ remark === Permit other traffic ===
+ permit ip any any
+exit
+
+interface fastethernet 0/1
+ ip access-group B_ZONE_IN in
+exit
+
+! =====================================================
+! 7. 저장
+! =====================================================
+end
+copy running-config startup-config
+
+! =====================================================
+! 8. 확인 명령어
+! 아래 명령은 설정 후 사람이 직접 실행해서 확인
+! =====================================================
+show ip interface brief
+show ip route
+show running-config | include ip nat
+show access-lists
+show ip nat translations
+show ip nat statistics
+show access-lists B_ZONE_IN
+
+! =====================================================
+! 9. 기본 Ping 테스트
+! A-R, C-R 설정 후 실행
+! =====================================================
+ping 1.2.123.1
+ping 1.2.123.2
+ping 1.2.1.3
+ping 1.2.2.1
