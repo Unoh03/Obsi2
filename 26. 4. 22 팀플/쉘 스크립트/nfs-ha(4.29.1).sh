@@ -10,6 +10,21 @@ set -euo pipefail
 # - WEB 서버는 NFS1/NFS2 실제 IP가 아니라 VIP만 mount하게 만든다.
 # - VIP를 가진 NFS 서버가 원본 역할을 하고, rsync로 반대편 NFS에 파일을 복제한다.
 #
+# 처음 읽는 사람을 위한 큰 흐름:
+# 1. 현재 서버가 NFS1인지 NFS2인지 IP로 판별한다.
+# 2. NFS 서버 패키지, keepalived, rsync, SSH, cron을 설치한다.
+# 3. /share_directory를 NFS export로 공개한다.
+# 4. keepalived가 감시할 NFS health check 스크립트를 만든다.
+# 5. VIP를 가진 서버만 peer 서버로 rsync하는 동기화 스크립트를 만든다.
+# 6. cron이 1분마다 동기화 스크립트를 실행하게 등록한다.
+# 7. keepalived가 VIP를 붙이고, 현재 VIP 소유자만 원본 NFS처럼 동작한다.
+#
+# 핵심 개념:
+# - WEB 서버는 항상 192.168.2.50:/share_directory만 mount한다.
+# - 실제 VIP 소유자는 NFS1일 수도 있고 NFS2일 수도 있다.
+# - VIP 소유자만 rsync 원본이 된다.
+# - BACKUP 노드에서도 cron은 실행되지만, 스크립트 첫 부분에서 VIP가 없으면 바로 종료한다.
+#
 # 고정 구성:
 # - NFS1: 192.168.2.5
 # - NFS2: 192.168.2.6
@@ -80,6 +95,11 @@ LOCK_FILE="/tmp/nfs-ha-sync.lock"
 # 기본값은 삭제 동기화 OFF다.
 # 값이 비어 있으면 rsync가 삭제를 전파하지 않는다.
 # SYNC_DELETE_OPT="--delete-delay"를 주면 삭제도 peer로 전파한다.
+# 삭제 동기화를 기본으로 끄는 이유:
+# - 장애 직전 NFS1에만 최신 파일이 생겼는데 NFS2로 아직 복제되지 않았을 수 있다.
+# - 그 상태에서 NFS2가 VIP를 가져가면 NFS2는 자기 상태를 최신 원본으로 착각할 수 있다.
+# - 이후 삭제 동기화가 켜진 상태로 NFS1에 rsync하면 NFS1에만 있던 최신 파일이 지워질 수 있다.
+# - 그래서 삭제는 자동화보다 사람이 양쪽 파일 상태를 확인한 뒤 수동으로 켜는 쪽이 안전하다.
 DELETE_OPT="${SYNC_DELETE_OPT:-}"
 
 # 공유 디렉터리 파일시스템 사용률이 이 값 이상이면 경고를 출력한다.
@@ -159,12 +179,15 @@ esac
 ensure_local_sync_user() {
     # rsync는 root가 아니라 nfs1/nfs2 전용 계정으로 실행한다.
     # 계정이 이미 있으면 아무것도 하지 않는다.
+    # root로 rsync를 바로 돌리면 편하기는 하지만, SSH key와 파일 복제 권한이 너무 커진다.
+    # 그래서 실습 편의와 최소 권한 사이의 타협점으로 nfs1/nfs2 전용 계정을 쓴다.
     if id "$LOCAL_SYNC_USER" >/dev/null 2>&1; then
         return
     fi
 
     # 편의 우선 모드라서 계정이 없으면 자동으로 만든다.
     # 단, 상대 서버에 public key를 등록하는 ssh-copy-id는 사람이 직접 해야 한다.
+    # ssh-copy-id는 상대 서버 비밀번호 입력이 필요할 수 있으므로 완전 자동화하지 않는다.
     echo "[INFO] Local sync user '${LOCAL_SYNC_USER}' does not exist. Creating it for convenience mode."
     sudo useradd -m -s /bin/bash "$LOCAL_SYNC_USER"
 }
@@ -285,6 +308,10 @@ sudo chmod 666 "$SYNC_LOG"
 
 # 실제 자동 동기화 스크립트를 /usr/local/bin/nfs_ha_sync.sh에 생성한다.
 # 이 파일은 cron에서 1분마다 실행된다.
+# 주의:
+# - 여기서 만드는 파일은 이 설치 스크립트와 별개의 "운영 중 실행되는 스크립트"다.
+# - 아래 EOF 안의 값들은 설치 시점의 VIP, IFACE, peer IP를 박아서 저장한다.
+# - 나중에 IP나 계정이 바뀌면 이 설치 스크립트를 다시 돌리거나 해당 파일을 직접 수정해야 한다.
 sudo tee "$SYNC_SCRIPT" > /dev/null << EOF
 #!/bin/bash
 set -u
@@ -326,6 +353,8 @@ fi
 # rsync -rltv는 파일/디렉터리/시간 정보를 복제한다.
 # --no-owner --no-group --no-perms는 상대 서버에서 소유자/권한 충돌을 줄이기 위한 편의 우선 설정이다.
 # DELETE_OPT는 기본 빈 값이므로 삭제 동기화가 꺼져 있다.
+# 이 rsync는 "현재 VIP 소유 NFS -> peer NFS" 한 방향이다.
+# 양방향 실시간 충돌 해결 도구가 아니므로, 양쪽에서 동시에 다른 파일을 수정하는 구조에는 맞지 않는다.
 if ! flock -n "\$LOCK_FILE" rsync -rltv \$DELETE_OPT --no-owner --no-group --no-perms --omit-dir-times \\
     "\${SHARE_DIR}/" "\${PEER}:\${SHARE_DIR}/" >> "\$SYNC_LOG" 2>&1; then
     log "warn: sync failed or previous sync is still running"
@@ -401,6 +430,9 @@ echo "[STEP 8/9] Writing keepalived configuration."
 # keepalived 설정 파일을 새로 작성한다.
 # state는 일부러 BACKUP으로 고정한다.
 # 실제 MASTER/BACKUP 결정은 priority와 VRRP 선출로 처리한다.
+# 이렇게 하면 설정 파일의 state 글자보다 priority와 현재 상태가 더 중요해진다.
+# NFS1은 기본 priority 150, NFS2는 기본 priority 100이므로 정상 시작 시 NFS1이 VIP 후보가 된다.
+# 단, nopreempt가 있으므로 장애 후 복구된 NFS1이 VIP를 자동으로 다시 빼앗지는 않는다.
 sudo tee /etc/keepalived/keepalived.conf > /dev/null << EOF
 global_defs {
     router_id NFS_${ROLE}
@@ -455,6 +487,8 @@ sudo systemctl restart cron || true
 # 2049/tcp: NFSv4 기본 포트
 # 22/tcp: ssh-copy-id와 rsync over SSH
 # 224.0.0.18: keepalived VRRP multicast
+# UFW가 inactive라면 규칙을 추가해도 즉시 필터링되지는 않는다.
+# 그래도 나중에 UFW를 enable했을 때 필요한 흐름이 막히지 않도록 미리 등록한다.
 sudo ufw allow 2049/tcp || true
 sudo ufw allow 22/tcp || true
 sudo ufw allow in on "$IFACE" from "$EXPORT_NET" to 224.0.0.18 comment 'keepalived multicast' || true
@@ -533,3 +567,10 @@ echo "[INFO] Split-brain suspicion checks:"
 echo "       ip a | grep ${VIP}"
 echo "       journalctl -u keepalived -n 80 --no-pager"
 echo "       ping -c 3 ${PEER_IP}"
+
+# 운영자가 기억해야 할 마지막 요약:
+# - WEB은 NFS VIP만 mount한다.
+# - VIP를 가진 NFS만 peer로 rsync한다.
+# - 자동 delete sync는 기본 OFF다.
+# - SSH key 등록 전에는 NFS mount는 가능해도 NFS1/NFS2 자동 복제는 준비되지 않은 상태다.
+# - 이 구조는 실습용 편의 HA이며, 무손실 스토리지 클러스터가 아니다.

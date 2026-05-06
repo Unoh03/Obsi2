@@ -94,33 +94,38 @@ ip route 1.2.2.0 255.255.255.0 1.2.123.2
 ! 적용 위치: f0/1 inbound
 !
 ! 정책:
-! - C APP 공인 역할 대역 -> B DB/Log 역할 대역 넓게 허용
-! - 초기 구축/관측성 안정화 단계라 포트 단위 제한보다 연결 안정성 우선
-! - Monitor(192.168.3.4)는 Pull 방식
-! - Monitor outbound 트래픽은 ACL 20 + PAT로 처리
-! - Monitor 공인 IP 1.2.3.4는 만들지 않음
-! - Monitor로 들어오는 inbound permit도 만들지 않음
-! - Transit 라우터 IP로의 ICMP는 테스트 편의를 위해 허용
-! - 그 외 1.2.3.0/24 접근은 차단
-! - 나머지 트래픽은 통과
+! - DB1/DB2는 WEB1/WEB2와만 통신 허용
+! - Log는 DNS, LB, WEB 계열 외부 통신 서버와 통신 허용
+! - Monitor는 Static NAT 없이 PAT(1.2.123.3) 응답 경로만 허용
+! - 그 외 B 공인 역할 IP 접근은 차단
 !
 ! 주의:
 ! - 이 ACL은 상태 기반 방화벽이 아님
-! - 테스트 중 필요한 서비스가 막히면 permit 라인을 추가해야 함
+! - 1.2.123.3은 B-R outside IP이자 Monitor PAT 주소
 ! =====================================================
 ip access-list extended B_ZONE_IN
- remark === Allow C APP public range to B DB/Log range for monitoring stability ===
- permit ip 1.2.2.0 0.0.0.7 1.2.3.0 0.0.0.3
- permit ip host 1.2.2.10 1.2.3.0 0.0.0.3
- remark === Monitor is pull-based and internal-only for inbound access ===
- remark === No Static NAT for Monitor 192.168.3.4 ===
- remark === No inbound public access to Monitor ===
+ remark === WEB to DB only ===
+ permit ip host 1.2.2.3 host 1.2.3.1
+ permit ip host 1.2.2.4 host 1.2.3.1
+ permit ip host 1.2.2.3 host 1.2.3.2
+ permit ip host 1.2.2.4 host 1.2.3.2
+ remark === DNS/LB/WEB to Log server ===
+ permit ip 1.2.1.2 0.0.0.1 host 1.2.3.3
+ permit ip 1.2.2.0 0.0.0.7 host 1.2.3.3
+ permit ip host 1.2.2.10 host 1.2.3.3
+ remark === DNS/LB/WEB responses to Monitor PAT ===
+ permit ip 1.2.1.2 0.0.0.1 host 1.2.123.3
+ permit ip 1.2.2.0 0.0.0.7 host 1.2.123.3
+ permit ip host 1.2.2.10 host 1.2.123.3
  remark === Allow basic router transit ping test ===
  permit icmp host 1.2.123.1 host 1.2.123.3
  permit icmp host 1.2.123.2 host 1.2.123.3
- remark === Deny direct access to B public service range ===
- deny ip any 1.2.3.0 0.0.0.255 log
- remark === Permit other traffic ===
+ remark === Block other direct access to B public endpoints ===
+ deny ip any host 1.2.3.1 log
+ deny ip any host 1.2.3.2 log
+ deny ip any host 1.2.3.3 log
+ deny ip any host 1.2.123.3 log
+ remark === Permit unrelated transit traffic ===
  permit ip any any
 exit
 

@@ -10,6 +10,21 @@ set -euo pipefail
 # - 기존 로컬 upload 파일이 있으면 NFS mount 전에 백업한다.
 # - 잘못된 NFS 서버나 중복 mount가 있으면 멈춰서 데이터 사고를 막는다.
 #
+# 처음 읽는 사람을 위한 큰 흐름:
+# 1. WEB 서버에 NFS client 도구를 설치한다.
+# 2. Tomcat upload 디렉터리를 mount point로 준비한다.
+# 3. 이미 mount되어 있으면 VIP에서 온 정상 mount인지 확인한다.
+# 4. 잘못된 source나 중복 mount가 있으면 자동 수정하지 않고 중단한다.
+# 5. mount 전 로컬 upload 파일이 있으면 백업한다.
+# 6. /etc/fstab에는 NFS1/NFS2 실제 IP가 아니라 NFS VIP만 등록한다.
+# 7. 즉시 mount를 수행하고 결과가 VIP source인지 다시 확인한다.
+#
+# 핵심 개념:
+# - 이 스크립트는 WEB 서버용이다. NFS 서버에서 실행하면 안 된다.
+# - WEB 서버는 파일 서버 장애조치 여부를 몰라도 된다.
+# - WEB 서버 입장에서는 항상 192.168.2.50:/share_directory가 upload 저장소다.
+# - NFS1/NFS2 사이 복제는 이 스크립트가 아니라 nfs-ha(4.29.1).sh가 담당한다.
+#
 # 고정 구성:
 # - NFS VIP: 192.168.2.50
 # - 원격 NFS 공유: /share_directory
@@ -53,6 +68,10 @@ EXPECTED_SOURCE="${NFS_VIP}:${REMOTE_SHARE}"
 # vers/proto: NFSv4/TCP를 사용해서 포트와 방화벽 구성을 단순하게 만든다.
 # hard: NFS 서버가 잠깐 응답하지 않아도 쓰기 요청을 쉽게 포기하지 않는다.
 # x-systemd.*: 부팅/종료 중 NFS 때문에 오래 멈추는 상황을 줄인다.
+# 운영상 의미:
+# - hard mount는 데이터 일관성에는 유리하지만, NFS가 오래 죽으면 애플리케이션이 기다릴 수 있다.
+# - nofail과 x-systemd timeout은 서버 부팅/종료가 NFS 때문에 완전히 멈추는 위험을 줄인다.
+# - timeo/retrans는 장애를 너무 늦게 감지하지 않도록 조정한 실습용 값이다.
 FSTAB_OPTIONS="defaults,_netdev,nofail,vers=${NFS_VERSION},proto=tcp,hard,timeo=50,retrans=2,x-systemd.automount,x-systemd.idle-timeout=30s,x-systemd.device-timeout=5s,x-systemd.mount-timeout=10s"
 
 # 지금 즉시 mount/remount할 때 사용할 런타임 옵션이다.
@@ -114,6 +133,8 @@ print_mount_debug() {
 register_fstab() {
     # /etc/fstab에 NFS VIP mount 규칙을 등록한다.
     # 같은 mount point에 대한 기존 줄은 먼저 제거해서 중복 mount를 막는다.
+    # 여기서 제거 기준은 mount point다.
+    # 예전 설정이 192.168.2.5 또는 192.168.2.6 실제 IP를 보고 있었다면 그 줄도 제거된다.
     echo "[INFO] Registering NFS VIP mount in /etc/fstab."
     sudo sed -i "\|[[:space:]]${MOUNT_DIR}[[:space:]]|d" /etc/fstab
     echo "$FSTAB_LINE" | sudo tee -a /etc/fstab > /dev/null
@@ -174,6 +195,8 @@ if is_mounted; then
     if is_expected_source "$CURRENT_SOURCE"; then
         # 이미 VIP로 정상 mount되어 있으면 새로 mount하지 않는다.
         # 대신 fstab을 현재 정책으로 갱신하고 remount를 시도한다.
+        # 이 분기 덕분에 스크립트를 재실행해도 정상 mount를 억지로 끊지 않는다.
+        # 운영 중 upload가 사용 중일 수 있으므로 불필요한 umount는 피한다.
         echo "[INFO] ${MOUNT_DIR} is already mounted from ${CURRENT_SOURCE}."
         register_fstab
         remount_current_mount
@@ -200,6 +223,8 @@ BACKUP_DIR=""
 if sudo find "$MOUNT_DIR" -mindepth 1 -print -quit | grep -q .; then
     # NFS를 mount하면 기존 로컬 디렉터리 내용은 화면에서 가려진다.
     # 그래서 mount 전에 /opt/tomcat/upload-local-backup-날짜 형태로 백업한다.
+    # 이 백업은 "삭제"가 아니라 "보존"이다.
+    # mount 후 같은 이름의 파일이 NFS에 이미 있으면 덮어쓰지 않도록 나중에 cp -n으로 복사한다.
     BACKUP_DIR="${BACKUP_BASE}/upload-local-backup-$(date +%Y%m%d-%H%M%S)"
     echo "[INFO] Existing local files found. Backing up to ${BACKUP_DIR}."
     sudo mkdir -p "$BACKUP_DIR"
@@ -232,6 +257,9 @@ else
 fi
 
 # timeout을 둬서 NFS 서버 문제로 mount 명령이 오래 멈추는 것을 줄인다.
+# mount -a만 쓰지 않는 이유:
+# - fstab이 틀렸을 때 어느 줄에서 실패했는지 초보자가 보기 어렵다.
+# - 직접 source와 mount point를 지정하면 실패 원인을 바로 좁힐 수 있다.
 if timeout 20s sudo mount -v -t nfs -o "$RUNTIME_OPTIONS" "$EXPECTED_SOURCE" "$MOUNT_DIR"; then
     echo "[INFO] Direct NFS mount command completed."
 else
@@ -298,3 +326,9 @@ echo "       sudo systemctl stop tomcat"
 echo "       sudo umount ${MOUNT_DIR}"
 echo "       sudo mount ${MOUNT_DIR}"
 echo "       sudo systemctl start tomcat"
+
+# 운영자가 기억해야 할 마지막 요약:
+# - WEB은 NFS1/NFS2 실제 IP가 아니라 NFS VIP만 바라봐야 한다.
+# - 이미 다른 source로 mount되어 있으면 자동으로 고치지 말고 중단한다.
+# - 로컬 upload 파일은 mount 전에 백업하고, NFS에는 같은 이름을 덮어쓰지 않는다.
+# - stale file handle은 NFS failover 후 발생할 수 있으므로 findmnt/lsof/umount/mount 순서로 확인한다.

@@ -87,21 +87,39 @@ ip route 1.2.1.0 255.255.255.0 1.2.123.1
 ip route 1.2.3.0 255.255.255.0 1.2.123.3
 ! =====================================================
 ! 6. ACL - C 영역 접근 제어
-! A-R에서 C-R로 직접 접근 차단
+! - 일반 사용자는 LB HTTP로만 진입
+! - DB1/DB2는 WEB1/WEB2와만 통신 허용
+! - Log와 Monitor는 LB/WEB 계열 외부 통신 서버와 통신 허용
+! - 그 외 WEB 직접 접근은 차단
 ! =====================================================
 ip access-list extended C_ZONE_IN
- remark === Allow public access to LB only ===
+ remark === Public HTTP access to LB only ===
  permit tcp any host 1.2.2.10 eq 80
  permit tcp any host 1.2.2.1 eq 80
  permit tcp any host 1.2.2.2 eq 80
- remark === Allow B DB/Log range to respond to C APP public range ===
- permit ip 1.2.3.0 0.0.0.3 1.2.2.0 0.0.0.7
- permit ip 1.2.3.0 0.0.0.3 host 1.2.2.10
- remark === Allow Monitor to check C LB/WEB public range directly ===
- permit ip host 1.2.123.3 1.2.2.0 0.0.0.7
+ remark === DB to WEB only ===
+ permit ip host 1.2.3.1 host 1.2.2.3
+ permit ip host 1.2.3.2 host 1.2.2.3
+ permit ip host 1.2.3.1 host 1.2.2.4
+ permit ip host 1.2.3.2 host 1.2.2.4
+ remark === Block DB access to other C APP endpoints ===
+ deny ip host 1.2.3.1 1.2.2.0 0.0.0.255 log
+ deny ip host 1.2.3.2 1.2.2.0 0.0.0.255 log
+ remark === Log and Monitor to LB/WEB public endpoints ===
+ permit ip host 1.2.3.3 host 1.2.2.1
+ permit ip host 1.2.3.3 host 1.2.2.2
+ permit ip host 1.2.3.3 host 1.2.2.3
+ permit ip host 1.2.3.3 host 1.2.2.4
+ permit ip host 1.2.3.3 host 1.2.2.10
+ permit ip host 1.2.123.3 host 1.2.2.1
+ permit ip host 1.2.123.3 host 1.2.2.2
+ permit ip host 1.2.123.3 host 1.2.2.3
+ permit ip host 1.2.123.3 host 1.2.2.4
  permit ip host 1.2.123.3 host 1.2.2.10
+ remark === Block other direct WEB access ===
  deny ip any host 1.2.2.3 log
  deny ip any host 1.2.2.4 log
+ remark === Permit unrelated transit traffic ===
  permit ip any any
 exit
 
