@@ -33,6 +33,8 @@ IFS=$'\n\t'
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 TOMCAT_VER="${TOMCAT_VER:-10.1.54}"
+TOMCAT_BASE_URL="${TOMCAT_BASE_URL:-https://downloads.apache.org/tomcat/tomcat-10}"
+TOMCAT_DOWNLOAD_URL="${TOMCAT_DOWNLOAD_URL:-${TOMCAT_BASE_URL}/v${TOMCAT_VER}/bin/apache-tomcat-${TOMCAT_VER}.tar.gz}"
 TOMCAT_USER="${TOMCAT_USER:-tomcat}"
 TOMCAT_GROUP="${TOMCAT_GROUP:-tomcat}"
 TOMCAT_BASE="${TOMCAT_BASE:-/opt/tomcat}"
@@ -188,7 +190,8 @@ install_tomcat_if_needed() {
     tarball="${tmp_dir}/apache-tomcat-${TOMCAT_VER}.tar.gz"
     extracted_dir="${TOMCAT_BASE}/apache-tomcat-${TOMCAT_VER}"
 
-    wget -O "${tarball}" "https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VER}/bin/apache-tomcat-${TOMCAT_VER}.tar.gz"
+    log "Tomcat download URL: ${TOMCAT_DOWNLOAD_URL}"
+    wget -O "${tarball}" "${TOMCAT_DOWNLOAD_URL}"
     tar -xf "${tarball}" -C "${TOMCAT_BASE}"
     mv "${extracted_dir}" "${TOMCAT_HOME}"
     chown -R "${TOMCAT_USER}:${TOMCAT_GROUP}" "${TOMCAT_HOME}"
@@ -355,6 +358,7 @@ main() {
     log "WEB 통합 설치/재구축 시작"
     log "SCRIPT_DIR=${SCRIPT_DIR}"
     log "WAR_SOURCE=${WAR_SOURCE}"
+    log "TOMCAT_DOWNLOAD_URL=${TOMCAT_DOWNLOAD_URL}"
     log "TOMCAT_HOME=${TOMCAT_HOME}"
     log "ENV_FILE=${ENV_FILE}"
     log "NFS_VIP=${NFS_VIP}"

@@ -7,9 +7,12 @@ sudo apt update
 sudo apt install -y openjdk-17-jdk
 # 🌟 버전 변수 선언 (나중에 업데이트할 땐 이 숫자만 바꾸면 됨!)
 TOMCAT_VER="10.1.54"
+TOMCAT_BASE_URL="https://downloads.apache.org/tomcat/tomcat-10"
+TOMCAT_DOWNLOAD_URL="${TOMCAT_BASE_URL}/v${TOMCAT_VER}/bin/apache-tomcat-${TOMCAT_VER}.tar.gz"
 
-# 미러 사이트가 아닌 영구 보존 아카이브(archive.apache.org)에서 다운로드
-wget "https://archive.apache.org/dist/tomcat/tomcat-10/v${TOMCAT_VER}/bin/apache-tomcat-${TOMCAT_VER}.tar.gz"
+# Apache 공식 다운로드 서버에서 Tomcat 다운로드
+# 나중에 버전이 바뀌면 TOMCAT_VER만 바꾸면 된다.
+wget "${TOMCAT_DOWNLOAD_URL}"
 
 # 🛡️ [보안] 쉘 접속이 불가능한(/bin/false) 톰캣 전용 계정 생성 및 권한 격리
 sudo useradd -r -m -U -d /opt/tomcat -s /bin/false tomcat
